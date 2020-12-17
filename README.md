@@ -7,7 +7,5 @@ Ishita Gupta: app.py
 
 Ian Chen-Adamczyk: HTML templates
 
-Food wiki
-
-Food wiki
+A wiki for recipes, organized by country. Users can view, search, and bookmark recipes.
 # Launch codes
