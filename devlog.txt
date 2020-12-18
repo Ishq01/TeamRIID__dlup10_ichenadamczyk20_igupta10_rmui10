@@ -1,5 +1,9 @@
 TEAM RIID DEVLOG
 
 RIID -- 2020-12-17 16:02
-	-Finished the design doc
-	-Started the devlog
+	- Finished the design doc
+	- Started the devlog
+
+RIID -- 2020-12-18 16:00s
+	- Redid the design doc
+	- Updated README.md 
