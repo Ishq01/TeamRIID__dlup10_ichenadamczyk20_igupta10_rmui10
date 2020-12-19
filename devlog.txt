@@ -14,3 +14,5 @@ Ian Chen-Adamczyk -- 2020-12-18 19:50
 
 Renee Mui -- 2020-12-19 16:40
 	- Added db_bulider.py with lines to create the users and entries tables in the database
+	- Added methods to add user to database and check if username has already been used
+	- Added method to print rows in user table

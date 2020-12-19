@@ -10,12 +10,28 @@ c.execute("""CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY,
             userID INTEGER, time DATETIME, title TEXT, post TEXT);""")
 
 def register(username, password, blogname, blogdescription):
-    command = "INSERT INTO users (username, password, blogname, blogdescription) VALUES ('" + username + "','" + password + "','" + blogname + "','" + blogdescription + "');"
+    command = "INSERT INTO users (username, password, blogname, blogdescription) VALUES ('"
+    command += username + "','" + password + "','" + blogname + "','" + blogdescription + "');"
     c.execute(command)
 
-register("user2", "pass", "blog", "description")
-register("user1", "pass1", "blog1", "description1")
-for row in c.execute("SELECT * FROM users;"):
-    print(row[1])
+def checkUsername(username):
+    for row in c.execute("SELECT * FROM users;"):
+        if (username == row[1]):
+            return True
+    return False
 
+def printDatabase():
+    print("--------Users Table-----------")
+    for row in c.execute("SELECT * FROM users;"):
+        print (row)
+
+register("user1", "pass", "blog", "description")
+print("Should print true: " + str(checkUsername("user1")))
+print("Should print false: " + str(checkUsername("user2")))
+register("user2", "pass1", "blog1", "description1")
+printDatabase()
+
+
+
+#db.commit()
 db.close()
