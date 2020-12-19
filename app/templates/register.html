@@ -1,11 +1,11 @@
 <!--
 REQUIRES
-error_msg       (String of why registration didn't succeed, undefined if no such problem)
+error_msg       (List of strings of why registration didn't succeed, undefined if no such problem)
 blogname        (String of attempted blog name submission, undefined otherwise)
 blogdescription (String of attempted blog description, undefined otherwise)
 
 [if user submits registration form]
-SENDS to /register by POST
+SENDS to /registered by POST
 "username"        - Username
 "password"        - Password
 "password-conf"   - Confirmed password
@@ -24,9 +24,11 @@ SENDS to / by GET
     <body>
         <h2>Register an Account</h2>
         {% if error_msg is defined %}
-        <p><b>Problem Registering an Account: {{ error_msg }}</b></p>
+        {% for error in error_msg %}
+        <p><b>Problem Registering an Account: {{ error }}</b></p>
+        {% endfor %}
         {% endif %}
-        <form action="/register" method="POST">
+        <form action="/registered" method="POST">
             <table>
 
                 <tr><td>Username</td>
