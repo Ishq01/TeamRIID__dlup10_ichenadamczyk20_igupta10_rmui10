@@ -8,11 +8,14 @@ RIID -- 2020-12-18 16:00s
 	- Redid the design doc
 	- Updated README.md
 
-Ian Chen-Adamczyk -- 2020-12-18 19:50
+IanC -- 2020-12-18 19:50
     - Added HTML Templates (blog.html, edit-blog.html, edit-entry.html, header.html, home.html, login.html,
                             register.html)
 
-Renee Mui -- 2020-12-19 16:40
+ReneeM -- 2020-12-19 16:40
 	- Added db_bulider.py with lines to create the users and entries tables in the database
 	- Added methods to add user to database and check if username has already been used
 	- Added method to print rows in user table
+
+IanC -- 2020-12-19 17:30
+    - Updated register.html to support multiple error messages.
