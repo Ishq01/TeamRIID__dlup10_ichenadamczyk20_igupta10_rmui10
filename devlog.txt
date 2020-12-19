@@ -11,3 +11,6 @@ RIID -- 2020-12-18 16:00s
 Ian Chen-Adamczyk -- 2020-12-18 19:50
     - Added HTML Templates (blog.html, edit-blog.html, edit-entry.html, header.html, home.html, login.html,
                             register.html)
+
+Renee Mui -- 2020-12-19 16:40
+	- Added db_bulider.py with lines to create the users and entries tables in the database
