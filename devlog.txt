@@ -6,4 +6,8 @@ RIID -- 2020-12-17 16:02
 
 RIID -- 2020-12-18 16:00s
 	- Redid the design doc
-	- Updated README.md 
+	- Updated README.md
+
+Ian Chen-Adamczyk -- 2020-12-18 19:50
+    - Added HTML Templates (blog.html, edit-blog.html, edit-entry.html, header.html, home.html, login.html,
+                            register.html)

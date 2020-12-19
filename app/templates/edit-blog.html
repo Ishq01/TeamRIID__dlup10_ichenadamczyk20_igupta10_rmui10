@@ -1,0 +1,60 @@
+<!--
+REQUIRES
+entries (list of dictionaries)
+ -- entries[i]["title"]    - Title
+ -- entries[i]["datetime"] - Date time (in human readable format)
+ -- entries[i]["post"]     - Content of the entry
+ -- entries[i]["id"]       - ID of entry
+error_msg       (String of why blog edit didn't succeed, undefined if no such problem)
+blogname        (String of name of blog)
+blogdescription (String of description of blog)
+username        (String of username of creator)
+loggedin        (True if user is logged in, False otherwise. Should be True anyway)
+
+[if user submits edits to blog]
+SENDS to /my-blog by POST
+"blogname"        - Updated blog name
+"blogdescription" - Updated blog description
+
+[if user wants to edit an entry]
+SENDS to /edit/<entryid> by GET
+
+[if user wants to see existing blogs]
+SENDS to /home by GET
+
+[if user wants to log out]
+SENDS to /logout by GET
+
+[if user wants to log in]
+SENDS to / by GET
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Edit Blog {{ blogname }} - Web Log</title>
+    </head>
+    <body>
+        <a href="/home">Back to Home</a>
+        {% include 'header.html' %}
+        {% if error_msg is defined %}
+        <p><b>Problem Updating Blog: {{ error_msg }}</b></p>
+        {% endif %}
+        <form action="/my-blog" method="POST">
+            <input name="blogname" value="{{ blogname }}" />
+            <p>A blog by {{ username }}</p>
+            <textarea name="blogdescription">{{ blogdescription }}</textarea>
+            <br />
+            <input type="submit" value="Update Blog Name and Description" />
+        </form>
+        <hr>
+
+        {% for entry in entries %}
+            <fieldset>
+                <legend>{{ entry["title"] }} - <a href="/edit/{{ entry['id'] }}">Edit This Entry</a></legend>
+                <p><i>Posted at {{ entry["datetime"] }}</i></p>
+                <p>{{ entry["post"] }}</p>
+            </fieldset>
+        {% endfor %}
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<!--
+REQUIRES
+loggedin (True if user is logged in, False otherwise)
+blogs (list of dictionaries)
+ -- blogs[i]["id"]          - ID of blog
+ -- blogs[i]["name"]        - Name
+ -- blogs[i]["username"]    - Username
+ -- blogs[i]["description"] - Description of blog
+ -- blogs[i]["datetime"]    - Datetime of latest entry (in human readable format)
+
+[if user wants to edit blog]
+SENDS to /my-blog by GET
+
+[if user wants to see an existing blog]
+SENDS to /home/<blogid> by GET
+
+[if user wants to log out]
+SENDS to /logout by GET
+
+[if user wants to log in]
+SENDS to / by GET
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Home - Web Log</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <h1>Welcome to Web Log 0.1</h1>
+        {% if loggedin %}
+        <a href="/my-blog">Edit My Blog</a>
+        {% endif %}
+        <hr>
+
+        <table>
+            <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td></tr>
+            {% for blog in blogs %}
+                <tr><td><a href="/home/{{ blog['id'] }}">{{ blog["name"] }}</a></td>
+                    <td>{{ blog["username"] }}</td>
+                    <td>{{ blog["datetime"] }}</td>
+                    <td>{{ blog["description"] }}</td></tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

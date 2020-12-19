@@ -1,0 +1,50 @@
+<!--
+REQUIRES
+entries (list of dictionaries)
+ -- entries[i]["title"]    - Title
+ -- entries[i]["datetime"] - Date time (in human readable format)
+ -- entries[i]["post"]     - Content of the entry
+blogname        (String of name of blog)
+blogdescription (String of description of blog)
+username        (String of username of creator)
+iscreator       (True if user is creator of blog, False otherwise)
+loggedin        (True if user is logged in, False otherwise)
+
+[if user wants to edit blog]
+SENDS to /my-blog by GET
+
+[if user wants to see existing blogs]
+SENDS to /home by GET
+
+[if user wants to log out]
+SENDS to /logout by GET
+
+[if user wants to log in]
+SENDS to / by GET
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ blogname }} - Web Log</title>
+    </head>
+    <body>
+        <a href="/home">Back to Home</a>
+        {% if iscreator %}
+        <a href="/my-blog">Edit This Blog</a>
+        {% endif %}
+        {% include 'header.html' %}
+        <h2>{{ blogname }}</h2>
+        <p>A blog by {{ username }}</p>
+        <p>{{ blogdescription }}</p>
+        <hr>
+
+        {% for entry in entries %}
+            <fieldset>
+                <legend>{{ entry["title"] }}</legend>
+                <p><i>Posted at {{ entry["datetime"] }}</i></p>
+                <p>{{ entry["post"] }}</p>
+            </fieldset>
+        {% endfor %}
+    </body>
+</html>
