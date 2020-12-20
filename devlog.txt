@@ -19,3 +19,16 @@ ReneeM -- 2020-12-19 16:40
 
 IanC -- 2020-12-19 17:30
     - Updated register.html to support multiple error messages.
+
+IshitaG -- 2020-12-19 17:32
+	- Added @app.routes for /register and /registered 
+	- Added verification for registration form
+		- Checks to make sure no field is blank and that passwords match
+		- To-do: add Renee's method for checking if username already exists in database
+	- Added method to send new user information to database 
+		- Bug: received SQLite thread error -- need to fix
+
+IshitaG -- 2020-12-19 19:57
+	- Integrated method to check for duplicate usernames
+	- Integrated solution for SQLite thread error
+	- Added linkage to login page after user registers successfully 
