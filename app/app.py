@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect
 import os
-from db_builder import register as addUser, printDatabase
+from db_builder import register as addUser, printDatabase, checkUsername
 
 app = Flask(__name__)  
 # generate random secret key
@@ -14,13 +14,16 @@ def register():
 @app.route("/registered", methods=["POST"])
 def registered():
     error_msg = []
-    # check other conditions as well (call renee's method)
-    if (request.form['username'] == ""): # or (condition):
+    if (request.form['username'] == ""):
         error_msg += ["Enter a valid username"]
-    else:
+
+    if (checkUsername(request.form['username']) == True):
+        error_msg += ["Username is already taken. Enter a valid username"]
+
+    if (request.form['username'] != "" and checkUsername(request.form['username']) == False):
         username = request.form['username']
 
-    if (request.form['password'] == ""): # or (condition):
+    if (request.form['password'] == ""): 
         error_msg += ["Enter a valid password"]
     else:
         password = request.form['password']
@@ -38,7 +41,8 @@ def registered():
     else:
         blogdescription = request.form['blogdescription']
         addUser(username, password, blogname, blogdescription)
-        #printDatabase()
+        printDatabase()
+        return render_template('login.html')
 
 if __name__ == "__main__": 
     app.debug = True 
