@@ -41,9 +41,19 @@ def printDatabase():
     db.commit()
     db.close()
 
+def getPassword(username):
+    if (checkUsername(username)):
+        db = sqlite3.connect(DB_FILE)
+        c = db.cursor()
+        password = c.execute("SELECT password FROM users WHERE username = '" + username + "';").fetchone()[0]
+        db.commit()
+        db.close()
+        return password
+    return None
+
 createTables()
-register("user1", "pass", "blog", "description")
-print("Should print true: " + str(checkUsername("user1")))
-print("Should print false: " + str(checkUsername("user2")))
-register("user2", "pass1", "blog1", "description1")
+register("user", "pass", "blog", "description")
+register("user1", "pass1", "blog1", "description1")
+print(getPassword("user1"))
+print(getPassword("user3"))
 printDatabase()
