@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import os
-from db_builder import register as addUser, printDatabase, checkUsername
+from db_builder import register as addUser, printDatabase, checkUsername, getPassword
 
 app = Flask(__name__)  
 # generate random secret key
@@ -43,14 +43,45 @@ def registered():
         blogdescription = request.form['blogdescription']
         # adds user to database
         addUser(username, password, blogname, blogdescription)
-        printDatabase()
-        return redirect(url_for('.login', username = username, password = password))
-        # if user has just registered, send user/pass to template? rn, gets saved in the url, want placeholder type text
-        # add value = {{}} to login form (if defined?) 
+        # when a user has just registered, their information is present in the login form
+        # however, url_for uses the GET method, which displays the username/password in the url,
+        # so specifying the code ensures that the POST method (original) is used
+        return redirect(url_for('.loginpage'), code = 307)
 
-@app.route("/")
-def login():
+@app.route("/", methods = ["GET", "POST"])
+def loginpage():
+    # if user has logged in successfully and not logged out yet, have info in login form
+    if 'username' in session:
+        username = session['username']
+        password = session['password']
+        return render_template('login.html', username = username, password = password)
+    # if user has just registered, have info in login form
+    if ('username' in request.form) and ('password-conf' in request.form):
+        return render_template('login.html', username = request.form['username'], password = request.form['password'])
+    # if there is an error in user login, display error
+    if 'error_msg' in session:
+        return render_template('login.html', username = request.form['username'], error_msg = "Incorrect username or password.")
     return render_template('login.html')
+
+@app.route("/login", methods = ["GET", "POST"])
+def login():
+    # get correct password for user from database
+    password = getPassword(request.form['username'])
+    # if password is correct
+    if (request.form['password'] == password):
+        # set username/password in session if successful login
+        session['username'] = request.form['username']
+        session['password'] = request.form['password']
+        # return home page for user
+        return redirect(url_for('.homepage'))
+    else:
+        # if incorrect login, set error msg in session
+        session['error_msg'] =  "Incorrect username or password."
+        return redirect(url_for(".loginpage"), code = 307)
+
+@app.route("/home")
+def homepage():
+    return render_template("home.html")
 
 if __name__ == "__main__": 
     app.debug = True 
