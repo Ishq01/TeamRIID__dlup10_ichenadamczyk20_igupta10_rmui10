@@ -51,9 +51,16 @@ def getPassword(username):
         return password
     return None
 
+def clearUsers():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("DELETE from users");
+    db.commit()
+    db.close()
+
 createTables()
 register("user", "pass", "blog", "description")
 register("user1", "pass1", "blog1", "description1")
-print(getPassword("user1"))
-print(getPassword("user3"))
+# test methods here
 printDatabase()
+clearUsers()
