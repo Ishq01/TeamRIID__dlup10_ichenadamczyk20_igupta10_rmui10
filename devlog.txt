@@ -28,7 +28,7 @@ ishitaG -- 2020-12-19 17:32
 	- Added method to send new user information to database
 		- Bug: received SQLite thread error -- need to fix
 
-ieneeM -- 2020-12-19 19:26
+reneeM -- 2020-12-19 19:26
 	- Fix SQLite thread error by opening and closing database in every method instead of just doing
 		it once at the start of the db_builder file
 
