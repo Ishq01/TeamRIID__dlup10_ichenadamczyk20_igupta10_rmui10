@@ -1,6 +1,8 @@
 <!--
 REQUIRES
 error_msg (String of why login didn't succeed, undefined if no such problem)
+username (String of username)
+password (String of password)
 
 [if user tries to log in]
 SENDS to / by POST
@@ -24,10 +26,10 @@ SENDS to /register by GET
         <form action="/" method="POST">
             <table>
                 <tr><td>Username</td>
-                    <td><input type="text" name="username" /></td></tr>
+                    <td><input type="text" name="username" value="{{username}}"/></td></tr>
 
                 <tr><td>Password</td>
-                    <td><input type="password" name="password" /></td></tr>
+                    <td><input type="password" name="password" value="{{password}}" /></td></tr>
 
                 <tr><td>Not a registered user? <a href="/register">Register here.</a></td>
                     <td><input type="submit" value="Log In" /></td></tr>
