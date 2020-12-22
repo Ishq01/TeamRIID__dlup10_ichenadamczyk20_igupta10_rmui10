@@ -23,7 +23,7 @@ SENDS to /register by GET
         {% if error_msg is defined %}
         <p><b>Problem Logging In: {{ error_msg }}</b></p>
         {% endif %}
-        <form action="/" method="POST">
+        <form action="/login" method="POST">
             <table>
                 <tr><td>Username</td>
                     <td><input type="text" name="username" value="{{username}}"/></td></tr>
