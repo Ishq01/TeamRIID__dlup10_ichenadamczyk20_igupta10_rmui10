@@ -37,10 +37,10 @@ ishitaG -- 2020-12-19 19:57
 	- Integrated solution for SQLite thread error
 	- Added linkage to login page after user registers successfully
 
-ianC -- 2020-22-12 14:52
+ianC -- 2020-12-22 14:52
     - Updated login.html to support username and password being filled in automatically
 
-reneeM -- 2020-22-12 14:55
+reneeM -- 2020-12-22 14:55
 	- Added methods to find password when given a username and to clear the users table
 
 ishitaG -- 2020-12-22 16:02
@@ -58,6 +58,18 @@ ishitaG -- 2020-12-23 11:12
 	- Redirect users who try to access pages they don't have permission for
 		- redirect for /registered not working
 
-reneeM -- 2020-23-12 14:24
+reneeM -- 2020-12-23 14:24
 	- Changed method to find password to be able to find blog name and description too
 	- Added methods to update blog information and get a list of blog names
+
+ishitaG -- 2020-12-23
+	- Refactor /register and /registered app routes so that one method handles everything
+		- In register.html, change form action to /register to support refactoring
+		- Fix redirect for registering
+	- Add ability for user to update the name/description of their blog
+		- Loads form with blog name/description filled out
+		- If user submits form with blank name, reload page with original name, new description, error msg 
+		- If no error, update database and show success message	
+			- To-do: wait for 1 second then redirect to edit-entry or view-blog page
+	- Remove data.db from .gitignore
+

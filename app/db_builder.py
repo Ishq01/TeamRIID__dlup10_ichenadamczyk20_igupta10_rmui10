@@ -75,7 +75,7 @@ def clearUsers():
     db.commit()
     db.close()
 
-clearUsers()
+# clearUsers()
 createTables()
 # test methods here
 print(getBlogs())
