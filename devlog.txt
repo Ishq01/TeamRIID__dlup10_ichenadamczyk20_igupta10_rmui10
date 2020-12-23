@@ -50,7 +50,7 @@ ishitaG -- 2020-12-22 16:02
 		- If user logged in previously, store information in session and load filled out login page
 		- If user successfully logs in, redirect to home page
 
-ishitaG -- 2020-12-23 
+ishitaG -- 2020-12-23 11:12
 	- Add logout functionality 
 		- Remove username/password from session
 		- Update login.html to support logout message
