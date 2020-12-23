@@ -43,6 +43,21 @@ ianC -- 2020-22-12 14:52
 reneeM -- 2020-22-12 14:55
 	- Added methods to find password when given a username and to clear the users table
 
+ishitaG -- 2020-12-22 16:02
+	- Reroute newly registered user to login page with username/password already filled out
+	- Add login functionality
+		- If incorrect login, reload page with error message
+		- If user logged in previously, store information in session and load filled out login page
+		- If user successfully logs in, redirect to home page
+
+ishitaG -- 2020-12-23 11:12
+	- Add logout functionality
+		- Remove username/password from session
+		- Update login.html to support logout message
+	- Allow logged in users to access logout and edit-my-blog buttons
+	- Redirect users who try to access pages they don't have permission for
+		- redirect for /registered not working
+
 reneeM -- 2020-23-12 14:24
 	- Changed method to find password to be able to find blog name and description too
 	- Added methods to update blog information and get a list of blog names

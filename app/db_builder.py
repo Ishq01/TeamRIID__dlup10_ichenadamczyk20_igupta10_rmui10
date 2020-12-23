@@ -77,9 +77,6 @@ def clearUsers():
 
 clearUsers()
 createTables()
-register("user", "pass", "blog", "description")
-register("user1", "pass1", "blog1", "description1")
 # test methods here
 print(getBlogs())
 printDatabase()
-clearUsers()
