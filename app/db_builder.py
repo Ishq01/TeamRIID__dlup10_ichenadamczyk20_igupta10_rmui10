@@ -61,4 +61,3 @@ def clearUsers():
 createTables()
 # test methods here
 printDatabase()
-clearUsers()
