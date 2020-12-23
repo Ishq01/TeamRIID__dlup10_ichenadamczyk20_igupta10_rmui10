@@ -38,14 +38,14 @@ SENDS to / by GET
         <a href="/home">Back to Home</a>
         {% include 'header.html' %}
         {% if error_msg is defined %}
-        <p><b>Problem Updating Blog: {{ error_msg }}</b></p>
+        <p><b>{{ error_msg }}</b></p>
         {% endif %}
         <form action="/my-blog" method="POST">
             <input name="blogname" value="{{ blogname }}" />
             <p>A blog by {{ username }}</p>
             <textarea name="blogdescription">{{ blogdescription }}</textarea>
             <br />
-            <input type="submit" value="Update Blog Name and Description" />
+            <input name="submit" type="submit" value="Update Blog Name and Description" />
         </form>
         <hr>
 
