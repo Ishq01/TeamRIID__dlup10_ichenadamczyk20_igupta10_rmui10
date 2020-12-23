@@ -12,7 +12,6 @@ def createTables():
     db.commit()
     db.close()
 
-
 def register(username, password, blogname, blogdescription):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -60,13 +59,21 @@ def updateBlogInfo(username, blogname, desc):
         db.commit()
         db.close()
 
+# converts
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
 def getBlogs():
     db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    blogs = c.execute("SELECT blogname FROM users").fetchall();
+    db.row_factory = dict_factory
+    c = db.cursor();
+    blogs = c.execute("SELECT * from users").fetchall()
     db.commit()
     db.close()
-    return [blog[0] for blog in blogs]
+    return blogs
 
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
@@ -75,8 +82,9 @@ def clearUsers():
     db.commit()
     db.close()
 
-# clearUsers()
+#clearUsers()
 createTables()
+register('user', 'pass', 'blog', 'hi')
+register('user1', 'pass1', 'blog1', 'bye')
 # test methods here
-print(getBlogs())
-printDatabase()
+#printDatabase()

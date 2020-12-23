@@ -68,8 +68,10 @@ ishitaG -- 2020-12-23
 		- Fix redirect for registering
 	- Add ability for user to update the name/description of their blog
 		- Loads form with blog name/description filled out
-		- If user submits form with blank name, reload page with original name, new description, error msg 
-		- If no error, update database and show success message	
+		- If user submits form with blank name, reload page with original name, new description, error msg
+		- If no error, update database and show success message
 			- To-do: wait for 1 second then redirect to edit-entry or view-blog page
 	- Remove data.db from .gitignore
 
+reneeM -- 2020-12-23 18:53
+	- Change getBlogs method to return a dictionary with information on the blogs
