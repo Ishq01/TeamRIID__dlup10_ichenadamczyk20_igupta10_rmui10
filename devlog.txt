@@ -29,7 +29,7 @@ ishitaG -- 2020-12-19 17:32
 		- Bug: received SQLite thread error -- need to fix
 
 reneeM -- 2020-12-19 19:26
-	- Fix SQLite thread error by opening and closing database in every method instead of just doing
+	- Fixed SQLite thread error by opening and closing database in every method instead of just doing
 		it once at the start of the db_builder file
 
 ishitaG -- 2020-12-19 19:57
@@ -41,4 +41,8 @@ ianC -- 2020-22-12 14:52
     - Updated login.html to support username and password being filled in automatically
 
 reneeM -- 2020-22-12 14:55
-	- Add methods to find password when given a username and to clear the users table
+	- Added methods to find password when given a username and to clear the users table
+
+reneeM -- 2020-23-12 14:24
+	- Changed method to find password to be able to find blog name and description too
+	- Added methods to update blog information and get a list of blog names

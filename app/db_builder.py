@@ -41,15 +41,32 @@ def printDatabase():
     db.commit()
     db.close()
 
-def getPassword(username):
+def getInfo(username, col):
     if (checkUsername(username)):
         db = sqlite3.connect(DB_FILE)
         c = db.cursor()
-        password = c.execute("SELECT password FROM users WHERE username = '" + username + "';").fetchone()[0]
+        info = c.execute("SELECT " + col + " FROM users WHERE username = '" + username + "';").fetchone()[0]
         db.commit()
         db.close()
-        return password
+        return info
     return None
+
+def updateBlogInfo(username, blogname, desc):
+    if (checkUsername(username)):
+        db = sqlite3.connect(DB_FILE)
+        c = db.cursor()
+        c.execute("UPDATE users SET blogname = '" + blogname + "' WHERE username = '" + username + "';")
+        c.execute("UPDATE users SET blogdescription = '" + desc + "' WHERE username = '" + username + "';")
+        db.commit()
+        db.close()
+
+def getBlogs():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    blogs = c.execute("SELECT blogname FROM users").fetchall();
+    db.commit()
+    db.close()
+    return [blog[0] for blog in blogs]
 
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
@@ -58,9 +75,11 @@ def clearUsers():
     db.commit()
     db.close()
 
+clearUsers()
 createTables()
 register("user", "pass", "blog", "description")
 register("user1", "pass1", "blog1", "description1")
 # test methods here
+print(getBlogs())
 printDatabase()
 clearUsers()
