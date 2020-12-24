@@ -130,10 +130,7 @@ def updateBlogInfo(username, blogname, desc):
 """
 #clearUsers()
 createTables()
-clearUsers()
 clearEntries()
-register("gamer","pass","haha","haha")
-addEntry(1,"i hate this", "please")
 # test methods here
 printDatabase()
 getBlogs()
