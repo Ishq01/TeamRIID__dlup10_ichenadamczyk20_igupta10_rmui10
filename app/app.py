@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import os, time
 from db_builder import register as addUser, printDatabase, checkUsername, getInfo 
-from db_builder import updateBlogInfo, getBlogs, addEntry
+from db_builder import updateBlogInfo, getBlogs, addEntry, editEntry, getEntries
 
 app = Flask(__name__)  
 # generate random secret key
@@ -112,7 +112,8 @@ def viewBlog(username):
     if session['username'] == username: iscreator = True
     # show blog with all info received from db -- entries to be added
     return render_template("blog.html", blogname = getInfo(username, "blogname"), 
-    blogdescription = getInfo(username, "blogdescription"), username = username, iscreator = iscreator)
+    blogdescription = getInfo(username, "blogdescription"), username = username, 
+    iscreator = iscreator, entries = getEntries(getInfo(username, "id")))
 
 @app.route("/edit-blog", methods = ["GET", "POST"])
 def editBlog():
@@ -125,7 +126,7 @@ def editBlog():
             return render_template("edit-blog.html", username = session["username"], 
             blogname = getInfo(session['username'], "blogname"), blogdescription = request.form["blogdescription"], 
             entrycontent = request.form["content"], entrytitle = request.form["title"], 
-            error_msg = error_msg)
+            entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg)
         else:
             # if blogname valid, update blog name/description
             updateBlogInfo(session["username"], request.form["blogname"], request.form["blogdescription"])
@@ -134,16 +135,17 @@ def editBlog():
             return render_template("edit-blog.html", username = session["username"], 
             blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
             entrycontent = request.form["content"], entrytitle = request.form["title"], 
-            error_msg = error_msg) 
+            entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg) 
             # return users own blog //reload page bc that's where they edit entries from?
             #return redirect(url_for("viewBlog", username = session["username"]))
     # if user hasn't submitted form yet, load form with blog name/desc from db
     return render_template("edit-blog.html", username = session["username"], 
     blogname = getInfo(session['username'], "blogname"), 
-    blogdescription = getInfo(session['username'], "blogdescription"), loggedin = True) 
+    blogdescription = getInfo(session['username'], "blogdescription"),
+    entries = getEntries(getInfo(session["username"], "id")),  loggedin = True) 
 
 @app.route("/add-entry", methods = ["GET", "POST"]) 
-def addEntry():
+def addEntries():
     # if user submits add entry form
     if "addEntry" in request.form:
         # if user doesn't have entry title or content
@@ -153,7 +155,7 @@ def addEntry():
                 blogname = getInfo(session['username'], "blogname"), 
                 blogdescription = getInfo(session['username'], "blogdescription"),
                 entrycontent = request.form["content"], entrytitle = request.form["title"],
-                error_msg = "Entry title and content cannot be blank.")
+                error_msg = "Entry title and content cannot be blank.", entries = getEntries(getInfo(session["username"], "id")))
         else:
             # if entry is properly filled out, return template with forms filled out and success msg // once i add entry to db, submit all entries
             userID = getInfo(session["username"], "id")
@@ -162,7 +164,7 @@ def addEntry():
                 blogname = getInfo(session['username'], "blogname"), 
                 blogdescription = getInfo(session['username'], "blogdescription"),
                 entrytitle = request.form["title"], entrycontent = request.form["content"], 
-                error_msg = "Successfully added entry!")
+                error_msg = "Successfully added entry!", entries = getEntries(getInfo(session["username"], "id")))
             
     return render_template("edit-blog.html")
 
