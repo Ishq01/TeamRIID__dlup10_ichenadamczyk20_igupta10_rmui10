@@ -69,8 +69,8 @@ def dict_factory(cursor, row):
 def getBlogs():
     db = sqlite3.connect(DB_FILE)
     db.row_factory = dict_factory
-    c = db.cursor();
-    blogs = c.execute("SELECT * from users").fetchall()
+    c = db.cursor()
+    blogs = c.execute("SELECT * from users;").fetchall()
     db.commit()
     db.close()
     return blogs
@@ -78,13 +78,12 @@ def getBlogs():
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("DELETE from users");
+    c.execute("DELETE from users;")
     db.commit()
     db.close()
 
 #clearUsers()
 createTables()
-register('user', 'pass', 'blog', 'hi')
-register('user1', 'pass1', 'blog1', 'bye')
 # test methods here
-#printDatabase()
+printDatabase()
+getBlogs()

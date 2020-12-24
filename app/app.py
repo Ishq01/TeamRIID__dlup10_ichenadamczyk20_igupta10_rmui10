@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import os
+import os, time
 from db_builder import register as addUser, printDatabase, checkUsername, getInfo, updateBlogInfo, getBlogs
 
 app = Flask(__name__)  
@@ -97,7 +97,7 @@ def logout():
 def homepage():
     # if user is logged in
     if "username" in session:
-        return render_template("home.html", loggedin = True)
+        return render_template("home.html", loggedin = True, blogs = getBlogs())
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
@@ -116,19 +116,27 @@ def editBlog():
         else:
             # if blogname valid, update blog name/description
             updateBlogInfo(session["username"], request.form["blogname"], request.form["blogdescription"])
-            """ error_msg = "Successfully updated blog name and description!"
+            # want to display success msg first, then view blog
+            """error_msg = "Successfully updated blog name and description!"
             return render_template("edit-blog.html", username = session["username"], 
             blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
-            loggedin = True, error_msg = error_msg) """
-            return redirect(url_for(".viewBlog"))
+            loggedin = True, error_msg = error_msg) 
+            time.sleep(1)""" 
+            # return users own blog
+            return redirect(url_for("viewBlog", username = session["username"]))
     # if user hasn't submitted form yet, load form with blog name/desc from db
     return render_template("edit-blog.html", username = session["username"], 
     blogname = getInfo(session['username'], "blogname"), blogdescription = getInfo(session['username'], "blogdescription"),
     loggedin = True)
  
-@app.route("/home/blog")
-def viewBlog():
-    return render_template("blog.html") # how do i know what blog im looking at? 
+# end of url when viewing a blog is the users name
+@app.route("/home/blog/<string:username>")
+def viewBlog(username):
+    iscreator = False
+    # if user is the one who created the blog
+    if session['username'] == username: iscreator = True
+    # show blog with all info received from db -- entries to be added
+    return render_template("blog.html", blogname = getInfo(username, "blogname"), blogdescription = getInfo(username, "blogdescription"), username = username, iscreator = iscreator)
 
 if __name__ == "__main__": 
     app.debug = True 
