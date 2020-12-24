@@ -122,7 +122,7 @@ def getEntries(userID):
     db = sqlite3.connect(DB_FILE)
     db.row_factory = dict_factory
     c = db.cursor()
-    entries = c.execute("SELECT * FROM entries WHERE userID = '" + str(userID) + "';").fetchall()
+    entries = c.execute("SELECT * FROM entries WHERE userID = '" + str(userID) + "'ORDER BY time ASC;").fetchall()
     db.commit()
     db.close()
     return entries
@@ -136,6 +136,5 @@ def clearEntries():
 
 #clearUsers()
 createTables()
-# test methods here
 printDatabase()
 getBlogs()
