@@ -1,7 +1,7 @@
 # Web Log by Team RIID
 ## Roster
-* Dragos Lup: Project Manager
-* Renee Mui: Databases
+* Dragos Lup: Project Manager + Entries Database
+* Renee Mui: User Database
 * Ishita Gupta: app.py
 * Ian Chen-Adamczyk: HTML templates
 ## Description
