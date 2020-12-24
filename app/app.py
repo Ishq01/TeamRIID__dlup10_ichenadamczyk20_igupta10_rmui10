@@ -8,7 +8,7 @@ app.secret_key = os.urandom(10)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    # if user is trying to register
+    # if user has submitted registration form
     if "username" in request.form:
         error_msg = []
         # checks username is not blank
@@ -110,23 +110,25 @@ def editBlog():
             error_msg = "Blog name cannot be blank."
             # return template with username from session, original blogname, new description, and error msg
             return render_template("edit-blog.html", username = session["username"], 
-            blogname = getInfo(session['username'], "blogname"), blogdescription = request.form["blogdescription"],
+            blogname = getInfo(session['username'], "blogname")
+            , blogdescription = request.form["blogdescription"],
             loggedin = True, error_msg = error_msg)
         else:
             # if blogname valid, update blog name/description
             updateBlogInfo(session["username"], request.form["blogname"], request.form["blogdescription"])
-            error_msg = "Successfully updated blog name and description!"
+            """ error_msg = "Successfully updated blog name and description!"
             return render_template("edit-blog.html", username = session["username"], 
             blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
-            loggedin = True, error_msg = error_msg)
-    # if user hasn't submitted form yet, load form
+            loggedin = True, error_msg = error_msg) """
+            return redirect(url_for(".viewBlog"))
+    # if user hasn't submitted form yet, load form with blog name/desc from db
     return render_template("edit-blog.html", username = session["username"], 
     blogname = getInfo(session['username'], "blogname"), blogdescription = getInfo(session['username'], "blogdescription"),
     loggedin = True)
  
-"""@app.route("/home/blog")
-def viewBlog(): """
-
+@app.route("/home/blog")
+def viewBlog():
+    return render_template("blog.html") # how do i know what blog im looking at? 
 
 if __name__ == "__main__": 
     app.debug = True 
