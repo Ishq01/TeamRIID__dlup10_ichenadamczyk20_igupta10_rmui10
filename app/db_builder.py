@@ -8,7 +8,7 @@ def createTables():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT,
-            password TEXT, blogname TEXT, blogdescription TEXT);""")
+            password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
     c.execute("""CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY,
             userID INTEGER, time DATETIME, title TEXT, post TEXT);""")
     db.commit()
@@ -18,8 +18,10 @@ def createTables():
 def register(username, password, blogname, blogdescription):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    command = "INSERT INTO users (username, password, blogname, blogdescription) VALUES ('"
-    command += username + "','" + password + "','" + blogname + "','" + blogdescription + "');"
+    dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
+    dateAndTime = str(''.join(map(str, dateAndTimetup)))
+    command = "INSERT INTO users (username, password, blogname, blogdescription, time) VALUES ('"
+    command += username + "','" + password + "','" + blogname + "','" + blogdescription + "','" + dateAndTime + "');"
     c.execute(command)
     db.commit()
     db.close()
@@ -82,7 +84,7 @@ def getBlogs():
     db = sqlite3.connect(DB_FILE)
     db.row_factory = dict_factory
     c = db.cursor()
-    blogs = c.execute("SELECT * from users;").fetchall()
+    blogs = c.execute("SELECT * from users ORDER BY time DESC;").fetchall()
     db.commit()
     db.close()
     return blogs
@@ -104,6 +106,7 @@ def addEntry(userID, title, post):
     command = "INSERT INTO entries (userID, time, title, post) VALUES ('"
     command += str(userID) + "','" + dateAndTime + "','" + title + "','" + post + "');"
     c.execute(command)
+    c.execute("UPDATE users SET time = '" + dateAndTime + "' WHERE id = '" + str(userID) + "';")
     db.commit()
     db.close()
 
@@ -115,6 +118,8 @@ def editEntry(entryID, title, post):
     c.execute("UPDATE entries SET title = '" + title + "' WHERE id = '" + str(entryID) + "';")
     c.execute("UPDATE entries SET post = '" + post + "' WHERE id = '" + str(entryID) + "';")
     c.execute("UPDATE entries SET time = '" + dateAndTime + "' WHERE id = '" + str(entryID) + "';")
+    userID = c.execute("SELECT userID FROM entries WHERE id = '" + str(entryID) + "';").fetchone()
+    c.execute("UPDATE users SET time = '" + dateAndTime + "' WHERE id = '" + str(userID[0]) + "';")
     db.commit()
     db.close()
 
@@ -122,7 +127,7 @@ def getEntries(userID):
     db = sqlite3.connect(DB_FILE)
     db.row_factory = dict_factory
     c = db.cursor()
-    entries = c.execute("SELECT * FROM entries WHERE userID = '" + str(userID) + "'ORDER BY time ASC;").fetchall()
+    entries = c.execute("SELECT * FROM entries WHERE userID = '" + str(userID) + "'ORDER BY time DESC;").fetchall()
     db.commit()
     db.close()
     return entries
@@ -134,7 +139,11 @@ def clearEntries():
     db.commit()
     db.close()
 
-#clearUsers()
+def clearAll():
+    clearEntries()
+    clearUsers()
+
 createTables()
+editEntry(3,"first!","work please")
 printDatabase()
 getBlogs()
