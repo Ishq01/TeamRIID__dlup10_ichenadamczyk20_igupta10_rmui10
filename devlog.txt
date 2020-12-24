@@ -88,3 +88,6 @@ ishitaG -- 2020-12-23
 ianC -- 2020-12-24 12:31
     - Added 404.html template
     - Added form to add entry and improved GUI on edit-blog.html
+
+dragosL -- 2020-12-24 13:57
+	-Added addEntry to db_builder

@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 DB_FILE = "data.db"
 
@@ -40,6 +41,9 @@ def printDatabase():
     c = db.cursor()
     print("--------Users Table-----------")
     for row in c.execute("SELECT * FROM users;"):
+        print (row)
+    print("-------Entries Table----------")
+    for row in c.execute("SELECT * FROM entries;"):
         print (row)
     db.commit()
     db.close()
@@ -91,8 +95,47 @@ def clearUsers():
     db.commit()
     db.close()
 
+def clearEntries():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("DELETE from entries;")
+    db.commit()
+    db.close()
+
+def addEntry(userID, title, post):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
+    dateAndTime = str(''.join(map(str, dateAndTimetup)))
+    command = "INSERT INTO entries (userID, time, title, post) VALUES ('"
+    command += str(userID) + "','" + dateAndTime + "','" + title + "','" + post + "');"
+    c.execute(command)
+    db.commit()
+    db.close()
+"""
+def editEntry(username, title, post):
+    if (checkUsername(username)):
+        db = sqlite3.connect(DB_FILE)
+        c = db.cursor()
+        dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
+        dateAndTime = str(''.join(map(str, dateAndTimetup)))
+
+
+def updateBlogInfo(username, blogname, desc):
+    if (checkUsername(username)):
+        db = sqlite3.connect(DB_FILE)
+        c = db.cursor()
+        c.execute("UPDATE users SET blogname = '" + blogname + "' WHERE username = '" + username + "';")
+        c.execute("UPDATE users SET blogdescription = '" + desc + "' WHERE username = '" + username + "';")
+        db.commit()
+        db.close()
+"""
 #clearUsers()
 createTables()
+clearUsers()
+clearEntries()
+register("gamer","pass","haha","haha")
+addEntry(1,"i hate this", "please")
 # test methods here
 printDatabase()
 getBlogs()
