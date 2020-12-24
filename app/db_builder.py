@@ -130,7 +130,6 @@ def updateBlogInfo(username, blogname, desc):
 """
 #clearUsers()
 createTables()
-clearEntries()
 # test methods here
 printDatabase()
 getBlogs()
