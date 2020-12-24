@@ -10,7 +10,7 @@ app.secret_key = os.urandom(10)
 @app.route("/register", methods=["GET", "POST"])
 def register():
     # if user has submitted registration form
-    if "username" in request.form:
+    if "register" in request.form:
         error_msg = []
         # checks username is not blank
         if (request.form['username'] == ""):
@@ -56,7 +56,7 @@ def loginpage():
         password = session['password']
         return render_template('login.html', username = username, password = password)
     # if user has just registered, have info in login form
-    if ('username' in request.form) and ('password-conf' in request.form):
+    if "login" in request.form:
         return render_template('login.html', username = request.form['username'], password = request.form['password'])
     # if there is an error in user login, display error
     if 'error_msg' in session:
@@ -113,7 +113,7 @@ def viewBlog(username):
     # show blog with all info received from db -- entries to be added
     return render_template("blog.html", blogname = getInfo(username, "blogname"), 
     blogdescription = getInfo(username, "blogdescription"), username = username, 
-    iscreator = iscreator, entries = getEntries(getInfo(username, "id")))
+    iscreator = iscreator, entries = getEntries(getInfo(username, "id"))) # get id of username from url
 
 @app.route("/edit-blog", methods = ["GET", "POST"])
 def editBlog():
@@ -122,7 +122,7 @@ def editBlog():
         # if blogname is blank
         if (request.form["blogname"] == ""):
             error_msg = "Blog name cannot be blank."
-            # return template with username from session, original blogname, new description, add entry content, and error msg
+            # return template with username from session, original blogname, new description, add entry content, old editable entries, and error msg
             return render_template("edit-blog.html", username = session["username"], 
             blogname = getInfo(session['username'], "blogname"), blogdescription = request.form["blogdescription"], 
             entrycontent = request.form["content"], entrytitle = request.form["title"], 
@@ -136,8 +136,6 @@ def editBlog():
             blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
             entrycontent = request.form["content"], entrytitle = request.form["title"], 
             entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg) 
-            # return users own blog //reload page bc that's where they edit entries from?
-            #return redirect(url_for("viewBlog", username = session["username"]))
     # if user hasn't submitted form yet, load form with blog name/desc from db
     return render_template("edit-blog.html", username = session["username"], 
     blogname = getInfo(session['username'], "blogname"), 
@@ -157,18 +155,35 @@ def addEntries():
                 entrycontent = request.form["content"], entrytitle = request.form["title"],
                 error_msg = "Entry title and content cannot be blank.", entries = getEntries(getInfo(session["username"], "id")))
         else:
-            # if entry is properly filled out, return template with forms filled out and success msg // once i add entry to db, submit all entries
+            # get user id from db (since user is editing, username is from session)
             userID = getInfo(session["username"], "id")
+            # add entry to db
             addEntry(userID, request.form["title"], request.form["content"])
+            # if entry is properly filled out, return template with forms filled out and success msg
             return render_template("edit-blog.html", username = session["username"], 
                 blogname = getInfo(session['username'], "blogname"), 
                 blogdescription = getInfo(session['username'], "blogdescription"),
-                entrytitle = request.form["title"], entrycontent = request.form["content"], 
-                error_msg = "Successfully added entry!", entries = getEntries(getInfo(session["username"], "id")))
-            
+                error_msg = "Successfully added entry!", entries = getEntries(getInfo(session["username"], "id")))   
+    return render_template("edit-blog.html")
+ 
+# end of url when viewing a blog is the entry id
+@app.route("/edit/<int:entryID>", methods = ["GET", "POST"])
+def editEntries(entryID):
+    if "editEntry" in request.form:
+        if (request.form["title"] == "") or (request.form["content"] == ""):
+            # return template with blog info and entry info filled in, and an error msg
+            return render_template("edit-blog.html", username = session["username"], 
+                blogname = getInfo(session['username'], "blogname"), 
+                blogdescription = getInfo(session['username'], "blogdescription"),
+                error_msg = "Entry title and content cannot be blank.", entries = getEntries(getInfo(session["username"], "id")))
+        else:
+            editEntry(entryID, request.form["title"], request.form["content"])
+            return render_template("edit-blog.html", username = session["username"], 
+                blogname = getInfo(session['username'], "blogname"), 
+                blogdescription = getInfo(session['username'], "blogdescription"),
+                error_msg = "Successfully updated entry!", entries = getEntries(getInfo(session["username"], "id")))
     return render_template("edit-blog.html")
 
-
 if __name__ == "__main__":  
-    app.debug = True 
+    app.debug = True  
     app.run() 
