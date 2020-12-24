@@ -62,7 +62,7 @@ reneeM -- 2020-12-23 14:24
 	- Changed method to find password to be able to find blog name and description too
 	- Added methods to update blog information and get a list of blog names
 
-ishitaG -- 2020-12-23
+ishitaG -- 2020-12-23 15:36
 	- Refactor /register and /registered app routes so that one method handles everything
 		- In register.html, change form action to /register to support refactoring
 		- Fix redirect for registering
@@ -76,7 +76,7 @@ ishitaG -- 2020-12-23
 reneeM -- 2020-12-23 18:53
 	- Change getBlogs method to return a dictionary with information on the blogs
 
-ishitaG -- 2020-12-23 
+ishitaG -- 2020-12-23 20:05
 	- Add method to allow users to see all blogs 
 		- If blog is user's own, allow user option to edit it
 		- Ending of url when a blog is clicked on is user's name
@@ -97,3 +97,17 @@ dragosL -- 2020-12-24 15:23
 
 dragosL -- 2020-12-24 16:24
 	-Added ability to order lines in the users
+
+ishitaG -- 2020-12-24 16:31
+	- Users are able to update blog name/description, add entries, and edit entries on the same page
+	- Entries are listed in chronological order, with newest entry at the top (when both viewing and editing blogs)
+	- When user add entries:
+		- Page is reloaded with that entry at the top
+		- If entry title or post is blank, reload page with error message
+	- When users edit entries:	
+		- Page is reloaded with that entry at the top
+		- If entry title or post is blank, reload page with original values and display error message
+	- Modified templates 
+		- Changing urls to fit page roles
+		- Updating jinja to support code
+		- Adding names to forms to distinguish which form is submitted (mostly for pages with multiple forms)
