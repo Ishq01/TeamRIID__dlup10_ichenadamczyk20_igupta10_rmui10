@@ -91,3 +91,6 @@ ianC -- 2020-12-24 12:31
 
 dragosL -- 2020-12-24 13:57
 	-Added addEntry to db_builder
+
+dragosL -- 2020-12-24 15:23
+	-Added editEntry and getEntries to db_builder
