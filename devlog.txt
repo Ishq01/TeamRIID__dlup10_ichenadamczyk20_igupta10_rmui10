@@ -75,3 +75,12 @@ ishitaG -- 2020-12-23
 
 reneeM -- 2020-12-23 18:53
 	- Change getBlogs method to return a dictionary with information on the blogs
+
+ishitaG -- 2020-12-23
+	- Add method to allow users to see all blogs 
+		- If blog is user's own, allow user option to edit it
+		- Ending of url when a blog is clicked on is user's name
+	- When user updates blog name/description, redirect to view-blog page for user
+		- Unable to display success msg and do this (cannot return two templates)
+	- Modify templates to support code (url endings, key names)
+	- Remove unnecessary test cases from db_builder.py
