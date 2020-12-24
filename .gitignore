@@ -1,93 +1,131 @@
-TEAM RIID DEVLOG
+data.db
 
-RIID -- 2020-12-17 16:02
-	- Finished the design doc
-	- Started the devlog
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-RIID -- 2020-12-18 16:00s
-	- Redid the design doc
-	- Updated README.md
+# C extensions
+*.so
 
-ianC -- 2020-12-18 19:50
-    - Added HTML Templates (blog.html, edit-blog.html, edit-entry.html, header.html, home.html, login.html,
-                            register.html)
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-reneeM -- 2020-12-19 16:40
-	- Added db_bulider.py with lines to create the users and entries tables in the database
-	- Added methods to add user to database and check if username has already been used
-	- Added method to print rows in user table
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
 
-ianC -- 2020-12-19 17:30
-    - Updated register.html to support multiple error messages.
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
 
-ishitaG -- 2020-12-19 17:32
-	- Added @app.routes for /register and /registered
-	- Added verification for registration form
-		- Checks to make sure no field is blank and that passwords match
-		- To-do: add Renee's method for checking if username already exists in database
-	- Added method to send new user information to database
-		- Bug: received SQLite thread error -- need to fix
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
 
-reneeM -- 2020-12-19 19:26
-	- Fixed SQLite thread error by opening and closing database in every method instead of just doing
-		it once at the start of the db_builder file
+# Translations
+*.mo
+*.pot
 
-ishitaG -- 2020-12-19 19:57
-	- Integrated method to check for duplicate usernames
-	- Integrated solution for SQLite thread error
-	- Added linkage to login page after user registers successfully
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
 
-ianC -- 2020-12-22 14:52
-    - Updated login.html to support username and password being filled in automatically
+# Flask stuff:
+instance/
+.webassets-cache
 
-reneeM -- 2020-12-22 14:55
-	- Added methods to find password when given a username and to clear the users table
+# Scrapy stuff:
+.scrapy
 
-ishitaG -- 2020-12-22 16:02
-	- Reroute newly registered user to login page with username/password already filled out
-	- Add login functionality
-		- If incorrect login, reload page with error message
-		- If user logged in previously, store information in session and load filled out login page
-		- If user successfully logs in, redirect to home page
+# Sphinx documentation
+docs/_build/
 
-ishitaG -- 2020-12-23 11:12
-	- Add logout functionality
-		- Remove username/password from session
-		- Update login.html to support logout message
-	- Allow logged in users to access logout and edit-my-blog buttons
-	- Redirect users who try to access pages they don't have permission for
-		- redirect for /registered not working
+# PyBuilder
+target/
 
-reneeM -- 2020-12-23 14:24
-	- Changed method to find password to be able to find blog name and description too
-	- Added methods to update blog information and get a list of blog names
+# Jupyter Notebook
+.ipynb_checkpoints
 
-ishitaG -- 2020-12-23
-	- Refactor /register and /registered app routes so that one method handles everything
-		- In register.html, change form action to /register to support refactoring
-		- Fix redirect for registering
-	- Add ability for user to update the name/description of their blog
-		- Loads form with blog name/description filled out
-		- If user submits form with blank name, reload page with original name, new description, error msg
-		- If no error, update database and show success message
-			- To-do: wait for 1 second then redirect to edit-entry or view-blog page
-	- Remove data.db from .gitignore
+# IPython
+profile_default/
+ipython_config.py
 
-reneeM -- 2020-12-23 18:53
-	- Change getBlogs method to return a dictionary with information on the blogs
+# pyenv
+.python-version
 
-ishitaG -- 2020-12-23
-	- Add method to allow users to see all blogs 
-		- If blog is user's own, allow user option to edit it
-		- Ending of url when a blog is clicked on is user's name
-	- When user updates blog name/description, redirect to view-blog page for user
-		- Unable to display success msg and do this (cannot return two templates)
-	- Modify templates to support code (url endings, key names)
-	- Remove unnecessary test cases from db_builder.py
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
 
-ianC -- 2020-12-24 12:31
-    - Added 404.html template
-    - Added form to add entry and improved GUI on edit-blog.html
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
 
-dragosL -- 2020-12-24 13:57
-	-Added addEntry to db_builder
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
