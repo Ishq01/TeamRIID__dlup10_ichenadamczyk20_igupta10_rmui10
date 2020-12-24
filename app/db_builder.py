@@ -27,9 +27,9 @@ def checkUsername(username):
     found = False
     for row in c.execute("SELECT * FROM users;"):
         found = found or (username == row[1])
-    return found
     db.commit()
     db.close()
+    return found
 
 def printDatabase():
     db = sqlite3.connect(DB_FILE)
