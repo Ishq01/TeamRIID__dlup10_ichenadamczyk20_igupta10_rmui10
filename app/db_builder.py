@@ -24,10 +24,10 @@ def register(username, password, blogname, blogdescription):
 def checkUsername(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
+    found = False
     for row in c.execute("SELECT * FROM users;"):
-        if (username == row[1]):
-            return True
-    return False
+        found = found or (username == row[1])
+    return found
     db.commit()
     db.close()
 
