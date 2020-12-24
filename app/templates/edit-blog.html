@@ -14,7 +14,7 @@ username        (String of username of creator)
 loggedin        (True if user is logged in, False otherwise. Should be True anyway)
 
 [if user submits edits to blog]
-SENDS to /my-blog by POST
+SENDS to /edit-blog by POST
 "blogname"        - Updated blog name
 "blogdescription" - Updated blog description
 
@@ -60,20 +60,21 @@ SENDS to / by GET
 
         <form action="/add-entry" method="POST">
             <table>
-                <tr><td>Entry Title</td><td><input name="title" value="{{ entrytitle }}" /></td></tr>
+                <tr><td>Entry Title</td><td><input type="text" name="title" value="{{ entrytitle }}" /></td></tr>
                 <tr><td>Entry Content</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
                 <tr><td></td><td><input name="addEntry" type="submit" value="Add Entry" /></td></tr>
             </table>
         </form>
 
-        <hr />
-
         {% for entry in entries %}
-            <fieldset>
-                <legend>{{ entry["title"] }} - <a href="/edit/{{ entry['id'] }}">Edit This Entry</a></legend>
-                <p><i>Posted at {{ entry["datetime"] }}</i></p>
-                <p>{{ entry["post"] }}</p>
-            </fieldset>
+            <hr />
+            <form action="/edit/{{ entry['id'] }}" method="POST">
+                <table>
+                    <tr><td>Title</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
+                    <tr><td>Content</td><td><textarea name="content">{{ entry['post'] }}"</textarea></td></tr>
+                    <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry" /></td></tr>
+                </table>
+            </form>
         {% endfor %}
     </body>
 </html>
