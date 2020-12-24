@@ -8,6 +8,8 @@ entries (list of dictionaries)
 error_msg       (String of why blog edit didn't succeed, undefined if no such problem)
 blogname        (String of name of blog)
 blogdescription (String of description of blog)
+entrytitle      (String of title of entry)
+entrycontent    (String of content of entry)
 username        (String of username of creator)
 loggedin        (True if user is logged in, False otherwise. Should be True anyway)
 
@@ -18,6 +20,11 @@ SENDS to /my-blog by POST
 
 [if user wants to edit an entry]
 SENDS to /edit/<entryid> by GET
+
+[if user wants to add an entry]
+SENDS to /add/ by POST
+"title"         - Entry title
+"content"       - Entry content
 
 [if user wants to see existing blogs]
 SENDS to /home by GET
@@ -41,13 +48,25 @@ SENDS to / by GET
         <p><b>{{ error_msg }}</b></p>
         {% endif %}
         <form action="/my-blog" method="POST">
-            <input name="blogname" value="{{ blogname }}" />
-            <p>A blog by {{ username }}</p>
-            <textarea name="blogdescription">{{ blogdescription }}</textarea>
-            <br />
-            <input name="submit" type="submit" value="Update Blog Name and Description" />
+            <table>
+                <tr><td>Blog Name</td><td><input name="blogname" value="{{ blogname }}" /></td></tr>
+                <tr><td></td><td><p>A blog by {{ username }}</p></td></tr>
+                <tr><td>Blog Description</td><td><textarea name="blogdescription">{{ blogdescription }}</textarea></td></tr>
+                <tr><td></td><td><input name="submit" type="submit" value="Update Blog Name and Description" /></td></tr>
+            </table>
         </form>
-        <hr>
+
+        <hr />
+
+        <form action="/add/" method="POST">
+            <table>
+                <tr><td>Entry Title</td><td><input name="title" value="{{ entrytitle }}" /></td></tr>
+                <tr><td>Entry Content</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
+                <tr><td></td><td><input name="submit" type="submit" value="Add Entry" /></td></tr>
+            </table>
+        </form>
+
+        <hr />
 
         {% for entry in entries %}
             <fieldset>

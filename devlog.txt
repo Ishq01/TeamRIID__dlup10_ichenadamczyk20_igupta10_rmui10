@@ -84,3 +84,7 @@ ishitaG -- 2020-12-23
 		- Unable to display success msg and do this (cannot return two templates)
 	- Modify templates to support code (url endings, key names)
 	- Remove unnecessary test cases from db_builder.py
+
+ianC -- 2020-12-24 12:31
+    - Added 404.html template
+    - Added form to add entry and improved GUI on edit-blog.html
