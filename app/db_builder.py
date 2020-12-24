@@ -59,7 +59,6 @@ def updateBlogInfo(username, blogname, desc):
         db.commit()
         db.close()
 
-# converts
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
