@@ -47,22 +47,22 @@ SENDS to / by GET
         {% if error_msg is defined %}
         <p><b>{{ error_msg }}</b></p>
         {% endif %}
-        <form action="/my-blog" method="POST">
+        <form action="/edit-blog" method="POST">
             <table>
                 <tr><td>Blog Name</td><td><input name="blogname" value="{{ blogname }}" /></td></tr>
                 <tr><td></td><td><p>A blog by {{ username }}</p></td></tr>
                 <tr><td>Blog Description</td><td><textarea name="blogdescription">{{ blogdescription }}</textarea></td></tr>
-                <tr><td></td><td><input name="submit" type="submit" value="Update Blog Name and Description" /></td></tr>
+                <tr><td></td><td><input name="blog" type="submit" value="Update Blog Name and Description" /></td></tr>
             </table>
         </form>
 
         <hr />
 
-        <form action="/add/" method="POST">
+        <form action="/add-entry" method="POST">
             <table>
                 <tr><td>Entry Title</td><td><input name="title" value="{{ entrytitle }}" /></td></tr>
                 <tr><td>Entry Content</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
-                <tr><td></td><td><input name="submit" type="submit" value="Add Entry" /></td></tr>
+                <tr><td></td><td><input name="addEntry" type="submit" value="Add Entry" /></td></tr>
             </table>
         </form>
 
