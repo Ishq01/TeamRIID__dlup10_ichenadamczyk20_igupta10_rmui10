@@ -111,3 +111,4 @@ ishitaG -- 2020-12-24 16:31
 		- Changing urls to fit page roles
 		- Updating jinja to support code
 		- Adding names to forms to distinguish which form is submitted (mostly for pages with multiple forms)
+	- Redirect user from all pages if user not logged in
