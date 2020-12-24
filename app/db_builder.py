@@ -87,18 +87,12 @@ def getBlogs():
     db.close()
     return blogs
 
+
 # deletes all users from the database (for testing purposes)
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
     c.execute("DELETE from users;")
-    db.commit()
-    db.close()
-
-def clearEntries():
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-    c.execute("DELETE from entries;")
     db.commit()
     db.close()
 
@@ -112,22 +106,34 @@ def addEntry(userID, title, post):
     c.execute(command)
     db.commit()
     db.close()
-"""
-def editEntry(username, title, post):
-    if (checkUsername(username)):
-        db = sqlite3.connect(DB_FILE)
-        c = db.cursor()
-        dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
-        dateAndTime = str(''.join(map(str, dateAndTimetup)))
-def updateBlogInfo(username, blogname, desc):
-    if (checkUsername(username)):
-        db = sqlite3.connect(DB_FILE)
-        c = db.cursor()
-        c.execute("UPDATE users SET blogname = '" + blogname + "' WHERE username = '" + username + "';")
-        c.execute("UPDATE users SET blogdescription = '" + desc + "' WHERE username = '" + username + "';")
-        db.commit()
-        db.close()
-"""
+
+def editEntry(entryID, title, post):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
+    dateAndTime = str(''.join(map(str, dateAndTimetup)))
+    c.execute("UPDATE entries SET title = '" + title + "' WHERE id = '" + str(entryID) + "';")
+    c.execute("UPDATE entries SET post = '" + post + "' WHERE id = '" + str(entryID) + "';")
+    c.execute("UPDATE entries SET time = '" + dateAndTime + "' WHERE id = '" + str(entryID) + "';")
+    db.commit()
+    db.close()
+
+def getEntries(userID):
+    db = sqlite3.connect(DB_FILE)
+    db.row_factory = dict_factory
+    c = db.cursor()
+    entries = c.execute("SELECT * FROM entries WHERE userID = '" + str(userID) + "';").fetchall()
+    db.commit()
+    db.close()
+    return entries
+
+def clearEntries():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("DELETE from entries;")
+    db.commit()
+    db.close()
+
 #clearUsers()
 createTables()
 # test methods here
