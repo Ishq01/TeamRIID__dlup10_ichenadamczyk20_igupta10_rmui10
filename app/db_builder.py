@@ -2,6 +2,7 @@ import sqlite3
 
 DB_FILE = "data.db"
 
+# makes users and entries table in database if they do not exist already
 def createTables():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -12,6 +13,7 @@ def createTables():
     db.commit()
     db.close()
 
+# adds user info to user table
 def register(username, password, blogname, blogdescription):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -21,6 +23,7 @@ def register(username, password, blogname, blogdescription):
     db.commit()
     db.close()
 
+# returns whether or not username is in user table
 def checkUsername(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -31,6 +34,7 @@ def checkUsername(username):
     db.close()
     return found
 
+# prints user table (for testing purposes)
 def printDatabase():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -40,6 +44,8 @@ def printDatabase():
     db.commit()
     db.close()
 
+# returns information about a user from the specified column
+# col can be 'id', 'password', 'blogname', or 'blogdescription'
 def getInfo(username, col):
     if (checkUsername(username)):
         db = sqlite3.connect(DB_FILE)
@@ -50,6 +56,7 @@ def getInfo(username, col):
         return info
     return None
 
+# changes a user's blog info given a new blog name and description
 def updateBlogInfo(username, blogname, desc):
     if (checkUsername(username)):
         db = sqlite3.connect(DB_FILE)
@@ -59,12 +66,14 @@ def updateBlogInfo(username, blogname, desc):
         db.commit()
         db.close()
 
+# converts rows in database to a dictionary
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
 
+# returns a list of dictionaries containing each blog's info
 def getBlogs():
     db = sqlite3.connect(DB_FILE)
     db.row_factory = dict_factory
@@ -74,6 +83,7 @@ def getBlogs():
     db.close()
     return blogs
 
+# deletes all users from the database (for testing purposes)
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
