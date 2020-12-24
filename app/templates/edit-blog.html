@@ -71,7 +71,7 @@ SENDS to / by GET
             <form action="/edit/{{ entry['id'] }}" method="POST">
                 <table>
                     <tr><td>Title</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
-                    <tr><td>Content</td><td><textarea name="content">{{ entry['post'] }}"</textarea></td></tr>
+                    <tr><td>Content</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
                     <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry" /></td></tr>
                 </table>
             </form>

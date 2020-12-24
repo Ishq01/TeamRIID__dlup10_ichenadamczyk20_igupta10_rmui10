@@ -39,7 +39,7 @@ SENDS to / by GET
             {% for blog in blogs %}
                 <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
                     <td>{{ blog["username"] }}</td>
-                    <td>{{ blog["datetime"] }}</td>
+                    <td>{{ blog["time"] }}</td>
                     <td>{{ blog["blogdescription"] }}</td></tr>
             {% endfor %}
         </table>
