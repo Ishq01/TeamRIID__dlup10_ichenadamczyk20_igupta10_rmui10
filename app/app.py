@@ -7,6 +7,12 @@ app = Flask(__name__)
 # generate random secret key
 app.secret_key = os.urandom(10)
 
+# if user tries to access page that doesn't exist
+@app.errorhandler(404) 
+def pageNotFound(error):
+    # return page not found template
+    return render_template("404.html", code = 404)
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     # if user has submitted registration form
