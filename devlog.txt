@@ -123,7 +123,7 @@ ishitaG -- 2020-12-24 22:58
 	- Fixed bug: if user submits empty registration form then goes to login page, werkzeug.exceptions.BadRequestKeyError occured 
 	- Edit home.html so that username is displayed in a greeting
 
-ishitaG -- 2020-12-25 00:5t
+ishitaG -- 2020-12-25 00:55
 	- Redirect logged in user trying to access register page to home page
 	- Fixed bug: updating blog info resulted in error because page tries to autofill add 
 	  entry info even if form is not submitted
