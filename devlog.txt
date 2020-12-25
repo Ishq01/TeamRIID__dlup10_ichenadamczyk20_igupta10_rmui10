@@ -112,3 +112,7 @@ ishitaG -- 2020-12-24 16:31
 		- Updating jinja to support code
 		- Adding names to forms to distinguish which form is submitted (mostly for pages with multiple forms)
 	- Redirect user from all pages if user not logged in
+
+ishitaG -- 2020-12-24 19:58
+	- If logged in user goes to login page, redirect to home page
+	- Fix bug that simply reloaded login page upon user entering incorrect info instead of displaying error msg
