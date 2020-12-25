@@ -15,6 +15,9 @@ def pageNotFound(error):
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    # if logged in user goes to register page, redirect to home page
+    if "username" in session:
+        return redirect("/home")
     # if user has submitted registration form
     if "register" in request.form:
         error_msg = []
@@ -147,7 +150,6 @@ def editBlog():
                 # return template with username from session, original blogname, new description, add entry content, old editable entries, and error msg
                 return render_template("edit-blog.html", username = session["username"], 
                 blogname = getInfo(session["username"], "blogname"), blogdescription = request.form["blogdescription"], 
-                entrycontent = request.form["content"], entrytitle = request.form["title"], 
                 entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg)
             else:
                 # if blogname valid, update blog name/description
@@ -156,7 +158,6 @@ def editBlog():
                 error_msg = "Successfully updated blog name and description!"
                 return render_template("edit-blog.html", username = session["username"], 
                 blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
-                entrycontent = request.form["content"], entrytitle = request.form["title"], 
                 entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg) 
         # if user hasn't submitted form yet, load form with blog name/desc from db
         return render_template("edit-blog.html", username = session["username"], 
