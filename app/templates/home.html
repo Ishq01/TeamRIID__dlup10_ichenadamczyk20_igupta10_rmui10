@@ -28,10 +28,8 @@ SENDS to / by GET
     </head>
     <body>
         {% include 'header.html' %}
-        <h1>Welcome to Web Log 0.1</h1>
-        {% if loggedin %}
+        <h1>Welcome to Web Log 0.1, {{username}}</h1>
         <a href="/edit-blog">Edit My Blog</a>
-        {% endif %}
         <hr>
 
         <table>

@@ -8,8 +8,4 @@ SENDS to /logout by GET
 [if user wants to log in]
 SENDS to / by GET
 -->
-{% if loggedin %}
 <a href="/logout">Log Out</a>
-{% else %}
-<a href="/">Log In</a>
-{% endif %}
