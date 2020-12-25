@@ -76,7 +76,7 @@ def login():
         # redirect to home page
         return redirect("/home")
     # if user is trying to log in
-    if "username" in request.form:
+    if "login" in request.form:
         # if username doesn't exist in the database
         if not checkUsername(request.form["username"]):
             # set error msg in session 
@@ -114,7 +114,7 @@ def logout():
 def homepage():
     # if user is logged in
     if "username" in session:
-        return render_template("home.html", blogs = getBlogs())
+        return render_template("home.html", blogs = getBlogs(), username = session["username"])
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 

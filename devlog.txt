@@ -116,4 +116,9 @@ ishitaG -- 2020-12-24 16:31
 ishitaG -- 2020-12-24 19:58
 	- If logged in user goes to login page, redirect to home page
 	- Fix bug that simply reloaded login page upon user entering incorrect info instead of displaying error msg
+	
+ishitaG -- 2020-12-24 22:58	
 	- If user, logged in or not, tries to access page that doesn't exist, redirect to 404 error page
+	- Modify templates so logout button is visible to logged in users
+	- Fix bug: if user submits empty registration form then goes to login page, werkzeug.exceptions.BadRequestKeyError occured 
+	- Edit home.html so that username is displayed in a greeting
