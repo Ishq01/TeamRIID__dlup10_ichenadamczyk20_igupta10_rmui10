@@ -1,4 +1,6 @@
 <!--
+Allows a user to add/edit entries and blog metadata
+
 REQUIRES
 entries (list of dictionaries)
  -- entries[i]["title"]    - Title
@@ -11,7 +13,6 @@ blogdescription (String of description of blog)
 entrytitle      (String of title of entry)
 entrycontent    (String of content of entry)
 username        (String of username of creator)
-loggedin        (True if user is logged in, False otherwise. Should be True anyway)
 
 [if user submits edits to blog]
 SENDS to /edit-blog by POST
@@ -19,10 +20,12 @@ SENDS to /edit-blog by POST
 "blogdescription" - Updated blog description
 
 [if user wants to edit an entry]
-SENDS to /edit/<entryid> by GET
+SENDS to /edit/<entryid> by POST
+"title"         - Entry title
+"content"       - Entry content
 
 [if user wants to add an entry]
-SENDS to /add/ by POST
+SENDS to /add-entry/ by POST
 "title"         - Entry title
 "content"       - Entry content
 
@@ -31,9 +34,6 @@ SENDS to /home by GET
 
 [if user wants to log out]
 SENDS to /logout by GET
-
-[if user wants to log in]
-SENDS to / by GET
 -->
 <!DOCTYPE html>
 <html>
@@ -49,7 +49,7 @@ SENDS to / by GET
         {% endif %}
         <form action="/edit-blog" method="POST">
             <table>
-                <tr><td>Blog Name</td><td><input name="blogname" value="{{ blogname }}" /></td></tr>
+                <tr><td>Blog Name *</td><td><input name="blogname" value="{{ blogname }}" /></td></tr>
                 <tr><td></td><td><p>A blog by {{ username }}</p></td></tr>
                 <tr><td>Blog Description</td><td><textarea name="blogdescription">{{ blogdescription }}</textarea></td></tr>
                 <tr><td></td><td><input name="blog" type="submit" value="Update Blog Name and Description" /></td></tr>
@@ -60,8 +60,8 @@ SENDS to / by GET
 
         <form action="/add-entry" method="POST">
             <table>
-                <tr><td>Entry Title</td><td><input type="text" name="title" value="{{ entrytitle }}" /></td></tr>
-                <tr><td>Entry Content</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
+                <tr><td>Entry Title *</td><td><input type="text" name="title" value="{{ entrytitle }}" /></td></tr>
+                <tr><td>Entry Content *</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
                 <tr><td></td><td><input name="addEntry" type="submit" value="Add Entry" /></td></tr>
             </table>
         </form>
@@ -70,8 +70,8 @@ SENDS to / by GET
             <hr />
             <form action="/edit/{{ entry['id'] }}" method="POST">
                 <table>
-                    <tr><td>Title</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
-                    <tr><td>Content</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
+                    <tr><td>Entry Title *</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
+                    <tr><td>Entry Content *</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
                     <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry" /></td></tr>
                 </table>
             </form>

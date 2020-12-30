@@ -1,7 +1,12 @@
 import sqlite3
 import datetime
+import hashlib
 
 DB_FILE = "data.db"
+
+# salts and hashes the given string
+def saltString(string, salt):
+    return hashlib.pbkdf2_hmac('sha256', string.encode('utf-8'), salt, 100000)
 
 # makes users and entries table in database if they do not exist already
 def createTables():
@@ -20,9 +25,8 @@ def register(username, password, blogname, blogdescription):
     c = db.cursor()
     dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimetup)))
-    command = "INSERT INTO users (username, password, blogname, blogdescription, time) VALUES ('"
-    command += username + "','" + password + "','" + blogname + "','" + blogdescription + "','" + dateAndTime + "');"
-    c.execute(command)
+    command = "INSERT INTO users (username, password, blogname, blogdescription, time) VALUES (?,?,?,?,?);"
+    c.execute(command, (username, password, blogname, blogdescription, dateAndTime))
     db.commit()
     db.close()
 
@@ -56,7 +60,7 @@ def getInfo(username, col):
     if (checkUsername(username)):
         db = sqlite3.connect(DB_FILE)
         c = db.cursor()
-        info = c.execute("SELECT " + col + " FROM users WHERE username = '" + username + "';").fetchone()[0]
+        info = c.execute("SELECT " + col + " FROM users WHERE username=?;", [username] ).fetchone()[0]
         db.commit()
         db.close()
         return info
@@ -67,8 +71,8 @@ def updateBlogInfo(username, blogname, desc):
     if (checkUsername(username)):
         db = sqlite3.connect(DB_FILE)
         c = db.cursor()
-        c.execute("UPDATE users SET blogname = '" + blogname + "' WHERE username = '" + username + "';")
-        c.execute("UPDATE users SET blogdescription = '" + desc + "' WHERE username = '" + username + "';")
+        c.execute("UPDATE users SET blogname=? WHERE username=?;", (blogname, username))
+        c.execute("UPDATE users SET blogdescription=? WHERE username=?;", (desc,username))
         db.commit()
         db.close()
 
@@ -103,10 +107,9 @@ def addEntry(userID, title, post):
     c = db.cursor()
     dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimetup)))
-    command = "INSERT INTO entries (userID, time, title, post) VALUES ('"
-    command += str(userID) + "','" + dateAndTime + "','" + title + "','" + post + "');"
-    c.execute(command)
-    c.execute("UPDATE users SET time = '" + dateAndTime + "' WHERE id = '" + str(userID) + "';")
+    command = "INSERT INTO entries (userID, time, title, post) VALUES (?,?,?,?);"
+    c.execute(command, (str(userID), dateAndTime, title, post))
+    c.execute("UPDATE users SET time=? WHERE id=?;", (dateAndTime, str(userID)))
     db.commit()
     db.close()
 
@@ -115,11 +118,11 @@ def editEntry(entryID, title, post):
     c = db.cursor()
     dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimetup)))
-    c.execute("UPDATE entries SET title = '" + title + "' WHERE id = '" + str(entryID) + "';")
-    c.execute("UPDATE entries SET post = '" + post + "' WHERE id = '" + str(entryID) + "';")
-    c.execute("UPDATE entries SET time = '" + dateAndTime + "' WHERE id = '" + str(entryID) + "';")
-    userID = c.execute("SELECT userID FROM entries WHERE id = '" + str(entryID) + "';").fetchone()
-    c.execute("UPDATE users SET time = '" + dateAndTime + "' WHERE id = '" + str(userID[0]) + "';")
+    c.execute("UPDATE entries SET title=? WHERE id=?;", (title, str(entryID)))
+    c.execute("UPDATE entries SET post=? WHERE id=?;", (post, str(entryID)))
+    c.execute("UPDATE entries SET time=? WHERE id=?;", (dateAndTime, str(entryID)))
+    userID = c.execute("SELECT userID FROM entries WHERE id=?;", [str(entryID)] ).fetchone()
+    c.execute("UPDATE users SET time=? WHERE id=?;", (dateAndTime, str(userID[0])))
     db.commit()
     db.close()
 
@@ -127,7 +130,7 @@ def getEntries(userID):
     db = sqlite3.connect(DB_FILE)
     db.row_factory = dict_factory
     c = db.cursor()
-    entries = c.execute("SELECT * FROM entries WHERE userID = '" + str(userID) + "'ORDER BY time DESC;").fetchall()
+    entries = c.execute("SELECT * FROM entries WHERE userID=? ORDER BY time DESC;", [str(userID)] ).fetchall()
     db.commit()
     db.close()
     return entries

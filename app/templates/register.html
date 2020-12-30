@@ -1,11 +1,13 @@
 <!--
+Registration page for a user to register a new account
+
 REQUIRES
 error_msg       (List of strings of why registration didn't succeed, undefined if no such problem)
 blogname        (String of attempted blog name submission, undefined otherwise)
 blogdescription (String of attempted blog description, undefined otherwise)
 
 [if user submits registration form]
-SENDS to /registered by POST
+SENDS to /register by POST
 "username"        - Username
 "password"        - Password
 "password-conf"   - Confirmed password
@@ -31,16 +33,16 @@ SENDS to / by GET
         <form action="/register" method="POST">
             <table>
 
-                <tr><td>Username</td>
+                <tr><td>Username *<br /><small>Can have only letters, numbers, and underscores</small></td>
                     <td><input type="text" name="username" /></td></tr>
 
-                <tr><td>Password</td>
+                <tr><td>Password *<br /><small>Must be at least 8 characters long</small></td>
                     <td><input type="password" name="password" /></td></tr>
 
-                <tr><td>Confirm Password</td>
+                <tr><td>Confirm Password *</td>
                     <td><input type="password" name="password-conf" /></td></tr>
 
-                <tr><td>Blog Name</td>
+                <tr><td>Blog Name *</td>
                     <td><input type="text" name="blogname" value="{{ blogname }}" /></td></tr>
 
                 <tr><td>Blog Description</td>

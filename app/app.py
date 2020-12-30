@@ -2,10 +2,12 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import os, time
 from db_builder import register as addUser, printDatabase, checkUsername, getInfo 
 from db_builder import updateBlogInfo, getBlogs, addEntry, editEntry, getEntries
+from db_builder import saltString
 
 app = Flask(__name__)  
 # generate random secret key
 app.secret_key = os.urandom(10)
+salt = b"I am a static, plaintext salt!!@#T gp127 They're actually more effective than one might think..."
 
 # if user tries to access page that doesn't exist
 @app.errorhandler(404) 
@@ -24,6 +26,9 @@ def register():
         # checks username is not blank
         if (request.form["username"] == ""):
             error_msg += ["Enter a valid username"]
+        # checks username is only made of letters, numbers, and underscores
+        elif (not request.form["username"].replace("_", "").isalnum()):
+            error_msg += ["Username can have only letters, numbers, and underscores"]
         # checks username is not already in use
         if (checkUsername(request.form["username"]) == True):
             error_msg += ["Username is already taken. Enter a valid username"]
@@ -33,6 +38,9 @@ def register():
         # checks password is not blank
         if (request.form["password"] == ""):  
             error_msg += ["Enter a valid password"]
+        # checks password has at least 8 characters
+        elif (len(request.form["password"]) < 8):
+            error_msg += ["Password must be at least 8 characters long"]
         else:
             password = request.form["password"]
         # checks both passwords match
@@ -49,7 +57,7 @@ def register():
         else:
             blogdescription = request.form["blogdescription"]
             # adds user to database
-            addUser(username, password, blogname, blogdescription)
+            addUser(username, saltString(password, salt), blogname, blogdescription)
             # when a user has just registered, their information is present in the login form
             # however, url_for uses the GET method, which displays the username/password in the url,
             # so specifying the code ensures that the original method (POST) is used
@@ -87,8 +95,9 @@ def login():
             # return login form with error
             return redirect(url_for(".loginpage"), code = 307)        
         password = getInfo(request.form["username"], "password")    # get correct password for user from database
+        newPassword = saltString(request.form["password"], salt)
         # if password is correct
-        if (request.form["password"] == password):
+        if (newPassword == password):
             # set username/password in session if successful login
             session["username"] = request.form["username"]
             session["password"] = request.form["password"]
@@ -131,10 +140,15 @@ def viewBlog(username):
         iscreator = False
         # if user is the one who created the blog
         if session["username"] == username: iscreator = True
+        # split by newlines in blog description and entry bodies
+        blogdescription = getInfo(username, "blogdescription").split("\n")
+        entries = getEntries(getInfo(username, "id"))
+        for i in entries:
+            i["post"] = i["post"].split("\n")
         # show blog with all info received from db -- entries to be added
         return render_template("blog.html", blogname = getInfo(username, "blogname"), 
-        blogdescription = getInfo(username, "blogdescription"), username = username, 
-        iscreator = iscreator, entries = getEntries(getInfo(username, "id"))) # get id of username from url
+            blogdescription = blogdescription, username = username,
+            iscreator = iscreator, entries = entries) # get id of username from url
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
@@ -157,13 +171,13 @@ def editBlog():
                 # want to display success msg first, then view blog
                 error_msg = "Successfully updated blog name and description!"
                 return render_template("edit-blog.html", username = session["username"], 
-                blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
-                entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg) 
+                    blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
+                    entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg)
         # if user hasn't submitted form yet, load form with blog name/desc from db
         return render_template("edit-blog.html", username = session["username"], 
-        blogname = getInfo(session["username"], "blogname"), 
-        blogdescription = getInfo(session["username"], "blogdescription"),
-        entries = getEntries(getInfo(session["username"], "id"))) 
+            blogname = getInfo(session["username"], "blogname"),
+            blogdescription = getInfo(session["username"], "blogdescription"),
+            entries = getEntries(getInfo(session["username"], "id")))
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 

@@ -1,6 +1,7 @@
 <!--
+The homepage for a logged-in user -- lists all blogs on the website
+
 REQUIRES
-loggedin (True if user is logged in, False otherwise)
 blogs (list of dictionaries)
  -- blogs[i]["id"]          - ID of blog
  -- blogs[i]["name"]        - Name
@@ -16,9 +17,6 @@ SENDS to /home/<blogid> by GET
 
 [if user wants to log out]
 SENDS to /logout by GET
-
-[if user wants to log in]
-SENDS to / by GET
 -->
 <!DOCTYPE html>
 <html>
