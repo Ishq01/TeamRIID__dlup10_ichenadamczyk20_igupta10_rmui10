@@ -127,3 +127,11 @@ ishitaG -- 2020-12-25 00:55
 	- Redirect logged in user trying to access register page to home page
 	- Fixed bug: updating blog info resulted in error because page tries to autofill add 
 	  entry info even if form is not submitted
+
+ianC -- 2020-12-30 16:26
+    - Added *'s to required fields
+    - Added requirements for valid usernames and passwords
+    - Updated comments on HTML templates
+    - Implemented SQL parameterization
+    - Added support for new lines in entry content and blog descriptions
+    - Added password hashing and hashed all passwords in existing users
