@@ -60,20 +60,20 @@ SENDS to /logout by GET
 
         <form action="/add-entry" method="POST">
             <table>
-                 <tr><td></td><td><details><summary>Delete Entry</summary><input name="deleteEntry" type="submit" value="Confirm Delete Entry" /></details></td></tr>
-                    <tr><td>Entry Title *</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
-                    <tr><td>Entry Content *</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
-                    <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry"/></td></tr>
-                </table>
+                <tr><td>Entry Title *</td><td><input type="text" name="title" value="{{ entrytitle }}" /></td></tr>
+                <tr><td>Entry Content *</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
+                <tr><td></td><td><input name="addEntry" type="submit" value="Add Entry" /></td></tr>
+            </table>
         </form>
 
         {% for entry in entries %}
             <hr />
             <form action="/edit/{{ entry['id'] }}" method="POST">
                 <table>
+                 <tr><td></td><td><details><summary>Delete Entry</summary><input name="deleteEntry" type="submit" value="Confirm Delete Entry" /></details></td></tr>
                     <tr><td>Entry Title *</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
                     <tr><td>Entry Content *</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
-                    <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry"/><input name="deleteEntry" type="submit" value="Delete Entry" /></td></tr>
+                    <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry"/></td></tr>
                 </table>
             </form>
         {% endfor %}
