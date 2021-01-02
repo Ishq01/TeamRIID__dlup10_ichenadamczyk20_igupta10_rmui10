@@ -135,3 +135,8 @@ ianC -- 2020-12-30 16:26
     - Implemented SQL parameterization
     - Added support for new lines in entry content and blog descriptions
     - Added password hashing and hashed all passwords in existing users
+
+ishitaG -- 2021-1-1 21:21
+	- Fixed bug: if user submitted an unsuccessful registration form, then went to login page, werkzeug.exceptions.BadRequestKeyError occured 
+		- Normally, if user regs, their info is autofilled in login page, but if there is an error, there is no info
+	- Bug to fix: existing users with passwords less than 8 characters long are unable to log in

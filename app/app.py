@@ -72,9 +72,14 @@ def loginpage():
         username = session["username"]
         password = session["password"]
         return render_template("login.html", username = username, password = password)
-    # if user has just registered, have info in login form
+    # if user submitted registration form
     if "register" in request.form:
-        return render_template("login.html", username = request.form["username"], password = request.form["password"])
+        # if user has successfully registered, have info in login form
+        if "username" in request.form:
+            return render_template("login.html", username = request.form["username"], password = request.form["password"])
+        # if user submits reg form, encounters error, and goes to login page
+        else:
+            return render_template("login.html")
     # if there is an error in user login, display error
     if "error_msg" in session:
         return render_template("login.html", username = request.form["username"], error_msg = "Incorrect username or password.")
