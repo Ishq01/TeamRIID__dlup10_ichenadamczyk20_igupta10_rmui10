@@ -135,6 +135,13 @@ def getEntries(userID):
     db.close()
     return entries
 
+def deleteEntry(entryID):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("DELETE FROM entries WHERE id=?;",(entryID))
+    db.commit()
+    db.close()
+
 def clearEntries():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -146,7 +153,23 @@ def clearAll():
     clearEntries()
     clearUsers()
 
+
+#clearAll()
+
 createTables()
-editEntry(3,"first!","work please")
+
+'''
+register("userA", "passsssssss", "my first blog", "A very cool lil blog")
+register("userB", "passsssssss", "I hate the other blog", "I am raging schizophrenic")
+register("userC", "passsssssss", "Cute Dog Pictures", "Cute dog pictures")
+
+addEntry("1", "Hey guys!", "Hows it going")
+addEntry("2", "Stop", "get off")
+addEntry("1", "Why are you mean :(", "You guys alright?")
+addEntry("3", "Dog", "imagine a dog here")
+addEntry("1", "oh god", "Hahah hey")
+
+deleteEntry("4")
+'''
 printDatabase()
 getBlogs()
