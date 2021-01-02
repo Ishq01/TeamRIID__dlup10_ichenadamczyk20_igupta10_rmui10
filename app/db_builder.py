@@ -138,13 +138,25 @@ def getEntries(userID):
 def deleteEntry(entryID):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-<<<<<<< HEAD
     c.execute("DELETE FROM entries WHERE id=?;",[str(entryID)])
-=======
-    c.execute("DELETE FROM entries WHERE id=?;",(str(entryID)))
->>>>>>> f953dda4c7ed26d81f574e4ced73c8add000e938
     db.commit()
     db.close()
+
+def search(criteria):
+    db = sqlite3.connect(DB_FILE)
+    db.row_factory = dict_factory
+    c = db.cursor()
+    criteria_list = criteria.split()
+    command = "SELECT * FROM entries WHERE post LIKE '%" + criteria_list[0] + "%'"
+    for x in criteria_list:
+        if x == criteria_list[0]:
+            continue
+        command += "AND post LIKE '%" + x + "%'"
+    command += ";"
+    entries = c.execute(command).fetchall()
+    db.commit()
+    db.close()
+    return entries
 
 def clearEntries():
     db = sqlite3.connect(DB_FILE)
@@ -161,8 +173,10 @@ def clearAll():
 #clearAll()
 
 createTables()
-
 '''
+for x in search("dog hate"):
+    print(x["post"])
+
 register("userA", "passsssssss", "my first blog", "A very cool lil blog")
 register("userB", "passsssssss", "I hate the other blog", "I am raging schizophrenic")
 register("userC", "passsssssss", "Cute Dog Pictures", "Cute dog pictures")
