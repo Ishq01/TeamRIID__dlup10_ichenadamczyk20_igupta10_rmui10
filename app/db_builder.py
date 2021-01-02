@@ -138,7 +138,7 @@ def getEntries(userID):
 def deleteEntry(entryID):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("DELETE FROM entries WHERE id=?;",(entryID))
+    c.execute("DELETE FROM entries WHERE id=?;",[str(entryID)])
     db.commit()
     db.close()
 

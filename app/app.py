@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import os, time
 from db_builder import register as addUser, printDatabase, checkUsername, getInfo 
 from db_builder import updateBlogInfo, getBlogs, addEntry, editEntry, getEntries
-from db_builder import saltString
+from db_builder import saltString, deleteEntry
 
 app = Flask(__name__)  
 # generate random secret key
@@ -233,6 +233,13 @@ def editEntries(entryID):
                     blogname = getInfo(session["username"], "blogname"), 
                     blogdescription = getInfo(session["username"], "blogdescription"),
                     error_msg = "Successfully updated entry!", entries = getEntries(getInfo(session["username"], "id")))
+        elif "deleteEntry" in request.form:
+            deleteEntry(entryID)
+            return render_template("edit-blog.html", username = session["username"], 
+                    blogname = getInfo(session["username"], "blogname"), 
+                    blogdescription = getInfo(session["username"], "blogdescription"),
+                    error_msg = "Successfully deleted entry!", entries = getEntries(getInfo(session["username"], "id")))   
+        
         return render_template("edit-blog.html")
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
