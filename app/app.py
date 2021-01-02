@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import os, time
 from db_builder import register as addUser, printDatabase, checkUsername, getInfo 
 from db_builder import updateBlogInfo, getBlogs, addEntry, editEntry, getEntries
-from db_builder import saltString, deleteEntry
+from db_builder import saltString, deleteEntry, search, getEntryInfo, getUsername
 
 app = Flask(__name__)  
 # generate random secret key
@@ -220,7 +220,9 @@ def addEntries():
 def editEntries(entryID):
     # if user is logged in
     if "username" in session:
+        # if user clicks on edit entry
         if "editEntry" in request.form:
+            # entry title and content cannot be blank
             if (request.form["title"] == "") or (request.form["content"] == ""):
                 # return template with blog info and entry info filled in, and an error msg
                 return render_template("edit-blog.html", username = session["username"], 
@@ -228,21 +230,53 @@ def editEntries(entryID):
                     blogdescription = getInfo(session["username"], "blogdescription"),
                     error_msg = "Entry title and content cannot be blank.", entries = getEntries(getInfo(session["username"], "id")))
             else:
+                # if no error, edit entry and reload page with new entry
                 editEntry(entryID, request.form["title"], request.form["content"])
                 return render_template("edit-blog.html", username = session["username"], 
                     blogname = getInfo(session["username"], "blogname"), 
                     blogdescription = getInfo(session["username"], "blogdescription"),
                     error_msg = "Successfully updated entry!", entries = getEntries(getInfo(session["username"], "id")))
+        # if user clicks on delete entry
         elif "deleteEntry" in request.form:
+            # delete the entry and reload page
             deleteEntry(entryID)
             return render_template("edit-blog.html", username = session["username"], 
                     blogname = getInfo(session["username"], "blogname"), 
                     blogdescription = getInfo(session["username"], "blogdescription"),
-                    error_msg = "Successfully deleted entry!", entries = getEntries(getInfo(session["username"], "id")))   
-        
+                    error_msg = "Successfully deleted entry!", entries = getEntries(getInfo(session["username"], "id")))     
         return render_template("edit-blog.html")
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
+
+@app.route("/search-results", methods = ["GET", "POST"])
+def searchFunction():
+    # if user is logged in
+    if "username" in session:
+        # if user submits search form
+        if "search" in request.form:
+            # if no keywords, reload page
+            if (request.form["keywords"] == ""):
+                return redirect(url_for(".homepage"))
+            # return entries that have the keywords
+            else:
+                entries = search(request.form["keywords"])
+                return render_template("search-results.html", entries = entries) 
+    # if user tries to access page without being logged in, redirect to login page
+    return redirect("/")
+
+# when user clicks on an entry title from search results page
+@app.route("/home/blog/<int:ID>")
+def viewSearchResult(ID):
+    # if user is logged in
+    if "username" in session:
+        # get userID
+        userid = getEntryInfo(ID, "userID")
+        # get username
+        username = getUsername(userid)
+        # return the blog of the user that posted entry 
+        return redirect(url_for("viewBlog", username=username))
+    # if user tries to access page without being logged in, redirect to login page
+    return redirect("/")    
 
 if __name__ == "__main__":  
     app.debug = True  

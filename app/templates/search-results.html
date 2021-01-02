@@ -5,13 +5,15 @@
         <title>Search Results - Web Log</title>
     </head>
     <body>
+        <a href="/home">Back to Home</a>
+        {% include 'header.html' %}
+
+        <h2>Search Results</h2>
         {% for entry in entries %}
             <fieldset>
-                <legend>{{ entry["title"] }}</legend>
+                <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
                 <p><i>Posted at {{ entry["time"] }}</i></p>
-                {% for line in entry["post"] %}
-                <p>{{ line }}</p>
-                {% endfor %}
+                <p>{{entry["post"]}}</p>
             </fieldset>
         {% endfor %}
     </body>
