@@ -66,6 +66,14 @@ def getInfo(username, col):
         return info
     return None
 
+def getUsername(userID):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    info = c.execute("SELECT username FROM users WHERE id=?;", [userID] ).fetchone()[0]
+    db.commit()
+    db.close()
+    return info
+
 # changes a user's blog info given a new blog name and description
 def updateBlogInfo(username, blogname, desc):
     if (checkUsername(username)):
@@ -139,7 +147,7 @@ def getEntries(userID):
 def getEntryInfo(entryID, col):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    info = c.execute("SELECT " + col + " FROM entries WHERE id=?;", [entryID] ).fetchone()[0]
+    info = c.execute("SELECT " + col + " FROM entries WHERE id=?;", [str(entryID)] ).fetchone()[0]
     db.commit()
     db.close()
     return info
@@ -182,7 +190,6 @@ def clearAll():
 #clearAll()
 
 createTables()
-
 '''
 for x in search("dog hate"):
     print(x["post"])

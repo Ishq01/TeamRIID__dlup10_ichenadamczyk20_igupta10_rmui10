@@ -148,3 +148,7 @@ dragosL -- 2021-1-1 15:41
 	- Added get info about entries function
 	- Added search function
 	- Fixed issue with delete entries
+
+dragosL -- 2021-1-1 15:49
+	- Fixed issue with get info from entries
+	- Added get username from user id function
