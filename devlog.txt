@@ -165,3 +165,6 @@ ishitaG -- 2021-1-2 16:05
 		- If user has multiple keywords, entries must contain all words
 			- When form is submitted, load results page with all entries
 			- Entry titles are links that user can click on to go to that blog
+
+ianC -- 2021-1-2 16:12
+	- Add confirmation to delete entry
