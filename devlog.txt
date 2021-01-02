@@ -141,14 +141,27 @@ ishitaG -- 2021-1-1 21:21
 		- Normally, if user regs, their info is autofilled in login page, but if there is an error, there is no info
 	- Bug to fix: existing users with passwords less than 8 characters long are unable to log in
 
-dragosL -- 2021-1-1 14:00
+dragosL -- 2021-1-2 14:00
 	- Added delete entries function
 
-dragosL -- 2021-1-1 15:41
+ishitaG -- 2021-1-2
+	- Add delete entry functionality for user
+		- Edit template to support, add flask routes
+	- Create template to support search function
+		- Add search form to homepage
+
+dragosL -- 2021-1-2 15:41
 	- Added get info about entries function
 	- Added search function
 	- Fixed issue with delete entries
 
-dragosL -- 2021-1-1 15:49
+dragosL -- 2021-1-2 15:49
 	- Fixed issue with get info from entries
 	- Added get username from user id function
+
+ishitaG -- 2021-1-2 16:05
+	- Add search functionality
+		- If user submits enters blank search, reload page
+		- If user has multiple keywords, entries must contain all words
+			- When form is submitted, load results page with all entries
+			- Entry titles are links that user can click on to go to that blog
