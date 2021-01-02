@@ -135,6 +135,15 @@ def getEntries(userID):
     db.close()
     return entries
 
+
+def getEntryInfo(entryID, col):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    info = c.execute("SELECT " + col + " FROM entries WHERE id=?;", [entryID] ).fetchone()[0]
+    db.commit()
+    db.close()
+    return info
+
 def deleteEntry(entryID):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -173,6 +182,8 @@ def clearAll():
 #clearAll()
 
 createTables()
+
+print(getEntryInfo(9, "userID"))
 '''
 for x in search("dog hate"):
     print(x["post"])

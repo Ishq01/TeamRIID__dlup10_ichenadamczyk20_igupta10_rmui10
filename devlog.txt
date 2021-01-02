@@ -90,13 +90,13 @@ ianC -- 2020-12-24 12:31
     - Added form to add entry and improved GUI on edit-blog.html
 
 dragosL -- 2020-12-24 13:57
-	-Added addEntry to db_builder
+	- Added addEntry to db_builder
 
 dragosL -- 2020-12-24 15:23
-	-Added editEntry and getEntries to db_builder
+	- Added editEntry and getEntries to db_builder
 
 dragosL -- 2020-12-24 16:24
-	-Added ability to order lines in the users
+	- Added ability to order lines in the users
 
 ishitaG -- 2020-12-24 16:31
 	- Users are able to update blog name/description, add entries, and edit entries on the same page
@@ -142,4 +142,9 @@ ishitaG -- 2021-1-1 21:21
 	- Bug to fix: existing users with passwords less than 8 characters long are unable to log in
 
 dragosL -- 2021-1-1 14:00
-	-Added delete entries function
+	- Added delete entries function
+
+dragosL -- 2021-1-1 15:41
+	- Added get info about entries function
+	- Added search function
+	- Fixed issue with delete entries
