@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Search Results - Web Log</title>
+    </head>
+    <body>
+        {% for entry in entries %}
+            <fieldset>
+                <legend>{{ entry["title"] }}</legend>
+                <p><i>Posted at {{ entry["time"] }}</i></p>
+                {% for line in entry["post"] %}
+                <p>{{ line }}</p>
+                {% endfor %}
+            </fieldset>
+        {% endfor %}
+    </body>
+</html>

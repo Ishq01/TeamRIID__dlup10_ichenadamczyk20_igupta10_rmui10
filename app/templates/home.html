@@ -25,9 +25,10 @@ SENDS to /logout by GET
         <title>Home - Web Log</title>
     </head>
     <body>
-        {% include 'header.html' %}
+        {% include 'header.html' %} 
         <h1>Welcome to Web Log 0.1, {{username}}</h1>
-        <a href="/edit-blog">Edit My Blog</a>
+        <a href="/edit-blog">Edit My Blog</a>         
+        <form action="/search-results" method="POST"><input type="text" name="keywords" placeholder="Enter search terms"/> <input name="search" type="submit" value="Search"/></form>
         <hr>
 
         <table>
