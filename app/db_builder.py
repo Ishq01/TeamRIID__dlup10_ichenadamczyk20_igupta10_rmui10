@@ -183,7 +183,6 @@ def clearAll():
 
 createTables()
 
-print(getEntryInfo(9, "userID"))
 '''
 for x in search("dog hate"):
     print(x["post"])
