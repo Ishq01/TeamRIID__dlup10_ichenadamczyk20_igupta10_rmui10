@@ -199,7 +199,15 @@ def addEntries():
                     blogname = getInfo(session["username"], "blogname"), 
                     blogdescription = getInfo(session["username"], "blogdescription"),
                     entrycontent = request.form["content"], entrytitle = request.form["title"],
-                    error_msg = "Entry title and content cannot be blank.", entries = getEntries(getInfo(session["username"], "id")))
+                    error_msg = "Entry title and content cannot be blank.", 
+                    entries = getEntries(getInfo(session["username"], "id")))
+                # redirect to edit-blog url, not working atm (method is post, but args passed into url not template)
+                """ return redirect(url_for(".editBlog", username = session["username"], 
+                    blogname = getInfo(session["username"], "blogname"), 
+                    blogdescription = getInfo(session["username"], "blogdescription"),
+                    entrycontent = request.form["content"], entrytitle = request.form["title"],
+                    error_msg = "Entry title and content cannot be blank.", 
+                    entries = getEntries(getInfo(session["username"], "id")), **request.args), code = 307) """
             else:
                 # get user id from db (since user is editing, username is from session)
                 userID = getInfo(session["username"], "id")
@@ -220,31 +228,36 @@ def addEntries():
 def editEntries(entryID):
     # if user is logged in
     if "username" in session:
-        # if user clicks on edit entry
-        if "editEntry" in request.form:
-            # entry title and content cannot be blank
-            if (request.form["title"] == "") or (request.form["content"] == ""):
-                # return template with blog info and entry info filled in, and an error msg
+        # get a list of entries that the user owns
+        userEntries = [entry["id"] for entry in getEntries(getInfo(session["username"], "id"))]
+        # check if user owns entry they are trying to edit (if user changes url)
+        if entryID in userEntries:
+            # if user clicks on edit entry
+            if "editEntry" in request.form:
+                # entry title and content cannot be blank
+                if (request.form["title"] == "") or (request.form["content"] == ""):
+                    # return template with blog info and entry info filled in, and an error msg
+                    return render_template("edit-blog.html", username = session["username"], 
+                        blogname = getInfo(session["username"], "blogname"), 
+                        blogdescription = getInfo(session["username"], "blogdescription"),
+                        error_msg = "Entry title and content cannot be blank.", entries = getEntries(getInfo(session["username"], "id")))
+                else:
+                    # if no error, edit entry and reload page with new entry
+                    editEntry(entryID, request.form["title"], request.form["content"])
+                    return render_template("edit-blog.html", username = session["username"], 
+                        blogname = getInfo(session["username"], "blogname"), 
+                        blogdescription = getInfo(session["username"], "blogdescription"),
+                        error_msg = "Successfully updated entry!", entries = getEntries(getInfo(session["username"], "id")))
+            # if user clicks on delete entry
+            elif "deleteEntry" in request.form:
+                # delete the entry and reload page
+                deleteEntry(entryID)
                 return render_template("edit-blog.html", username = session["username"], 
-                    blogname = getInfo(session["username"], "blogname"), 
-                    blogdescription = getInfo(session["username"], "blogdescription"),
-                    error_msg = "Entry title and content cannot be blank.", entries = getEntries(getInfo(session["username"], "id")))
-            else:
-                # if no error, edit entry and reload page with new entry
-                editEntry(entryID, request.form["title"], request.form["content"])
-                return render_template("edit-blog.html", username = session["username"], 
-                    blogname = getInfo(session["username"], "blogname"), 
-                    blogdescription = getInfo(session["username"], "blogdescription"),
-                    error_msg = "Successfully updated entry!", entries = getEntries(getInfo(session["username"], "id")))
-        # if user clicks on delete entry
-        elif "deleteEntry" in request.form:
-            # delete the entry and reload page
-            deleteEntry(entryID)
-            return render_template("edit-blog.html", username = session["username"], 
-                    blogname = getInfo(session["username"], "blogname"), 
-                    blogdescription = getInfo(session["username"], "blogdescription"),
-                    error_msg = "Successfully deleted entry!", entries = getEntries(getInfo(session["username"], "id")))     
-        return render_template("edit-blog.html")
+                        blogname = getInfo(session["username"], "blogname"), 
+                        blogdescription = getInfo(session["username"], "blogdescription"),
+                        error_msg = "Successfully deleted entry!", entries = getEntries(getInfo(session["username"], "id")))     
+            return render_template("edit-blog.html")
+        return redirect(url_for(".editBlog"))
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
@@ -261,6 +274,7 @@ def searchFunction():
             else:
                 entries = search(request.form["keywords"])
                 return render_template("search-results.html", entries = entries) 
+        return redirect(url_for(".homepage"))
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
