@@ -273,7 +273,7 @@ def viewSearchResult(ID):
         userid = getEntryInfo(ID, "userID")
         # get username
         username = getUsername(userid)
-        # return the blog of the user that posted entry 
+        # return the blog of the user that posted entry
         return redirect(url_for("viewBlog", username=username))
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")    

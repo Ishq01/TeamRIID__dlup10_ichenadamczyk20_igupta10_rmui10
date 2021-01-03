@@ -168,3 +168,7 @@ ishitaG -- 2021-1-2 16:05
 
 ianC -- 2021-1-2 16:12
 	- Add confirmation to delete entry
+
+ishitaG -- 2021-1-2 1:10
+	- Modified edit-blog template so edit and delete entry are next to each other
+	- Bug to fix: if logged in user goes to search-results url without searching, they are redirected to login page (filled in)

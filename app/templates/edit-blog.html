@@ -70,10 +70,10 @@ SENDS to /logout by GET
             <hr />
             <form action="/edit/{{ entry['id'] }}" method="POST">
                 <table>
-                 <tr><td></td><td><details><summary>Delete Entry</summary><input name="deleteEntry" type="submit" value="Confirm Delete Entry" /></details></td></tr>
                     <tr><td>Entry Title *</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
                     <tr><td>Entry Content *</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
                     <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry"/></td></tr>
+                    <tr><td></td><td><details><summary>Delete Entry</summary><input name="deleteEntry" type="submit" value="Confirm Delete Entry" /></details></td></tr>
                 </table>
             </form>
         {% endfor %}
