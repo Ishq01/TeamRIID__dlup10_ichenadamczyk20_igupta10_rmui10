@@ -120,7 +120,8 @@ ishitaG -- 2020-12-24 19:58
 ishitaG -- 2020-12-24 22:58	
 	- If user, logged in or not, tries to access page that doesn't exist, redirect to 404 error page
 	- Modify templates so logout button is visible to logged in users
-	- Fixed bug: if user submits empty registration form then goes to login page, werkzeug.exceptions.BadRequestKeyError occured 
+	- Fixed bug: if user submits empty registration form then goes to login page, 
+	  werkzeug.exceptions.BadRequestKeyError occured 
 	- Edit home.html so that username is displayed in a greeting
 
 ishitaG -- 2020-12-25 00:55
@@ -137,14 +138,15 @@ ianC -- 2020-12-30 16:26
     - Added password hashing and hashed all passwords in existing users
 
 ishitaG -- 2021-1-1 21:21
-	- Fixed bug: if user submitted an unsuccessful registration form, then went to login page, werkzeug.exceptions.BadRequestKeyError occured 
+	- Fixed bug: if user submitted an unsuccessful registration form, then went to login page, 
+	  werkzeug.exceptions.BadRequestKeyError occured 
 		- Normally, if user regs, their info is autofilled in login page, but if there is an error, there is no info
 	- Bug to fix: existing users with passwords less than 8 characters long are unable to log in
 
 dragosL -- 2021-1-2 14:00
 	- Added delete entries function
 
-ishitaG -- 2021-1-2
+ishitaG -- 2021-1-2 14:21
 	- Add delete entry functionality for user
 		- Edit template to support, add flask routes
 	- Create template to support search function
@@ -171,4 +173,13 @@ ianC -- 2021-1-2 16:12
 
 ishitaG -- 2021-1-2 1:10
 	- Modified edit-blog template so edit and delete entry are next to each other
-	- Bug to fix: if logged in user goes to search-results url without searching, they are redirected to login page (filled in)
+	- Bug to fix: if logged in user goes to search-results url without searching, 
+	  they are redirected to login page (filled in)
+
+ishitaG -- 2021-1-3 18:08
+	- Fixed bug: when editing entries, user could change url to go to non-existent entry
+	  (would display blank blogname/desc, and adding entry worked)
+	- Fixed bug: if logged in user goes to search-results url without searching, 
+	  they are redirected to login page (filled in)
+	- Bug to fix: add-entry and edit-entry should redirect to edit-blog url 
+	  currently, the edit-blog template is rendered, but url changes
