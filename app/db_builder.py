@@ -204,6 +204,7 @@ def clearEntries():
 def addFollower(userID, followerID):
     if (not checkFollower(userID, followerID)):
         db = sqlite3.connect(DB_FILE)
+        db.text_factory = str
         c = db.cursor()
         command = "INSERT INTO followers VALUES (?,?);"
         c.execute(command, (userID, followerID))
@@ -213,6 +214,7 @@ def addFollower(userID, followerID):
 # removes row with specified info from followers table
 def removeFollower(userID, followerID):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     c.execute("DELETE FROM followers WHERE userID=? AND followerID=?;", (str(userID), str(followerID)))
     db.commit()
@@ -221,6 +223,7 @@ def removeFollower(userID, followerID):
 # return whether or not a user-follower pair exists
 def checkFollower(userID, followerID):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     found = c.execute("SELECT * FROM followers WHERE userID=? AND followerID=?;", (str(userID), str(followerID))).fetchone()
     db.commit()
@@ -230,6 +233,7 @@ def checkFollower(userID, followerID):
 # deletes everything in followers table
 def clearFollowers():
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     c.execute("DELETE from followers;")
     db.commit()
@@ -238,6 +242,7 @@ def clearFollowers():
 # returns a list of all the users a user is following
 def getFollowedUsers(followerID):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     info = c.execute("SELECT userID FROM followers WHERE followerID=?;", [str(followerID)]).fetchall()
     users = []
