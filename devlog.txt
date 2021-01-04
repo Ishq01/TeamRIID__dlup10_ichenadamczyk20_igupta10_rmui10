@@ -191,3 +191,13 @@ reneeM -- 2021-1-4 10:25
 ianC -- 2021-1-4 10:45
     - Added page view for entries in both viewing and editing blogs
     - Added buttons to follow blogs (from both the home page and the view blog page)
+
+reneeM -- 2021-1-4 11:11
+	- Fixed getFollowedUsers method to return usernames instead of userIDs
+
+ishitaG -- 2021-1-4 13:20
+	- Fixed bug: if user submits blank login form, then blank reg form, login page gave error
+	- Added HTML template for followed blogs page
+	- Added flask methods for following and unfollowing blogs	
+		- If user attempts to follow blog they are already following (via url), give msg 
+		- If user attempts to unfollow blog they are not following (via url), give msg

@@ -239,7 +239,7 @@ def clearFollowers():
     db.commit()
     db.close()
 
-# returns a list of all the users a user is following
+# returns a list of all the usernames a user is following
 def getFollowedUsers(followerID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
@@ -247,7 +247,7 @@ def getFollowedUsers(followerID):
     info = c.execute("SELECT userID FROM followers WHERE followerID=?;", [str(followerID)]).fetchall()
     users = []
     for user in info:
-        users += [user[0]]
+        users += [getUsername(user[0])]
     db.commit()
     db.close()
     return users
