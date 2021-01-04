@@ -11,6 +11,7 @@ def saltString(string, salt):
 # makes users and entries table in database if they do not exist already
 def createTables():
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT,
             password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
@@ -22,6 +23,7 @@ def createTables():
 # adds user info to user table
 def register(username, password, blogname, blogdescription):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimetup)))
@@ -33,6 +35,7 @@ def register(username, password, blogname, blogdescription):
 # returns whether or not username is in user table
 def checkUsername(username):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     found = False
     for row in c.execute("SELECT * FROM users;"):
@@ -44,6 +47,7 @@ def checkUsername(username):
 # prints user table (for testing purposes)
 def printDatabase():
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     print("--------Users Table-----------")
     for row in c.execute("SELECT * FROM users;"):
@@ -59,6 +63,7 @@ def printDatabase():
 def getInfo(username, col):
     if (checkUsername(username)):
         db = sqlite3.connect(DB_FILE)
+        db.text_factory = str
         c = db.cursor()
         info = c.execute("SELECT " + col + " FROM users WHERE username=?;", [username] ).fetchone()[0]
         db.commit()
@@ -68,6 +73,7 @@ def getInfo(username, col):
 
 def getUsername(userID):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     info = c.execute("SELECT username FROM users WHERE id=?;", [userID] ).fetchone()[0]
     db.commit()
@@ -78,6 +84,7 @@ def getUsername(userID):
 def updateBlogInfo(username, blogname, desc):
     if (checkUsername(username)):
         db = sqlite3.connect(DB_FILE)
+        db.text_factory = str
         c = db.cursor()
         c.execute("UPDATE users SET blogname=? WHERE username=?;", (blogname, username))
         c.execute("UPDATE users SET blogdescription=? WHERE username=?;", (desc,username))
@@ -94,6 +101,7 @@ def dict_factory(cursor, row):
 # returns a list of dictionaries containing each blog's info
 def getBlogs():
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     db.row_factory = dict_factory
     c = db.cursor()
     blogs = c.execute("SELECT * from users ORDER BY time DESC;").fetchall()
@@ -105,6 +113,7 @@ def getBlogs():
 # deletes all users from the database (for testing purposes)
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     c.execute("DELETE from users;")
     db.commit()
@@ -112,6 +121,7 @@ def clearUsers():
 
 def addEntry(userID, title, post):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimetup)))
@@ -123,6 +133,7 @@ def addEntry(userID, title, post):
 
 def editEntry(entryID, title, post):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimetup)))
@@ -136,6 +147,7 @@ def editEntry(entryID, title, post):
 
 def getEntries(userID):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     db.row_factory = dict_factory
     c = db.cursor()
     entries = c.execute("SELECT * FROM entries WHERE userID=? ORDER BY time DESC;", [str(userID)] ).fetchall()
@@ -146,6 +158,7 @@ def getEntries(userID):
 
 def getEntryInfo(entryID, col):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     info = c.execute("SELECT " + col + " FROM entries WHERE id=?;", [str(entryID)] ).fetchone()[0]
     db.commit()
@@ -154,6 +167,7 @@ def getEntryInfo(entryID, col):
 
 def deleteEntry(entryID):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     c.execute("DELETE FROM entries WHERE id=?;",[str(entryID)])
     db.commit()
@@ -161,6 +175,7 @@ def deleteEntry(entryID):
 
 def search(criteria):
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     db.row_factory = dict_factory
     c = db.cursor()
     criteria_list = criteria.split()
@@ -177,6 +192,7 @@ def search(criteria):
 
 def clearEntries():
     db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
     c = db.cursor()
     c.execute("DELETE from entries;")
     db.commit()

@@ -2,10 +2,12 @@
 Displays a blog for the user to view
 
 REQUIRES
-entries (list of dictionaries)
- -- entries[i]["title"]    - Title
- -- entries[i]["datetime"] - Date time (in human readable format)
- -- entries[i]["post"]     - Content of the entry
+entries (list of list of dictionaries)
+ -- entries[0]                - First page of entries
+ -- entries[i][j]["title"]    - Title
+ -- entries[i][j]["datetime"] - Date time (in human readable format)
+ -- entries[i][j]["post"]     - Content of the entry
+pageNum         (Integer of page number)
 blogname        (String of name of blog)
 blogdescription (String of description of blog)
 username        (String of username of creator)
@@ -20,33 +22,62 @@ SENDS to /home by GET
 [if user wants to log out]
 SENDS to /logout by GET
 -->
+{% if pageNum is not defined %}
+    {% set pageNum = 1 %}
+{% endif %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>{{ blogname }} - Web Log</title>
+        <link rel="stylesheet" href="/static/pageview.css" />
     </head>
     <body>
         <a href="/home">Back to Home</a>
         {% if iscreator %}
-        <a href="/edit-blog">Edit Blog</a>
+            <a href="/edit-blog">Edit Blog</a>
         {% endif %}
         {% include 'header.html' %}
         <h2>{{ blogname }}</h2>
         <p>A blog by {{ username }}</p>
         {% for line in blogdescription %}
-        <p>{{ line }}</p>
+            <p>{{ line }}</p>
         {% endfor %}
         <hr>
 
-        {% for entry in entries %}
+        <nav>
+            {% for page in entries %}
+                {% if loop.index != pageNum %}
+                    <a href="/home/blog/{{ username }}/{{ loop.index }}">Page {{loop.index}}</a>
+                {% else %}
+                    <p>Page {{loop.index}}</p>
+                {% endif %}
+            {% endfor %}
+        </nav>
+
+        {% for entry in entries[pageNum - 1] %}
+            {% if loop.index != 1 %}
+                <hr />
+            {% else %}
+                <br />
+            {% endif %}
             <fieldset>
                 <legend>{{ entry["title"] }}</legend>
                 <p><i>Posted at {{ entry["time"] }}</i></p>
                 {% for line in entry["post"] %}
-                <p>{{ line }}</p>
+                    <p>{{ line }}</p>
                 {% endfor %}
             </fieldset>
         {% endfor %}
+
+        <nav>
+            {% for page in entries %}
+                {% if loop.index != pageNum %}
+                    <a href="/home/blog/{{ username }}/{{ loop.index }}">Page {{loop.index}}</a>
+                {% else %}
+                    <p>Page {{loop.index}}</p>
+                {% endif %}
+            {% endfor %}
+        </nav>
     </body>
 </html>
