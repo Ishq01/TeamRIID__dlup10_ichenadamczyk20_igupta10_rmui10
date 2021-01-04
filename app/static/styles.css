@@ -6,7 +6,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: #94ebff;
+    background-color: #442222c5;
     font-family: 'Roboto Condensed', sans-serif;
 }
 
@@ -16,9 +16,11 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .error-msg {
-    background-color: #ff5a5f;
+    background-color: #d33d42;
+    border-color: #a53d40;
+    border-style: ridge;
+    border-width: 3px;
     border-radius: 5px;
-    margin: 3px;
     padding: 3px;
     font-weight: bold;
     width: calc(100% - 12px);
