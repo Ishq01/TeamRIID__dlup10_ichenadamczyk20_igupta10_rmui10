@@ -239,18 +239,20 @@ def clearFollowers():
     db.commit()
     db.close()
 
-# returns a list of all the usernames a user is following
-def getFollowedUsers(followerID):
+# returns a list of dictionaries of blogs a user is following
+def getFollowedBlogs(followerID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
+    db.row_factory = dict_factory
     c = db.cursor()
-    info = c.execute("SELECT userID FROM followers WHERE followerID=?;", [str(followerID)]).fetchall()
-    users = []
-    for user in info:
-        users += [getUsername(user[0])]
+    followedUsers = c.execute("SELECT userID FROM followers WHERE followerID=?;", [str(followerID)]).fetchall()
+    blogs = []
+    for user in followedUsers:
+        blog = c.execute("SELECT * FROM users WHERE id=?;", [str(user["userID"])]).fetchone()
+        blogs.append(blog)
     db.commit()
     db.close()
-    return users
+    return blogs
 
 def clearAll():
     clearEntries()
@@ -258,7 +260,7 @@ def clearAll():
     clearFollowers()
 
 
-#clearAll()
+clearAll()
 
 createTables()
 '''
@@ -285,7 +287,7 @@ addFollower(3, 2) #2 follows 3
 print(checkFollower(2,1))
 print(checkFollower(1,2))
 
-print(getFollowedUsers(2))
+print(getFollowedBlogs(2))
 '''
 printDatabase()
 getBlogs()
