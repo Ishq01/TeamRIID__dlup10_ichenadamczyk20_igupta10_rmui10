@@ -51,7 +51,7 @@ SENDS to /logout by GET
         <a href="/home">Back to Home</a>
         {% include 'header.html' %}
         {% if error_msg is defined %}
-        <p><b>{{ error_msg }}</b></p>
+            <p><b>{{ error_msg }}</b></p>
         {% endif %}
         <form action="/edit-blog" method="POST">
             <table>
@@ -67,7 +67,7 @@ SENDS to /logout by GET
         <form action="/add-entry" method="POST">
             <table>
                 <tr><td>Entry Title *</td><td><input type="text" name="title" value="{{ entrytitle }}" /></td></tr>
-                <tr><td>Image URL</td><td><input type="text" name="imageurl" /></td></tr>
+                <tr><td>Image URL</td><td><input type="url" name="imageurl" /></td></tr>
                 <tr><td>Entry Content *</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
                 <tr><td></td><td><input name="addEntry" type="submit" value="Add Entry" /></td></tr>
             </table>
@@ -94,7 +94,7 @@ SENDS to /logout by GET
             <form action="/edit/{{ entry['id'] }}" method="POST">
                 <table>
                     <tr><td>Entry Title *</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
-                    <tr><td>Image URL</td><td><input type="text" name="imageurl" value="{{ entry['imageurl'] }}" /></td></tr>
+                    <tr><td>Image URL</td><td><input type="url" name="imageurl" value="{{ entry['imageurl'] }}" /></td></tr>
                     <tr><td>Entry Content *</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
                     <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry"/></td></tr>
                     <tr><td></td><td><details><summary>Delete Entry</summary><input name="deleteEntry" type="submit" value="Confirm Delete Entry" /></details></td></tr>
