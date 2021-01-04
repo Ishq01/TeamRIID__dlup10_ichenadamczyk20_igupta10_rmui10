@@ -9,6 +9,13 @@ app = Flask(__name__)
 app.secret_key = os.urandom(10)
 salt = b"I am a static, plaintext salt!!@#T gp127 They're actually more effective than one might think..."
 
+# helper function to format list of entries in paged format
+def pageEntries(entries, pageSize):
+    pagedEntries = []
+    for i in range(0, len(entries), pageSize):
+        pagedEntries += [entries[i:min(i + pageSize, len(entries))]]
+    return pagedEntries
+
 # if user tries to access page that doesn't exist
 @app.errorhandler(404) 
 def pageNotFound(error):
@@ -136,10 +143,12 @@ def homepage():
     return redirect("/")
 
 # end of url when viewing a blog is the users name
-@app.route("/home/blog/<string:username>")
-def viewBlog(username):
+@app.route("/home/blog/<string:username>/", defaults={'pageNum': 1})
+@app.route("/home/blog/<string:username>/<int:pageNum>")
+def viewBlog(username, pageNum):
     # if user is logged in
     if "username" in session:
+        entries = pageEntries(getEntries(getInfo(session["username"], "id")), 20)
         # check is user exists in db, if not return error page
         if not checkUsername(username): return render_template("404.html", code = 404)
         iscreator = False
@@ -153,14 +162,16 @@ def viewBlog(username):
         # show blog with all info received from db -- entries to be added
         return render_template("blog.html", blogname = getInfo(username, "blogname"), 
             blogdescription = blogdescription, username = username,
-            iscreator = iscreator, entries = entries) # get id of username from url
+            iscreator = iscreator, entries = entries, pageNum = pageNum) # get id of username from url
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
-@app.route("/edit-blog", methods = ["GET", "POST"])
-def editBlog():
+@app.route("/edit-blog/<int:pageNum>", methods = ["GET", "POST"])
+@app.route("/edit-blog", defaults={'pageNum': 1}, methods = ["GET", "POST"])
+def editBlog(pageNum):
     # if user is logged in
     if "username" in session:
+        entries = pageEntries(getEntries(getInfo(session["username"], "id")), 10)
         # if user has submitted the form
         if "blog" in request.form:
             # if blogname is blank
@@ -169,7 +180,7 @@ def editBlog():
                 # return template with username from session, original blogname, new description, add entry content, old editable entries, and error msg
                 return render_template("edit-blog.html", username = session["username"], 
                 blogname = getInfo(session["username"], "blogname"), blogdescription = request.form["blogdescription"], 
-                entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg)
+                entries = entries, error_msg = error_msg, pageNum = pageNum)
             else:
                 # if blogname valid, update blog name/description
                 updateBlogInfo(session["username"], request.form["blogname"], request.form["blogdescription"])
@@ -177,12 +188,12 @@ def editBlog():
                 error_msg = "Successfully updated blog name and description!"
                 return render_template("edit-blog.html", username = session["username"], 
                     blogname = request.form["blogname"], blogdescription = request.form["blogdescription"],
-                    entries = getEntries(getInfo(session["username"], "id")), error_msg = error_msg)
+                    entries = entries, error_msg = error_msg, pageNum = pageNum)
         # if user hasn't submitted form yet, load form with blog name/desc from db
         return render_template("edit-blog.html", username = session["username"], 
             blogname = getInfo(session["username"], "blogname"),
             blogdescription = getInfo(session["username"], "blogdescription"),
-            entries = getEntries(getInfo(session["username"], "id")))
+            entries = entries, pageNum = pageNum)
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
