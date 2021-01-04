@@ -19,23 +19,27 @@ SENDS to /register by GET
     <head>
         <meta charset="utf-8" />
         <title>Log In - Web Log</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+        <link rel="stylesheet" href="/static/login-page.css" />
     </head>
     <body>
-        <h2>Log In</h2>
-        {% if error_msg is defined %}
-        <p><b>{{ error_msg }}</b></p>
-        {% endif %}
-        <form action="/login" method="POST">
-            <table>
-                <tr><td>Username *</td>
-                    <td><input type="text" name="username" value="{{username}}"/></td></tr>
+        <div class="container">
+            <h2 class="title">Log In</h2>
+            {% if error_msg is defined %}
+                <p class="error-msg"><b>{{ error_msg }}</b></p>
+            {% endif %}
+            <form action="/login" method="POST">
+                <table>
+                    <tr><td class="required">Username</td>
+                        <td><input type="text" name="username" value="{{username}}"/></td></tr>
 
-                <tr><td>Password *</td>
-                    <td><input type="password" name="password" value="{{password}}" /></td></tr>
+                    <tr><td class="required">Password</td>
+                        <td><input type="password" name="password" value="{{password}}" /></td></tr>
 
-                <tr><td>Not a registered user? <a href="/register">Register here.</a></td>
-                    <td><input name="login" type="submit" value="Log In" /></td></tr>
-            </table>
-        </form>
+                    <tr><td>Not a registered user? <a href="/register">Register here.</a></td>
+                        <td><input name="login" type="submit" value="Log In" /></td></tr>
+                </table>
+            </form>
+        </div>
     </body>
 </html>
