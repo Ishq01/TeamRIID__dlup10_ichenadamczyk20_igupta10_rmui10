@@ -16,7 +16,7 @@ def createTables():
     c.execute("""CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT,
             password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
     c.execute("""CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY,
-            userID INTEGER, time DATETIME, title TEXT, post TEXT);""")
+            userID INTEGER, time DATETIME, title TEXT, post TEXT, pic TEXT);""")
     c.execute('CREATE TABLE IF NOT EXISTS followers (userID INTEGER, followerID INTEGER);')
     db.commit()
     db.close()
@@ -120,19 +120,19 @@ def clearUsers():
     db.commit()
     db.close()
 
-def addEntry(userID, title, post):
+def addEntry(userID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
     dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimetup)))
-    command = "INSERT INTO entries (userID, time, title, post) VALUES (?,?,?,?);"
-    c.execute(command, (str(userID), dateAndTime, title, post))
+    command = "INSERT INTO entries (userID, time, title, post, pic) VALUES (?,?,?,?,?);"
+    c.execute(command, (str(userID), dateAndTime, title, post, pic))
     c.execute("UPDATE users SET time=? WHERE id=?;", (dateAndTime, str(userID)))
     db.commit()
     db.close()
 
-def editEntry(entryID, title, post):
+def editEntry(entryID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
@@ -141,6 +141,7 @@ def editEntry(entryID, title, post):
     c.execute("UPDATE entries SET title=? WHERE id=?;", (title, str(entryID)))
     c.execute("UPDATE entries SET post=? WHERE id=?;", (post, str(entryID)))
     c.execute("UPDATE entries SET time=? WHERE id=?;", (dateAndTime, str(entryID)))
+    c.execute("UPDATE entries SET pic=? WHERE id=?;", (pic, str(entryID)))
     userID = c.execute("SELECT userID FROM entries WHERE id=?;", [str(entryID)] ).fetchone()
     c.execute("UPDATE users SET time=? WHERE id=?;", (dateAndTime, str(userID[0])))
     db.commit()
@@ -260,7 +261,7 @@ def clearAll():
     clearFollowers()
 
 
-clearAll()
+#clearAll()
 
 createTables()
 '''
