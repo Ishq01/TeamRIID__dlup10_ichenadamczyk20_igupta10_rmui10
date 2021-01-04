@@ -142,10 +142,13 @@ def logout():
 
 @app.route("/home")
 def homepage():
+    following = []
     # if user is logged in
     if "username" in session:
         # check if user is following each of the blogs, then make a dictionary of name:following?
-        following = [{blog["blogname"]:checkFollower(blog["id"], getInfo(session["username"], "id"))} for blog in getBlogs()]
+        for blog in getBlogs():
+            if (checkFollower(blog["id"], getInfo(session["username"], "id"))):
+                following += [blog["blogname"]]
         return render_template("home.html", blogs = getBlogs(), following = following, username = session["username"])
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
