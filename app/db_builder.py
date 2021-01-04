@@ -17,6 +17,7 @@ def createTables():
             password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
     c.execute("""CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY,
             userID INTEGER, time DATETIME, title TEXT, post TEXT);""")
+    c.execute('CREATE TABLE IF NOT EXISTS followers (userID INTEGER, followerID INTEGER);')
     db.commit()
     db.close()
 
@@ -198,9 +199,58 @@ def clearEntries():
     db.commit()
     db.close()
 
+# adds row to followers table if it doesn't already exist
+# users with followerID follws user with userID
+def addFollower(userID, followerID):
+    if (not checkFollower(userID, followerID)):
+        db = sqlite3.connect(DB_FILE)
+        c = db.cursor()
+        command = "INSERT INTO followers VALUES (?,?);"
+        c.execute(command, (userID, followerID))
+        db.commit()
+        db.close()
+
+# removes row with specified info from followers table
+def removeFollower(userID, followerID):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("DELETE FROM followers WHERE userID=? AND followerID=?;", (str(userID), str(followerID)))
+    db.commit()
+    db.close()
+
+# return whether or not a user-follower pair exists
+def checkFollower(userID, followerID):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    found = c.execute("SELECT * FROM followers WHERE userID=? AND followerID=?;", (str(userID), str(followerID))).fetchone()
+    db.commit()
+    db.close()
+    return (found != None)
+
+# deletes everything in followers table
+def clearFollowers():
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("DELETE from followers;")
+    db.commit()
+    db.close()
+
+# returns a list of all the users a user is following
+def getFollowedUsers(followerID):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    info = c.execute("SELECT userID FROM followers WHERE followerID=?;", [str(followerID)]).fetchall()
+    users = []
+    for user in info:
+        users += [user[0]]
+    db.commit()
+    db.close()
+    return users
+
 def clearAll():
     clearEntries()
     clearUsers()
+    clearFollowers()
 
 
 #clearAll()
@@ -221,6 +271,16 @@ addEntry("3", "Dog", "imagine a dog here")
 addEntry("1", "oh god", "Hahah hey")
 
 deleteEntry("4")
+
+addFollower(1, 2) #2 follows 1
+addFollower(2, 1) #1 follows 2
+addFollower(3, 2) #2 follows 3
+
+#removeFollower(1,2)
+print(checkFollower(2,1))
+print(checkFollower(1,2))
+
+print(getFollowedUsers(2))
 '''
 printDatabase()
 getBlogs()
