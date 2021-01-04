@@ -194,3 +194,6 @@ ianC -- 2021-1-4 10:45
 
 reneeM -- 2021-1-4 11:11
 	- Fixed getFollowedUsers method to return usernames instead of userIDs
+
+ishitaG -- 2021-1-4 23:20
+	- Added HTML template for followed blogs page
