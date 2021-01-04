@@ -3,6 +3,7 @@ import os, time
 from db_builder import register as addUser, printDatabase, checkUsername, getInfo 
 from db_builder import updateBlogInfo, getBlogs, addEntry, editEntry, getEntries
 from db_builder import saltString, deleteEntry, search, getEntryInfo, getUsername
+from db_builder import addFollower, removeFollower, getFollowedUsers, checkFollower
 
 app = Flask(__name__)  
 # generate random secret key
@@ -60,11 +61,13 @@ def register():
             blogname = request.form["blogname"]
         # reloads register form with error msgs and blog name/description filled out
         if error_msg != []:
+            session["error_msg"] = "Unsuccessful registration"
             return render_template("register.html", error_msg = error_msg, blogname = request.form["blogname"], blogdescription = request.form["blogdescription"])
         else:
             blogdescription = request.form["blogdescription"]
             # adds user to database
             addUser(username, saltString(password, salt), blogname, blogdescription)
+            session["error_msg"] = "Successful registration"
             # when a user has just registered, their information is present in the login form
             # however, url_for uses the GET method, which displays the username/password in the url,
             # so specifying the code ensures that the original method (POST) is used
@@ -74,6 +77,7 @@ def register():
 
 @app.route("/", methods = ["GET", "POST"])
 def loginpage():
+    if "error_msg" not in session: session["error_msg"] = ""
     # if user has logged in successfully and not logged out yet, have info in login form
     if "username" in session:
         username = session["username"]
@@ -82,13 +86,15 @@ def loginpage():
     # if user submitted registration form
     if "register" in request.form:
         # if user has successfully registered, have info in login form
-        if "username" in request.form:
-            return render_template("login.html", username = request.form["username"], password = request.form["password"])
+        if (session["error_msg"] == "Successful registration"):
+            session.pop("error_msg")
+            return render_template("login.html", username = request.form["username"], password = request.form["password"], error_msg = "Successful registration")
         # if user submits reg form, encounters error, and goes to login page
-        else:
+        elif (session["error_msg"] == "Unsuccessful registration"):
+            session.pop("error_msg")
             return render_template("login.html")
     # if there is an error in user login, display error
-    if "error_msg" in session:
+    if (session["error_msg"] ==  "Incorrect username or password."):
         return render_template("login.html", username = request.form["username"], error_msg = "Incorrect username or password.")
     return render_template("login.html")
 
@@ -103,7 +109,7 @@ def login():
         # if username doesn't exist in the database
         if not checkUsername(request.form["username"]):
             # set error msg in session 
-            session["error_msg"] =  "Incorrect username or password."
+            session["error_msg"] = "Incorrect username or password."
             # return login form with error
             return redirect(url_for(".loginpage"), code = 307)        
         password = getInfo(request.form["username"], "password")    # get correct password for user from database
@@ -117,7 +123,7 @@ def login():
             return redirect(url_for(".homepage"))
         else:
             # if incorrect login, set error msg in session 
-            session["error_msg"] =  "Incorrect username or password."
+            session["error_msg"] = "Incorrect username or password."
             # return login form with error
             return redirect(url_for(".loginpage"), code = 307)
     # if user tries to access page without being logged in, redirect to login page
@@ -159,7 +165,14 @@ def viewBlog(username, pageNum):
         for i in entries:
             i["post"] = i["post"].split("\n")
         entries = pageEntries(entries, 10)
-        # show blog with all info received from db -- entries to be added
+        if "error_msg" in session:
+            msg = session["error_msg"]
+            session.pop("error_msg")
+            return render_template("blog.html", blogname = getInfo(username, "blogname"), 
+            blogdescription = blogdescription, username = username,
+            iscreator = iscreator, entries = entries, pageNum = pageNum,
+            error_msg = msg)
+        # show blog with all info received from db 
         return render_template("blog.html", blogname = getInfo(username, "blogname"), 
             blogdescription = blogdescription, username = username,
             iscreator = iscreator, entries = entries, pageNum = pageNum) # get id of username from url
@@ -302,6 +315,47 @@ def viewSearchResult(ID):
         return redirect(url_for("viewBlog", username=username))
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")    
+
+@app.route("/follow/<string:username>", methods = ["GET", "POST"])
+def follow(username):
+    # if user is logged in 
+    if "username" in session:
+        # if user not already following blog
+        if (not checkFollower(getInfo(username, "id"), getInfo(session["username"], "id"))):
+            # add blog to db
+            addFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
+            # set msg to following blog
+            session["error_msg"] = "Successfully followed blog!"
+            # return blog page with msg
+            return redirect(url_for(".viewBlog", username = username, pageNum = 1))
+        else:
+            # if already following blog, set msg to that
+            session["error_msg"] = "Already following blog."
+            # return blog page with msg
+            return redirect(url_for(".viewBlog", username = username, pageNum = 1))
+    # if user tries to access page without being logged in, redirect to login page
+    return redirect("/")
+
+@app.route("/unfollow/<string:username>", methods = ["GET", "POST"])
+def unfollow(username):
+    # if user is logged in 
+    if "username" in session:
+        # if user not following blog
+        if (not checkFollower(getInfo(username, "id"), getInfo(session["username"], "id"))):
+            # set msg to not following blog, can't unfollow
+            session["error_msg"] = "Not following this blog yet, cannot unfollow."
+            # return blog page with msg
+            return redirect(url_for(".viewBlog", username = username, pageNum = 1))
+        else:
+            # remove blog from db
+            removeFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
+            # if following blog, set msg to unfollowing
+            session["error_msg"] = "Successfully unfollowed blog!"
+            # return blog page with msg
+            return redirect(url_for(".viewBlog", username = username, pageNum = 1))
+    # if user tries to access page without being logged in, redirect to login page
+    return redirect("/")
+
 
 if __name__ == "__main__":  
     app.debug = True  

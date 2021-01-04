@@ -39,12 +39,15 @@ SENDS to /logout by GET
             <a href="/edit-blog">Edit Blog</a>
         {% endif %}
         {% include 'header.html' %}
+        {% if error_msg is defined %}
+        <p><b>{{ error_msg }}</b></p>
+        {% endif %}
         <h2>{{ blogname }}</h2>
         <p>A blog by {{ username }}</p>
         {% if not iscreator %}
             {% if following %}
                 <p>You are following this blog.</p>
-                <form action="/follow/{{ username }}" method="POST">
+                <form action="/unfollow/{{ username }}" method="POST">
                     <input type="submit" name="unfollowBlog_viewBlog" value="Unfollow Blog">
                 </form>
             {% else %}
