@@ -220,6 +220,8 @@ ishitaG -- 2021-1-4 15:42
 		- all three actios redirect user back to edit-blog url
 	- Add ability for user to include images in their blog entries
 
-ishitaG -- 2021-1-4 17:
+ishitaG -- 2021-1-4 18:21
 	- Fixed bug: messages were not displaying when entries where edited
 	- User unable to update entry without any edits
+	- Fixed bug: if user jumped back and forth between login and registration forms, error occured
+	- Update CSS
