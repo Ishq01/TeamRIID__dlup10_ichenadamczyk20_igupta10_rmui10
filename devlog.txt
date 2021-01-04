@@ -187,3 +187,7 @@ ishitaG -- 2021-1-3 18:08
 reneeM -- 2021-1-4 10:25
 	- Added followers table and methods to add/remove followers
 	- Added methods to check if followers exist and to return all users a user is following
+
+ianC -- 2021-1-4 10:45
+    - Added page view for entries in both viewing and editing blogs
+    - Added buttons to follow blogs (from both the home page and the view blog page)

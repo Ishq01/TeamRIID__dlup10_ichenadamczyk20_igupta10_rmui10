@@ -10,6 +10,7 @@ entries (list of list of dictionaries)
 pageNum         (Integer of page number)
 blogname        (String of name of blog)
 blogdescription (String of description of blog)
+following       (True if user is following the blog, False otherwise)
 username        (String of username of creator)
 iscreator       (True if user is creator of blog, False otherwise)
 
@@ -40,6 +41,19 @@ SENDS to /logout by GET
         {% include 'header.html' %}
         <h2>{{ blogname }}</h2>
         <p>A blog by {{ username }}</p>
+        {% if not iscreator %}
+            {% if following %}
+                <p>You are following this blog.</p>
+                <form action="/follow/{{ username }}" method="POST">
+                    <input type="submit" name="unfollowBlog_viewBlog" value="Unfollow Blog">
+                </form>
+            {% else %}
+                <p>You are not following this blog.</p>
+                <form action="/follow/{{ username }}" method="POST">
+                    <input type="submit" name="followBlog_viewBlog" value="Follow Blog">
+                </form>
+            {% endif %}
+        {% endif %}
         {% for line in blogdescription %}
             <p>{{ line }}</p>
         {% endfor %}

@@ -8,6 +8,8 @@ blogs (list of dictionaries)
  -- blogs[i]["username"]    - Username
  -- blogs[i]["description"] - Description of blog
  -- blogs[i]["datetime"]    - Datetime of latest entry (in human readable format)
+ -- blogs[i]["following"]   - Whether the user is following this blog
+username - (String username of user)
 
 [if user wants to edit blog]
 SENDS to /my-blog by GET
@@ -32,12 +34,26 @@ SENDS to /logout by GET
         <hr>
 
         <table>
-            <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td></tr>
+            <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td> <td>Following</td></tr>
             {% for blog in blogs %}
                 <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
                     <td>{{ blog["username"] }}</td>
                     <td>{{ blog["time"] }}</td>
-                    <td>{{ blog["blogdescription"] }}</td></tr>
+                    <td>{{ blog["blogdescription"] }}</td>
+                    <td>
+                        {% if username != blog["username"] %}
+                            {% if not blog["following"] %}
+                                <form action="/follow/{{ blog['username'] }}" method="POST">
+                                    <input type="submit" name="unfollowBlog_home" value="Unfollow Blog">
+                                </form>
+                            {% else %}
+                                <form action="/follow/{{ blog['username'] }}" method="POST">
+                                    <input type="submit" name="followBlog_home" value="Follow Blog">
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
             {% endfor %}
         </table>
     </body>
