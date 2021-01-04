@@ -42,13 +42,14 @@ SENDS to /logout by GET
                     <td>{{ blog["blogdescription"] }}</td>
                     <td>
                         {% if username != blog["username"] %}
-                            {% if not blog["following"] %}
+                            {% if not following[blogs.index(blog)[blog["blogname"]]] %}
+                            <form action="/follow/{{ blog['username'] }}" method="POST">
+                                <input type="submit" name="followBlog_home" value="Follow Blog" />
+                            </form>
+                            {% endif %}
+                            {% if following[blogs.index(blog)[blog["blogname"]]] %}
                                 <form action="/unfollow/{{ blog['username'] }}" method="POST">
-                                    <input type="submit" name="unfollowBlog_home" value="Unfollow Blog">
-                                </form>
-                            {% else %}
-                                <form action="/follow/{{ blog['username'] }}" method="POST">
-                                    <input type="submit" name="followBlog_home" value="Follow Blog">
+                                    <input type="submit" name="unfollowBlog_home" value="Unfollow Blog" />
                                 </form>
                             {% endif %}
                         {% endif %}

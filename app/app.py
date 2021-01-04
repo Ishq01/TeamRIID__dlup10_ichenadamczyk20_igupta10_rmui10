@@ -144,7 +144,9 @@ def logout():
 def homepage():
     # if user is logged in
     if "username" in session:
-        return render_template("home.html", blogs = getBlogs(), username = session["username"])
+        # check if user is following each of the blogs, then make a dictionary of name:following?
+        following = [{blog["blogname"]:checkFollower(blog["id"], getInfo(session["username"], "id"))} for blog in getBlogs()]
+        return render_template("home.html", blogs = getBlogs(), following = following, username = session["username"])
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
@@ -154,9 +156,11 @@ def homepage():
 def viewBlog(username, pageNum):
     # if user is logged in
     if "username" in session:
+        # check is user is following blog
+        following = checkFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
+        iscreator = False
         # check is user exists in db, if not return error page
         if not checkUsername(username): return render_template("404.html", code = 404)
-        iscreator = False
         # if user is the one who created the blog
         if session["username"] == username: iscreator = True
         # split by newlines in blog description and entry bodies
@@ -165,17 +169,20 @@ def viewBlog(username, pageNum):
         for i in entries:
             i["post"] = i["post"].split("\n")
         entries = pageEntries(entries, 10)
+        # checks if follow/unfollow related message in session
         if "error_msg" in session:
             msg = session["error_msg"]
             session.pop("error_msg")
+            # returns home page w msg
             return render_template("blog.html", blogname = getInfo(username, "blogname"), 
             blogdescription = blogdescription, username = username,
             iscreator = iscreator, entries = entries, pageNum = pageNum,
-            error_msg = msg)
+            error_msg = msg, following = following)
         # show blog with all info received from db 
         return render_template("blog.html", blogname = getInfo(username, "blogname"), 
             blogdescription = blogdescription, username = username,
-            iscreator = iscreator, entries = entries, pageNum = pageNum) # get id of username from url
+            iscreator = iscreator, entries = entries, pageNum = pageNum,
+            following  = following) # get id of username from url
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
