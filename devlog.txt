@@ -206,3 +206,6 @@ ishitaG -- 2021-1-4 14:08
 	- Users can follow/unfollow blogs from the home page and from individual blog pages
 	- Bug to fix: On home page, button only says follow, even if already following blog 
 		- However, msg works correctly -- says already following/successfully followed
+
+ishitaG -- 2021-1-4 14:28
+	- Fixed bug from previous push. Home page correctly displays follow/unfollow buttons
