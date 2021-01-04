@@ -213,3 +213,4 @@ ishitaG -- 2021-1-4 14:28
 reneeM -- 2021-1-5 14:43
 	- Changed getFollowedUsers() to getFollowedBlogs()
 	- It now returns a list of dictionaries of blogs a user is following
+	- Added column in entries tables to store an image address and adjusted related methods
