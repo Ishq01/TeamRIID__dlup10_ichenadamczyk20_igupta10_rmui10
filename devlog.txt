@@ -210,7 +210,11 @@ ishitaG -- 2021-1-4 14:08
 ishitaG -- 2021-1-4 14:28
 	- Fixed bug from previous push. Home page correctly displays follow/unfollow buttons
 
-reneeM -- 2021-1-5 14:43
+reneeM -- 2021-1-4 14:43
 	- Changed getFollowedUsers() to getFollowedBlogs()
 	- It now returns a list of dictionaries of blogs a user is following
 	- Added column in entries tables to store an image address and adjusted related methods
+
+ishitaG -- 2021-1-4 15:42
+	- Refactor code to include add entry code in edit blog method so url doesn't change
+	- Add ability for user to include images in their blog entries
