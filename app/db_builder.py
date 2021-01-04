@@ -260,23 +260,26 @@ def clearAll():
     clearUsers()
     clearFollowers()
 
-
-#clearAll()
+def clear():
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = str
+    c = db.cursor()
+    c.execute("DROP TABLE entries;")
+    db.commit()
+    db.close()
 
 createTables()
-'''
-for x in search("dog hate"):
-    print(x["post"])
 
+'''
 register("userA", "passsssssss", "my first blog", "A very cool lil blog")
 register("userB", "passsssssss", "I hate the other blog", "I am raging schizophrenic")
 register("userC", "passsssssss", "Cute Dog Pictures", "Cute dog pictures")
 
-addEntry("1", "Hey guys!", "Hows it going")
-addEntry("2", "Stop", "get off")
-addEntry("1", "Why are you mean :(", "You guys alright?")
-addEntry("3", "Dog", "imagine a dog here")
-addEntry("1", "oh god", "Hahah hey")
+addEntry("1", "Hey guys!", "Hows it going", "")
+addEntry("2", "Stop", "get off", "")
+addEntry("1", "Why are you mean :(", "You guys alright?", "")
+addEntry("3", "Dog", "imagine a dog here", "")
+addEntry("1", "oh god", "Hahah hey", "")
 
 deleteEntry("4")
 
@@ -290,5 +293,6 @@ print(checkFollower(1,2))
 
 print(getFollowedBlogs(2))
 '''
+
 printDatabase()
 getBlogs()
