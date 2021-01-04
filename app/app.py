@@ -281,8 +281,8 @@ def editBlog(pageNum):
                     blogdescription = getInfo(session["username"], "blogdescription"),
                     error_msg = msg, entries = pageEntries(getEntries(getInfo(session["username"], "id")), 10))
             
-            # if entry title and content are filled in
-            if (session["error_msg"] == "Successfully updated entry!"):
+            # if title and content are unchanged
+            elif (session["error_msg"] == "No changes made to entry title or content"):
                 # store error
                 msg = session["error_msg"]
                 # remove from session
@@ -292,6 +292,18 @@ def editBlog(pageNum):
                     blogname = getInfo(session["username"], "blogname"), 
                     blogdescription = getInfo(session["username"], "blogdescription"),
                     error_msg = msg, entries = pageEntries(getEntries(getInfo(session["username"], "id")), 10))
+              
+            # if entry title and content are filled in
+            elif (session["error_msg"] == "Successfully updated entry!"):
+                # store error
+                msg = session["error_msg"]
+                # remove from session
+                session.pop("error_msg")
+                # return template with blog info and entry info filled in, and an error msg
+                return render_template("edit-blog.html", username = session["username"], 
+                    blogname = getInfo(session["username"], "blogname"), 
+                    blogdescription = getInfo(session["username"], "blogdescription"),
+                    error_msg = "Successfully updated entry!", entries = pageEntries(getEntries(getInfo(session["username"], "id")), 10))
 
         # if user submits delete entry form
         if "deleteEntry" in request.form:
@@ -332,14 +344,24 @@ def editEntries(entryID):
                     # sets msg for edit-blog 
                     session["error_msg"] = "Entry title and content cannot be blank."    
                     # redirects to edit-blog page with msg
-                    return redirect(url_for("editBlog", pageNum = 1))
+                    return redirect(url_for("editBlog", pageNum = 1), code = 307)
+                
+                # entry title and content cannot be unchanged
+                elif (request.form["title"] == getEntryInfo(entryID, "title")) and (request.form["content"] == getEntryInfo(entryID, "post")) \
+                and  (request.form["pic"] == getEntryInfo(entryID, "pic")):
+                    # sets msg for edit-blog 
+                    session["error_msg"] = "No changes made to entry title or content"    
+                    # redirects to edit-blog page with msg
+                    return redirect(url_for("editBlog", pageNum = 1), code = 307)
+                
+                # both are changed and not blank
                 else:
                     # if no error, edit entry and reload page with new entry
                     editEntry(entryID, request.form["title"], request.form["content"], request.form["pic"])
                     # sets msg for edit-blog 
                     session["error_msg"] = "Successfully updated entry!"
                     # redirects to edit-blog page with msg
-                    return redirect(url_for("editBlog", pageNum = 1))
+                    return redirect(url_for("editBlog", pageNum = 1), code = 307)
 
             # if user submits delete entry form
             elif "deleteEntry" in request.form:
@@ -348,7 +370,7 @@ def editEntries(entryID):
                 # sets msg for edit-blog 
                 session["error_msg"] = "Successfully deleted entry!"
                 # redirects to edit-blog page with msg
-                return redirect(url_for("editBlog", pageNum = 1))
+                return redirect(url_for("editBlog", pageNum = 1), code = 307)
             
             return redirect(url_for(".editBlog"))
         
