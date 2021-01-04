@@ -201,3 +201,8 @@ ishitaG -- 2021-1-4 13:20
 	- Added flask methods for following and unfollowing blogs	
 		- If user attempts to follow blog they are already following (via url), give msg 
 		- If user attempts to unfollow blog they are not following (via url), give msg
+
+ishitaG -- 2021-1-4 14:08
+	- Users can follow/unfollow blogs from the home page and from individual blog pages
+	- Bug to fix: On home page, button only says follow, even if already following blog 
+		- However, msg works correctly -- says already following/successfully followed
