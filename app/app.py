@@ -101,7 +101,7 @@ def loginpage():
     
     # if there is an error in user login, display error
     if (session["error_msg"] ==  "Incorrect username or password."):
-        return render_template("login.html", username = request.form["username"], error_msg = "Incorrect username or password.")
+        return render_template("login.html", username = request.form.get("username", ""), error_msg = "Incorrect username or password.")
     return render_template("login.html")
 
 @app.route("/login", methods = ["GET", "POST"])
@@ -119,6 +119,7 @@ def login():
             session["error_msg"] = "Incorrect username or password."
             # return login form with error
             return redirect(url_for(".loginpage"), code = 307)        
+        
         password = getInfo(request.form["username"], "password")    # get correct password for user from database
         newPassword = saltString(request.form["password"], salt)
         
@@ -129,6 +130,8 @@ def login():
             session["password"] = request.form["password"]
             # return home page for user
             return redirect(url_for(".homepage"))
+            
+        # if password is incorrect
         else:
             # if incorrect login, set error msg in session 
             session["error_msg"] = "Incorrect username or password."
