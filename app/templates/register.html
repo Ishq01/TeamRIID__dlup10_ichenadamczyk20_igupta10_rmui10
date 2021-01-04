@@ -22,35 +22,41 @@ SENDS to / by GET
     <head>
         <meta charset="utf-8" />
         <title>Register an Account - Web Log</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+        <link rel="stylesheet" href="/static/login-page.css" />
     </head>
     <body>
-        <h2>Register an Account</h2>
-        {% if error_msg is defined %}
-        {% for error in error_msg %}
-        <p><b>Problem Registering an Account: {{ error }}</b></p>
-        {% endfor %}
-        {% endif %}
-        <form action="/register" method="POST">
-            <table>
+        <div class="container">
+            <h2>Register an Account</h2>
+            {% if error_msg is defined %}
+                {% for error in error_msg %}
+                    <p class="error-msg"><b>Problem Registering an Account: {{ error }}</b></p>
+                {% endfor %}
+            {% endif %}
+            <form action="/register" method="POST">
+                <table>
 
-                <tr><td>Username *<br /><small>Can have only letters, numbers, and underscores</small></td>
-                    <td><input type="text" name="username" /></td></tr>
+                    <tr><td><p>Username</p> <p class="required"> *</p>
+                            <br /> <small>Can have only letters, numbers, and underscores</small></td>
+                        <td><input type="text" name="username" /></td></tr>
 
-                <tr><td>Password *<br /><small>Must be at least 8 characters long</small></td>
-                    <td><input type="password" name="password" /></td></tr>
+                    <tr><td><p>Password</p> <p class="required"> *</p>
+                            <br /> <small>Must be at least 8 characters long</small></td>
+                        <td><input type="password" name="password" /></td></tr>
 
-                <tr><td>Confirm Password *</td>
-                    <td><input type="password" name="password-conf" /></td></tr>
+                    <tr><td><p>Confirm Password</p> <p class="required"> *</p></td>
+                        <td><input type="password" name="password-conf" /></td></tr>
 
-                <tr><td>Blog Name *</td>
-                    <td><input type="text" name="blogname" value="{{ blogname }}" /></td></tr>
+                    <tr><td><p>Blog Name</p> <p class="required"> *</p></td>
+                        <td><input type="text" name="blogname" value="{{ blogname }}" /></td></tr>
 
-                <tr><td>Blog Description</td>
-                    <td><textarea name="blogdescription">{{ blogdescription }}</textarea></td></tr>
+                    <tr><td><p>Blog Description</p></td>
+                        <td><textarea name="blogdescription">{{ blogdescription }}</textarea></td></tr>
 
-                <tr><td>Already registered? <a href="/">Log in here.</a></td>
-                    <td><input name="register" type="submit" value="Register" /></td></tr>
-            </table>
-        </form>
+                    <tr><td><p>Already registered? <a href="/">Log in here.</a></p></td>
+                        <td><input name="register" type="submit" value="Register" /></td></tr>
+                </table>
+            </form>
+        </div>
     </body>
 </html>
