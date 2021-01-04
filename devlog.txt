@@ -216,5 +216,6 @@ reneeM -- 2021-1-4 14:43
 	- Added column in entries tables to store an image address and adjusted related methods
 
 ishitaG -- 2021-1-4 15:42
-	- Refactor code to include add entry code in edit blog method so url doesn't change
+	- Refactor code to include add/edit/delete code in edit blog method 
+		- all three actios redirect user back to edit-blog url
 	- Add ability for user to include images in their blog entries
