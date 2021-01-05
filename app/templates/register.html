@@ -2,9 +2,13 @@
 Registration page for a user to register a new account
 
 REQUIRES
-error_msg       (List of strings of why registration didn't succeed, undefined if no such problem)
-blogname        (String of attempted blog name submission, undefined otherwise)
-blogdescription (String of attempted blog description, undefined otherwise)
+error_msg       - List of strings of why registration didn't succeed, undefined if no such problem
+blogname        - String of attempted blog name submission, undefined otherwise
+blogdescription - String of attempted blog description, undefined otherwise
+
+IMPORTS
+/static/styles.css
+/static/login-page.css
 
 [if user submits registration form]
 SENDS to /register by POST
@@ -13,6 +17,7 @@ SENDS to /register by POST
 "password-conf"   - Confirmed password
 "blogname"        - Blog name
 "blogdescription" - Blog description
+"register"        - Submit button
 
 [if user wants to log in]
 SENDS to / by GET
@@ -27,35 +32,33 @@ SENDS to / by GET
     </head>
     <body>
         <div class="container">
-            <h2>Register an Account</h2>
+            <h1 class="title">Register an Account</h1>
             {% if error_msg is defined %}
                 {% for error in error_msg %}
                     <p class="error-msg"><b>Problem Registering an Account: {{ error }}</b></p>
                 {% endfor %}
             {% endif %}
             <form action="/register" method="POST">
-                <table>
+                <label for="username">Username <span class="required">*</span></label>
+                <small>Can have only letters, numbers, and underscores.</small>
+                <input type="text" name="username" id="username" required pattern="[A-Za-z_]+" />
 
-                    <tr><td><p>Username</p> <p class="required"> *</p>
-                            <br /> <small>Can have only letters, numbers, and underscores</small></td>
-                        <td><input type="text" name="username" /></td></tr>
+                <label for="password">Password <span class="required">*</span></label>
+                <small>Must be at least 8 characters long.</small>
+                <input type="password" name="password" id="password" required minlength="8" />
 
-                    <tr><td><p>Password</p> <p class="required"> *</p>
-                            <br /> <small>Must be at least 8 characters long</small></td>
-                        <td><input type="password" name="password" /></td></tr>
+                <label for="password-conf">Confirm Password <span class="required">*</span></label>
+                <input type="password" name="password-conf" id="password-conf" required minlength="8" />
 
-                    <tr><td><p>Confirm Password</p> <p class="required"> *</p></td>
-                        <td><input type="password" name="password-conf" /></td></tr>
+                <label for="blogname">Blog Name <span class="required">*</span></label>
+                <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required />
 
-                    <tr><td><p>Blog Name</p> <p class="required"> *</p></td>
-                        <td><input type="text" name="blogname" value="{{ blogname }}" /></td></tr>
+                <label for="blogdescription">Blog Description</label>
+                <textarea name="blogdescription" id="blogdescription">{{ blogdescription }}</textarea>
 
-                    <tr><td><p>Blog Description</p></td>
-                        <td><textarea name="blogdescription">{{ blogdescription }}</textarea></td></tr>
-
-                    <tr><td><p>Already registered? <a href="/">Log in here.</a></p></td>
-                        <td><input name="register" type="submit" value="Register" /></td></tr>
-                </table>
+                <label for="submit">...</label>
+                <input name="register" type="submit" value="Register" />
+                <p id="link">Already registered? <a href="/">Log in here.</a></p>
             </form>
         </div>
     </body>

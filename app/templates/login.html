@@ -2,14 +2,19 @@
 Login page
 
 REQUIRES
-error_msg (String of why login didn't succeed, undefined if no such problem)
-username (String of username)
-password (String of password)
+error_msg - String of why login didn't succeed, undefined if no such problem
+username  - Username
+password  - Password
+
+IMPORTS
+/static/styles.css
+/static/login-page.css
 
 [if user tries to log in]
 SENDS to /login by POST
 "username" - Username
 "password" - Password
+"login"    - Submit button
 
 [if user wants to register an account]
 SENDS to /register by GET
@@ -24,21 +29,20 @@ SENDS to /register by GET
     </head>
     <body>
         <div class="container">
-            <h2 class="title">Log In</h2>
+            <h1 class="title">Log In</h1>
             {% if error_msg is defined %}
-                <p class="error-msg"><b>{{ error_msg }}</b></p>
+                <p class="error-msg">{{ error_msg }}</p>
             {% endif %}
             <form action="/login" method="POST">
-                <table>
-                    <tr><td class="required">Username</td>
-                        <td><input type="text" name="username" value="{{username}}"/></td></tr>
+                <label for="username">Username <span class="required">*</span></label>
+                <input type="text" name="username" id="username" value="{{ username }}" required />
 
-                    <tr><td class="required">Password</td>
-                        <td><input type="password" name="password" value="{{password}}" /></td></tr>
+                <label for="password">Password <span class="required">*</span></label>
+                <input type="password" name="password" id="password" value="{{ password }}" required />
 
-                    <tr><td>Not a registered user? <a href="/register">Register here.</a></td>
-                        <td><input name="login" type="submit" value="Log In" /></td></tr>
-                </table>
+                <label for="submit">...</label>
+                <input name="login" type="submit" value="Log In" />
+                <p id="link">Not a registered user? <a href="/register">Register here.</a></p>
             </form>
         </div>
     </body>
