@@ -48,8 +48,8 @@ SENDS to /logout by GET
         <link rel="stylesheet" href="/static/pageview.css" />
     </head>
     <body>
-        <a href="/home">Back to Home</a>
         {% include 'header.html' %}
+        <p><a href="/home">Back to Home</a> <a href="/home/blog/{{username}}">Preview Blog</a></p>
         {% if error_msg is defined %}
             <p><b>{{ error_msg }}</b></p>
         {% endif %}

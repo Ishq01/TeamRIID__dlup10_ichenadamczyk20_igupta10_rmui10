@@ -29,6 +29,9 @@ SENDS to /logout by GET
     <body>
         {% include 'header.html' %} 
         <h1>Welcome to Web Log 0.1, {{username}}</h1>
+        {% if error_msg is defined %}
+        <p><b>{{ error_msg }}</b></p>
+        {% endif %}
         <p><a href="/edit-blog">Edit My Blog</a>    <a href="/followed-blogs">My Followed Blogs</a></p>   
         <form action="/search-results" method="POST"><input type="text" name="keywords" placeholder="Enter search terms"/> <input name="search" type="submit" value="Search"/></form>
         <hr>

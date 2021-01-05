@@ -5,10 +5,13 @@
         <title>Search Results - Web Log</title>
     </head>
     <body>
-        <a href="/home">Back to Home</a>
         {% include 'header.html' %}
+        <a href="/home">Back to Home</a>
 
-        <h2>Search Results</h2>
+        <h1>Search Results</h1>
+        {% if not entries %}
+        <h3>No matching entries. Try different search words.</h3>
+        {% endif %}
         {% for entry in entries %}
             <fieldset>
                 <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>

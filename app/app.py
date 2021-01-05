@@ -159,20 +159,24 @@ def homepage():
     # assign blank msg to avoid error
     # if user is logged in
     if "username" in session:
-        # check if user is following each of the blogs, then make a dictionary of name:following?
+        # for each blog
         for blog in getBlogs():
+            # if user is following the blog
             if (checkFollower(blog["id"], getInfo(session["username"], "id"))):
+                # add blogname to list
                 following += [blog["blogname"]]
-        
+        # if user successfully followed/unfollowed or already following/unfollowing blog
         if "error_msg" in session:
+            # store error
             msg = session["error_msg"]
+            # remove error from session
             session.pop("error_msg")
+            # reload page with error
             return render_template("home.html", blogs = getBlogs(), following = following, 
             username = session["username"], error_msg = msg)
-        
+        # if user hasn't submitted follow/unfollow form yet, load home page
         return render_template("home.html", blogs = getBlogs(), following = following, 
         username = session["username"])
-    
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
@@ -190,11 +194,12 @@ def viewBlog(username, pageNum):
        
         # check is user exists in db, if not return error page
         if not checkUsername(username): return render_template("404.html", code = 404)
-        else: iscreator = False
 
         # if user is the one who created the blog
         if session["username"] == username: iscreator = True
-        
+        # user is not creator
+        else: iscreator = False
+
         entries = getEntries(getInfo(username, "id"))
         for i in entries:
             i["post"] = i["post"].split("\n")
@@ -202,9 +207,11 @@ def viewBlog(username, pageNum):
        
         # checks if follow/unfollow related message in session
         if "error_msg" in session:
+            # store error
             msg = session["error_msg"]
+            # remove error from session
             session.pop("error_msg")
-            # returns home page w msg
+            # returns home page with error
             return render_template("blog.html", blogname = getInfo(username, "blogname"), 
             blogdescription = blogdescription, username = username,
             iscreator = iscreator, entries = entries, pageNum = pageNum,
@@ -374,9 +381,9 @@ def editEntries(entryID):
                 session["error_msg"] = "Successfully deleted entry!"
                 # redirects to edit-blog page with msg
                 return redirect(url_for("editBlog", pageNum = 1), code = 307)
-            
+            #user owns entry but has not submitted any forms yet
             return redirect(url_for(".editBlog"))
-        
+        # user does not own entry they are attempting to create
         return redirect(url_for(".editBlog"))
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
@@ -389,10 +396,12 @@ def searchFunction():
         if "search" in request.form:
             # if no keywords, reload page
             if (request.form["keywords"] == ""):
+                # reload home page
                 return redirect(url_for(".homepage"))
             
             # return entries that have the keywords
             else:
+                # get matching entried from db
                 entries = search(request.form["keywords"])
                 return render_template("search-results.html", entries = entries) 
         
@@ -463,10 +472,17 @@ def unfollow(username):
 
 @app.route("/followed-blogs")
 def followedBlogs():
+    # to prevent error if user is not following any blogs yet
+    following = []
     # if user is logged in 
     if "username" in session:
-        return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")))
-    
+        # for each blog user is following 
+        for blog in getFollowedBlogs(getInfo(session["username"], "id")):
+            # add blogname to list
+            following += [blog["blogname"]]
+        # return followed blogs
+        return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")), following = following)
+
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
