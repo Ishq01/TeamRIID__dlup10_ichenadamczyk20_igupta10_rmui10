@@ -28,38 +28,39 @@ SENDS to / by GET
         <meta charset="utf-8" />
         <title>Register an Account - Web Log</title>
         <link rel="stylesheet" href="/static/styles.css" />
-        <link rel="stylesheet" href="/static/login-page.css" />
     </head>
-    <body>
-        <div class="container">
-            <h1 class="title">Register an Account</h1>
-            {% if error_msg is defined %}
-                {% for error in error_msg %}
-                    <p class="error-msg"><b>Problem Registering an Account: {{ error }}</b></p>
-                {% endfor %}
-            {% endif %}
-            <form action="/register" method="POST">
-                <label for="username">Username <span class="required">*</span></label>
-                <small>Can have only letters, numbers, and underscores.</small>
-                <input type="text" name="username" id="username" required pattern="[A-Za-z_]+" />
-
-                <label for="password">Password <span class="required">*</span></label>
-                <small>Must be at least 8 characters long.</small>
-                <input type="password" name="password" id="password" required minlength="8" />
-
-                <label for="password-conf">Confirm Password <span class="required">*</span></label>
-                <input type="password" name="password-conf" id="password-conf" required minlength="8" />
-
-                <label for="blogname">Blog Name <span class="required">*</span></label>
-                <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required />
-
-                <label for="blogdescription">Blog Description</label>
-                <textarea name="blogdescription" id="blogdescription">{{ blogdescription }}</textarea>
-
-                <label for="submit">...</label>
-                <input name="register" type="submit" value="Register" />
-                <p>Already registered? <a href="/">Log in here.</a></p>
-            </form>
+    <body class = "login">
+        <div id = "login">
+            <div class="container">
+                <h1 class="title">Register an Account</h1>
+                {% if error_msg is defined %}
+                    {% for error in error_msg %}
+                        <p class="error-msg"><b>Problem Registering an Account: {{ error }}</b></p>
+                    {% endfor %}
+                {% endif %}
+                <form action="/register" method="POST">
+                    <label for="username">Username <span class="required">*</span></label>
+                    <small>Can have only letters, numbers, and underscores.</small>
+                    <input type="text" name="username" id="username" required pattern="[A-Za-z_]+" />
+    
+                    <label for="password">Password <span class="required">*</span></label>
+                    <small>Must be at least 8 characters long.</small>
+                    <input type="password" name="password" id="password" required minlength="8" />
+    
+                    <label for="password-conf">Confirm Password <span class="required">*</span></label>
+                    <input type="password" name="password-conf" id="password-conf" required minlength="8" />
+    
+                    <label for="blogname">Blog Name <span class="required">*</span></label>
+                    <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required />
+    
+                    <label for="blogdescription">Blog Description</label>
+                    <textarea name="blogdescription" id="blogdescription">{{ blogdescription }}</textarea>
+    
+                    <label for="submit">...</label>
+                    <input name="register" type="submit" value="Register" />
+                    <p>Already registered? <a href="/">Log in here.</a></p>
+                </form>
+            </div>
         </div>
     </body>
 </html>

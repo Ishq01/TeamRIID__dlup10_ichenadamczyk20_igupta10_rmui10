@@ -11,10 +11,6 @@ html, body {
 
 body {
     background-color: #dee2ff;
-    background-image: url("https://64.media.tumblr.com/61aab7c9150371daf454d9c7d45b7c35/tumblr_obclnoe4iA1vc76nvo1_1280.jpg");
-    background-repeat: no-repeat;
-    background-position: left center;
-      background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -140,7 +136,7 @@ span.required {
     padding-right: 5px;
 }
 
-/*********** HOME  ************/
+/************** HOME  *****************/
 
 #home .container {
     width: 80%;
@@ -225,6 +221,57 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     filter: brightness(90%);
+}
+
+/************** LOGIN  *****************/
+.login {
+    background-image: url("https://64.media.tumblr.com/61aab7c9150371daf454d9c7d45b7c35/tumblr_obclnoe4iA1vc76nvo1_1280.jpg");
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 100%;
+}
+
+#login .container {
+    width: clamp(400px, 33%, 600px);
+    border-right: 6px solid #7b2cbf;
+    font-size: 30px;
+    background-color: #abc4ffb4;
+    height: 100%;
+}
+
+#login input, textarea {
+    font-size: 30px;
+    margin-bottom: 30px;
+    margin-top: 5px;
+    display: block;
+    width: 80%;
+}
+
+#login input[type="submit"] {
+    margin-bottom: -20px;
+    width: 50%;
+}
+
+#login small {
+    color: #555555;
+}
+
+#login label {
+    width: 100%;
+    display: block;
+}
+
+#login label[for="submit"] {
+    opacity: 0;
+}
+
+#login textarea {
+    width: 80%;
+    min-height: 90px;
+}
+
+#login #link {
+    font-size: 100%;
 }
 
 @media (max-width: 800px) {

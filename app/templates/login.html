@@ -25,25 +25,26 @@ SENDS to /register by GET
         <meta charset="utf-8" />
         <title>Log In - Web Log</title>
         <link rel="stylesheet" href="/static/styles.css" />
-        <link rel="stylesheet" href="/static/login-page.css" />
     </head>
-    <body>
-        <div class="container">
-            <h1 class="title">Log In</h1>
-            {% if error_msg is defined %}
-                <p class="error-msg">{{ error_msg }}</p>
-            {% endif %}
-            <form action="/login" method="POST">
-                <label for="username">Username <span class="required">*</span></label>
-                <input type="text" name="username" id="username" value="{{ username }}" required />
-
-                <label for="password">Password <span class="required">*</span></label>
-                <input type="password" name="password" id="password" value="{{ password }}" required />
-
-                <label for="submit">...</label>
-                <input name="login" type="submit" value="Log In" />
-                <p>Not a registered user? <a href="/register">Register here.</a></p>
-            </form>
+    <body class = "login">
+        <div id = "login">
+            <div class="container">
+                <h1 class="title">Log In</h1>
+                {% if error_msg is defined %}
+                    <p class="error-msg">{{ error_msg }}</p>
+                {% endif %}
+                <form action="/login" method="POST">
+                    <label for="username">Username <span class="required">*</span></label>
+                    <input type="text" name="username" id="username" value="{{ username }}" required />
+    
+                    <label for="password">Password <span class="required">*</span></label>
+                    <input type="password" name="password" id="password" value="{{ password }}" required />
+    
+                    <label for="submit">...</label>
+                    <input name="login" type="submit" value="Log In" />
+                    <p>Not a registered user? <a href="/register">Register here.</a></p>
+                </form>
+            </div>
         </div>
     </body>
 </html>
