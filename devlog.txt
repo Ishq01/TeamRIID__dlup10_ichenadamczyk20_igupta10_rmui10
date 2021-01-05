@@ -224,4 +224,13 @@ ishitaG -- 2021-1-4 18:21
 	- Fixed bug: messages were not displaying when entries where edited
 	- User unable to update entry without any edits
 	- Fixed bug: if user jumped back and forth between login and registration forms, error occured
-	- Update CSS
+	- Updated CSS
+
+ishitaG -- 2021-1-4 22:07
+	- Updated CSS
+	- Updated HTML templates
+		- If no search results, display message 
+		- Add ability for user to preview their edited blog
+		- Added error_msg to home.html
+		- Moved around some things for more consistent organization
+	- Added ability for users to unfollow blogs from following blogs page
