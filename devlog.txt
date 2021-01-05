@@ -229,8 +229,14 @@ ishitaG -- 2021-1-4 18:21
 ishitaG -- 2021-1-4 22:07
 	- Updated CSS
 	- Updated HTML templates
-		- If no search results, display message 
-		- Add ability for user to preview their edited blog
-		- Added error_msg to home.html
 		- Moved around some things for more consistent organization
-	- Added ability for users to unfollow blogs from following blogs page
+		- If no search results, display message 
+		- If no followed blogs, display message
+		- To-do: If no created entries, display message
+	- Add ability for user to preview their edited blog
+	- Added error_msgs to templates that were missing 
+	- Added ability for users to unfollow blogs from anywhere
+		- If user follows/unfollows from home page, page is reloaded with msg
+		- If user follows/unfollows from blog page, page is reloaded with msg
+		- If user unfollows from followed blog page, page is reloaded with msg
+
