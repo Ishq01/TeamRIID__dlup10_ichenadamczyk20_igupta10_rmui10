@@ -13,6 +13,11 @@
     }
 }
 
+table {
+    border-collapse: collapse;
+    font-size: 20px;
+}
+
 thead {
     background-color: black;
     color: white;
@@ -31,6 +36,7 @@ tr:nth-child(even) {
 td {
     margin-left: 0;
     margin-right: 0;
-    border-bottom-color: black;
-    border-top-color: black;
+    border: 1px solid black;
+    border-left: none;
+    border-right: none;
 }

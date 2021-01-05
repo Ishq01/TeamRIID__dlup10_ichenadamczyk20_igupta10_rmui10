@@ -63,6 +63,7 @@ input::placeholder {
 
 input, textarea {
     font-family: inherit;
+    font-size: inherit;
     border-style: solid;
     border-color: grey;
     outline-color: grey;
