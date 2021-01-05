@@ -12,14 +12,14 @@ html, body {
 body {
     background-color: #641835b9;
     display: flex;
-    flex-flow: column;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .container {
-    display: flex;
-    flex: 1 1 auto;
     background-color: #e96e6e;
     padding: 20px;
+    flex: 1 1 auto;
 }
 
 p {
@@ -62,7 +62,7 @@ input::placeholder {
 }
 
 input, textarea {
-    border-radius: 5px;
+    font-family: inherit;
     border-style: solid;
     border-color: grey;
     outline-color: grey;

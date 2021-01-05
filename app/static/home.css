@@ -12,3 +12,25 @@
         margin: 0;
     }
 }
+
+thead {
+    background-color: black;
+    color: white;
+}
+
+tr:nth-child(odd) {
+    background-color: #641835;
+    color: black;
+}
+
+tr:nth-child(even) {
+    background-color: #752946;
+    color: black;
+}
+
+td {
+    margin-left: 0;
+    margin-right: 0;
+    border-bottom-color: black;
+    border-top-color: black;
+}
