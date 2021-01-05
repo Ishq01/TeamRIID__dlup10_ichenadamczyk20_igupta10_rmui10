@@ -37,10 +37,10 @@ home - Submit button
     </head>
     <body>
         {% include 'header.html' %}
-        <div id="home">
+        <div id = "home">
             <div class="container">
                 <h1 class="title">Welcome to Web Log 0.1, {{ username }}</h1>
-                {% if error_msg is defined and error_msg %}
+                {% if error_msg is defined %}
                     <p class="error-msg">{{ error_msg }}</p>
                 {% endif %}
 
