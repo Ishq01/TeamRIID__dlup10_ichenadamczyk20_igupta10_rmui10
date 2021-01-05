@@ -18,6 +18,7 @@ body {
 
 .container {
     background-color: #abc4ff;
+    margin-top: 20px;
     padding: 20px;
     flex: 1 1 auto;
 }
@@ -30,13 +31,17 @@ h1, h2 {
     font-weight: 700;
 }
 
+a {
+    color: #3a0a66;
+}
+
 .title {
     font-size: 50px;
 }
 
 .error-msg {
-    background-color: #d33d42;
-    border-color: #a53d40;
+    background-color: #e4c1f9;
+    border-color: #000000;
     border-style: ridge;
     border-width: 3px;
     border-radius: 5px;
@@ -216,11 +221,6 @@ input[type="submit"] {
 input[type="submit"]:hover {
     filter: brightness(90%);
 }
-
-a {
-    color: blue;
-}
-
 
 @media (max-width: 800px) {
     .container {
