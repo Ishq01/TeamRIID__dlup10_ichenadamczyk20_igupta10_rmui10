@@ -57,6 +57,10 @@ span.required {
 
 /* || Input Fields */
 
+input::placeholder {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
 input, textarea {
     border-radius: 5px;
     border-style: solid;
