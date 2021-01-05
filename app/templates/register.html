@@ -12,12 +12,12 @@ IMPORTS
 
 [if user submits registration form]
 SENDS to /register by POST
-"username"        - Username
-"password"        - Password
-"password-conf"   - Confirmed password
-"blogname"        - Blog name
-"blogdescription" - Blog description
-"register"        - Submit button
+username        - Username
+password        - Password
+password-conf   - Confirmed password
+blogname        - Blog name
+blogdescription - Blog description
+register        - Submit button
 
 [if user wants to log in]
 SENDS to / by GET
@@ -58,7 +58,7 @@ SENDS to / by GET
 
                 <label for="submit">...</label>
                 <input name="register" type="submit" value="Register" />
-                <p id="link">Already registered? <a href="/">Log in here.</a></p>
+                <p>Already registered? <a href="/">Log in here.</a></p>
             </form>
         </div>
     </body>

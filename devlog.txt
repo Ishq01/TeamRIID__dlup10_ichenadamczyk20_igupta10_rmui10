@@ -215,6 +215,9 @@ reneeM -- 2021-1-4 14:43
 	- It now returns a list of dictionaries of blogs a user is following
 	- Added column in entries tables to store an image address and adjusted related methods
 
+ianC -- 2021-1-4 15:00
+    - Added single-image-per-entry functionality to editing and viewing blogs.
+
 ishitaG -- 2021-1-4 15:42
 	- Refactor code to include add/edit/delete code in edit blog method 
 		- all three actios redirect user back to edit-blog url
@@ -240,3 +243,9 @@ ishitaG -- 2021-1-4 22:07
 		- If user follows/unfollows from blog page, page is reloaded with msg
 		- If user unfollows from followed blog page, page is reloaded with msg
 
+ianC -- 2021-1-5 15:00
+    - Added CSS to home.html, login.html, register.html, header.html
+    - Updated comments in HTML templates home.html, login.html, register.html
+    - Reorganized HTML in header.html, home.html, login.html, register.html
+    - Created header for all pages
+    - Added HTML validation for all applicable fields (header.html, home.html, login.html, register.html)

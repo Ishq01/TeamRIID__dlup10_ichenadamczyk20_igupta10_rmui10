@@ -29,15 +29,8 @@ input, textarea {
 }
 
 input[type="submit"] {
-    width: 50%;
-    transition-property: filter;
-    transition-duration: 0.2s;
-    filter: brightness(100%);
     margin-bottom: -20px;
-}
-
-input[type="submit"]:hover {
-    filter: brightness(90%);
+    width: 50%;
 }
 
 small {

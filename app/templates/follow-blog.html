@@ -1,35 +1,49 @@
+<!--
+List the blogs that the user is following
+
+IMPORTS
+/static/styles.css
+header.html
+
+REQUIRES
+
+[if user wants to edit blog]
+
+-->
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>Followed Blog - Web Log</title>
+        <link rel="stylesheet" href="/static/styles.css" />
     </head>
     <body>
-        {% include 'header.html' %} 
+        {% include 'header.html' %}
+
         <h1>Blogs You Are Following</h1>
         {% if error_msg is defined %}
-        <p><b>{{ error_msg }}</b></p>
+            <p><b>{{ error_msg }}</b></p>
         {% endif %}
-        <a href="/edit-blog">Edit My Blog</a>         
         <hr>
 
-        <table>
-            <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td> <td>Following</td></tr>
-            {% if not blogs %}
+        {% if not blogs %}
             <h3>You haven't followed any blogs yet.</h3>
-            {% endif %}
-            {% for blog in blogs %}
-                <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
-                    <td>{{ blog["username"] }}</td>
-                    <td>{{ blog["time"] }}</td>
-                    <td>{{ blog["blogdescription"] }}</td>
-                    <td>
-                        <form action="/unfollow/{{ blog['username'] }}" method="POST">
-                            <input type="submit" name="followUnfollow" value="Unfollow Blog" />
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+        {% else %}
+            <table>
+                <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td> <td>Following</td></tr>
+                {% for blog in blogs %}
+                    <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
+                        <td>{{ blog["username"] }}</td>
+                        <td>{{ blog["time"] }}</td>
+                        <td>{{ blog["blogdescription"] }}</td>
+                        <td>
+                            <form action="/unfollow/{{ blog['username'] }}" method="POST">
+                                <input type="submit" name="followUnfollow" value="Unfollow Blog" />
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
     </body>
 </html>

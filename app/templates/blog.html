@@ -32,13 +32,15 @@ SENDS to /logout by GET
         <meta charset="utf-8" />
         <title>{{ blogname }} - Web Log</title>
         <link rel="stylesheet" href="/static/pageview.css" />
+        <link rel="stylesheet" href="/static/styles.css" />
     </head>
     <body>
+        {% include 'header.html' %}
+
         <a href="/home">Back to Home</a>
         {% if iscreator %}
             <a href="/edit-blog">Edit Blog</a>
         {% endif %}
-        {% include 'header.html' %}
         {% if error_msg is defined %}
         <p><b>{{ error_msg }}</b></p>
         {% endif %}

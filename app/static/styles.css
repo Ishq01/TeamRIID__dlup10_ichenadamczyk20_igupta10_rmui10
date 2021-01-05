@@ -34,7 +34,7 @@ span.required {
 }
 
 
-/* || Typography */
+/* || Tables */
 
 
 
@@ -65,12 +65,16 @@ input:invalid, textarea:invalid {
     outline-color: red;
 }
 
+
 input[type="submit"] {
-    transition-duration: 0s;
+    transition-property: filter;
+    transition-duration: 0.2s;
+    filter: brightness(100%);
     cursor: pointer;
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
+}
+
+input[type="submit"]:hover {
+    filter: brightness(90%);
 }
 
 a {

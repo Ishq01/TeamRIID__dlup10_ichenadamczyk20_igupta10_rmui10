@@ -1,23 +1,36 @@
+<!--
+Displays search results
+
+IMPORTS
+/static/styles.css
+header.html
+
+REQUIRES
+
+[if user wants to edit blog]
+
+-->
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>Search Results - Web Log</title>
+        <link rel="stylesheet" href="/static/styles.css" />
     </head>
     <body>
         {% include 'header.html' %}
-        <a href="/home">Back to Home</a>
 
         <h1>Search Results</h1>
         {% if not entries %}
-        <h3>No matching entries. Try different search words.</h3>
+            <h3>No matching entries. Try different search words.</h3>
+        {% else %}
+            {% for entry in entries %}
+                <fieldset>
+                    <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
+                    <p><i>Posted at {{ entry["time"] }}</i></p>
+                    <p>{{entry["post"]}}</p>
+                </fieldset>
+            {% endfor %}
         {% endif %}
-        {% for entry in entries %}
-            <fieldset>
-                <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
-                <p><i>Posted at {{ entry["time"] }}</i></p>
-                <p>{{entry["post"]}}</p>
-            </fieldset>
-        {% endfor %}
     </body>
 </html>

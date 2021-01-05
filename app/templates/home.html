@@ -1,6 +1,11 @@
 <!--
 The homepage for a logged-in user -- lists all blogs on the website
 
+IMPORTS
+/static/styles.css
+/static/home.css
+header.html
+
 REQUIRES
 blogs (list of dictionaries)
  -- blogs[i]["id"]          - ID of blog
@@ -17,50 +22,51 @@ SENDS to /my-blog by GET
 [if user wants to see an existing blog]
 SENDS to /home/<blogid> by GET
 
-[if user wants to log out]
-SENDS to /logout by GET
 -->
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>Home - Web Log</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+        <link rel="stylesheet" href="/static/home.css" />
     </head>
     <body>
-        {% include 'header.html' %} 
-        <h1>Welcome to Web Log 0.1, {{username}}</h1>
-        {% if error_msg is defined %}
-        <p><b>{{ error_msg }}</b></p>
-        {% endif %}
-        <p><a href="/edit-blog">Edit My Blog</a>    <a href="/followed-blogs">My Followed Blogs</a></p>   
-        <form action="/search-results" method="POST"><input type="text" name="keywords" placeholder="Enter search terms"/> <input name="search" type="submit" value="Search"/></form>
-        <hr>
+        {% include 'header.html' %}
 
-        <table>
-            <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td> <td>Following</td></tr>
+        <h1>Welcome to Web Log 0.1, {{ username }}</h1>
+        {% if error_msg is defined %}
+            <p class="error-msg">{{ error_msg }}</p>
+        {% endif %}
+
+        <div class="container">
             {% if not blogs %}
-            <h3>No blogs created yet.</h3>
+                <h3>No blogs created yet.</h3>
+            {% else %}
+                <table>
+                    <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td> <td>Following</td></tr>
+                    {% for blog in blogs %}
+                        <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
+                            <td>{{ blog["username"] }}</td>
+                            <td>{{ blog["time"] }}</td>
+                            <td>{{ blog["blogdescription"] }}</td>
+                            <td>
+                                {% if username != blog["username"] %}
+                                    {% if blog["blogname"] not in following %}
+                                    <form action="/follow/{{ blog['username'] }}" method="POST">
+                                        <input type="submit" name="home" value="Follow Blog" />
+                                    </form>
+                                    {% else %}
+                                        <form action="/unfollow/{{ blog['username'] }}" method="POST">
+                                            <input type="submit" name="home" value="Unfollow Blog" />
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
             {% endif %}
-            {% for blog in blogs %}
-                <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
-                    <td>{{ blog["username"] }}</td>
-                    <td>{{ blog["time"] }}</td>
-                    <td>{{ blog["blogdescription"] }}</td>
-                    <td>
-                        {% if username != blog["username"] %}
-                            {% if blog["blogname"] not in following %}
-                            <form action="/follow/{{ blog['username'] }}" method="POST">
-                                <input type="submit" name="home" value="Follow Blog" />
-                            </form>
-                            {% else %}
-                                <form action="/unfollow/{{ blog['username'] }}" method="POST">
-                                    <input type="submit" name="home" value="Unfollow Blog" />
-                                </form>
-                            {% endif %}
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+        </div>
     </body>
 </html>
