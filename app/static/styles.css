@@ -11,6 +11,10 @@ html, body {
 
 body {
     background-color: #dee2ff;
+    background-image: url("https://64.media.tumblr.com/61aab7c9150371daf454d9c7d45b7c35/tumblr_obclnoe4iA1vc76nvo1_1280.jpg");
+    background-repeat: no-repeat;
+    background-position: left center;
+      background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -50,7 +54,7 @@ a {
 }
 
 span.required {
-    color: #880000;
+    color: #7b2cbf;
 }
 
 

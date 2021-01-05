@@ -4,8 +4,9 @@
 
 .container {
     width: clamp(400px, 33%, 600px);
-    border-right: 6px solid #b16b6b;
+    border-right: 6px solid #7b2cbf;
     font-size: 30px;
+    background-color: #abc4ffb4;
 }
 
 input, textarea {
