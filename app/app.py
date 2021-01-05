@@ -403,7 +403,7 @@ def searchFunction():
             else:
                 # get matching entried from db
                 entries = search(request.form["keywords"])
-                return render_template("search-results.html", entries = entries) 
+                return render_template("search-results.html", entries = entries, username = session["username"])
         
         return redirect(url_for(".homepage"))
     # if user tries to access page without being logged in, redirect to login page
@@ -525,9 +525,9 @@ def followedBlogs():
             # remove error from session
             session.pop("error_msg")
             # return followed blogs
-            return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")), following = following, error_msg = msg)
+            return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")), following = following, error_msg = msg, username = session["username"])
         # return followed blogs
-        return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")), following = following)
+        return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")), following = following, username = session["username"])
 
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")

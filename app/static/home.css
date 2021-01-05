@@ -16,27 +16,27 @@
 table {
     border-collapse: collapse;
     font-size: 20px;
+    width: 100%;
+    text-align: center;
+    text-overflow: ellipsis;
 }
 
-thead {
+thead, th {
     background-color: black;
     color: white;
+    font-weight: 300;
 }
 
 tr:nth-child(odd) {
-    background-color: #641835;
+    background-color: #973b68;
     color: black;
 }
 
 tr:nth-child(even) {
-    background-color: #752946;
+    background-color: #ba7e9b;
     color: black;
 }
 
-td {
-    margin-left: 0;
-    margin-right: 0;
-    border: 1px solid black;
-    border-left: none;
-    border-right: none;
+table input {
+    background-color: #ffffff;
 }
