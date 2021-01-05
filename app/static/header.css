@@ -1,68 +1,80 @@
+/* Overall block */
 #header {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: stretch;
-
-    height: 40px;
-    background: white;
-    color: black;
+    background-color: rgb(61, 38, 16);
+    height: 50px;
     position: sticky;
-    top: 0;
     font-size: 20px;
-    padding: 5px;
-    border-bottom: 3px solid black;
-    font-weight: 700;
 }
 
-#logo {
-    font-size: 30px;
-}
-
+/* Split into left/right/center but still overall */
 #header div {
     align-self: center;
     flex-grow: 1;
     display: flex;
 }
 
+/* All the links */
 #header a {
-    color: black;
-    text-decoration: none;
-    margin: 0 5px;
+    display: block;
+    color: white;
+    padding: 13px 10px;
     align-self: center;
 }
 
-#header #center {
+/* Hover over link */
+#header a:hover {
+    background-color: rgb(90, 68, 43);
+}
+
+/* Title is not a link */
+#header p {
+    display: block;
+    color: white;
+    padding: 10px 10px;
     align-self: center;
+
+}
+
+/* Search form */
+#header #center {
     flex-grow: 8;
     text-align: center;
-    display: flex;
 }
 
+/* Entire search form */
 #header form {
     width: 100%;
     display: flex;
 }
 
+/* Placeholder text inside search bar */
 #header input {
     font-size: 20px;
     float: left;
 }
 
+/* User input in search bar */
 #header #keywords {
     flex: 100 0 auto;
     margin-right: 5px;
 }
 
+/* Search button */
 #header #search {
     flex: 1 0 auto;
     font-weight: 700;
 }
 
+/* Logout button */
 #header #right {
     float: right;
     text-align: right;
     justify-content: flex-end;
+    padding-right: 5px;
 }
 
 @media (max-width: 800px) {
