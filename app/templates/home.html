@@ -8,20 +8,24 @@ header.html
 
 REQUIRES
 blogs (list of dictionaries)
- -- blogs[i]["id"]          - ID of blog
- -- blogs[i]["name"]        - Name
- -- blogs[i]["username"]    - Username
- -- blogs[i]["description"] - Description of blog
- -- blogs[i]["datetime"]    - Datetime of latest entry (in human readable format)
- -- blogs[i]["following"]   - Whether the user is following this blog
-username - (String username of user)
-
-[if user wants to edit blog]
-SENDS to /my-blog by GET
+ -- blogs[i]["blogname"]        - Name of blog
+ -- blogs[i]["username"]        - Username
+ -- blogs[i]["blogdescription"] - Description of blog
+ -- blogs[i]["time"]            - Datetime of latest entry (in human readable format)
+error_msg - Error message
+username  - String username of user
+following - List of blog names that the user is following
 
 [if user wants to see an existing blog]
-SENDS to /home/<blogid> by GET
+SENDS to /home/blog/<username> by GET
 
+[if user wants to follow blog]
+SENDS to /follow/<username> by POST
+home - Submit button
+
+[if user wants to follow blog]
+SENDS to /unfollow/<username> by POST
+home - Submit button
 -->
 <!DOCTYPE html>
 <html>
@@ -34,17 +38,17 @@ SENDS to /home/<blogid> by GET
     <body>
         {% include 'header.html' %}
 
-        <h1>Welcome to Web Log 0.1, {{ username }}</h1>
-        {% if error_msg is defined %}
-            <p class="error-msg">{{ error_msg }}</p>
-        {% endif %}
-
         <div class="container">
+            <h1 class="title">Welcome to Web Log 0.1, {{ username }}</h1>
+            {% if error_msg is defined %}
+                <p class="error-msg">{{ error_msg }}</p>
+            {% endif %}
+
             {% if not blogs %}
                 <h3>No blogs created yet.</h3>
             {% else %}
                 <table>
-                    <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td> <td>Following</td></tr>
+                    <thead><th>Blog Name</th> <th>Blog Creator</th> <th>Last Updated</th> <th>Description</th> <th>Following</th></thead>
                     {% for blog in blogs %}
                         <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
                             <td>{{ blog["username"] }}</td>
