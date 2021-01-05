@@ -1,6 +1,13 @@
 .container {
     width: 80%;
     margin-left: 10%;
-    display: flex;
-    flex: 1 1 auto;
+    max-width: 1500px;
+}
+
+@media (max-width: 800px) {
+    .container {
+        width: auto;
+        display: block;
+        margin: 0;
+    }
 }

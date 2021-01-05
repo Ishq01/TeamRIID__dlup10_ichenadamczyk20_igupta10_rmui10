@@ -15,12 +15,23 @@ body {
     flex-flow: column;
 }
 
+.container {
+    display: flex;
+    flex: 1 1 auto;
+    background-color: #e96e6e;
+    padding: 20px;
+}
+
 p {
     font-weight: 300;
 }
 
 h1, h2 {
     font-weight: 700;
+}
+
+.title {
+    font-size: 50px;
 }
 
 .error-msg {
