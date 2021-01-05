@@ -7,28 +7,26 @@
     <body>
         {% include 'header.html' %} 
         <h1>Blogs You Are Following</h1>
+        {% if error_msg is defined %}
+        <p><b>{{ error_msg }}</b></p>
+        {% endif %}
         <a href="/edit-blog">Edit My Blog</a>         
         <hr>
 
         <table>
             <tr><td>Blog Name</td> <td>Blog Creator</td> <td>Last Updated</td> <td>Description</td> <td>Following</td></tr>
+            {% if not blogs %}
+            <h3>You haven't followed any blogs yet.</h3>
+            {% endif %}
             {% for blog in blogs %}
                 <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
                     <td>{{ blog["username"] }}</td>
                     <td>{{ blog["time"] }}</td>
                     <td>{{ blog["blogdescription"] }}</td>
                     <td>
-                        {% if username != blog["username"] %}
-                            {% if blog["blogname"] not in following %}
-                            <form action="/follow/{{ blog['username'] }}" method="POST">
-                                <input type="submit" name="followBlog_home" value="Follow Blog" />
-                            </form>
-                            {% else %}
-                                <form action="/unfollow/{{ blog['username'] }}" method="POST">
-                                    <input type="submit" name="unfollowBlog_home" value="Unfollow Blog" />
-                                </form>
-                            {% endif %}
-                        {% endif %}
+                        <form action="/unfollow/{{ blog['username'] }}" method="POST">
+                            <input type="submit" name="followUnfollow" value="Unfollow Blog" />
+                        </form>
                     </td>
                 </tr>
             {% endfor %}

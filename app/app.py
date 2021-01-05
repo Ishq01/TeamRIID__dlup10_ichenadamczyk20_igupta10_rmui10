@@ -432,17 +432,34 @@ def follow(username):
         if (not checkFollower(getInfo(username, "id"), getInfo(session["username"], "id"))):
             # add blog to db
             addFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
+            
             # set msg to following blog
             session["error_msg"] = "Successfully followed blog!"
-            # return home page with msg
-            return redirect(url_for(".homepage"))
+            
+            # if user follows blog from home page
+            if "home" in request.form:
+                # return home page with msg
+                return redirect(url_for(".homepage"))
+            
+            # if user follows blog from blog page
+            if "viewBlog" in request.form:
+                # return blog page with msg
+                return redirect(url_for(".viewBlog", pageNum = 1, username = username))
         
         # if user following blog 
         else:
             # if already following blog, set msg to that
             session["error_msg"] = "Already following blog."
-            # return home page with msg
-            return redirect(url_for(".homepage"))
+            
+            # if user unfollows blog from home page
+            if "home" in request.form:
+                # return home page with msg
+                return redirect(url_for(".homepage"))
+            
+            # if user unfollows blog from blog page
+            if "viewBlog" in request.form:
+                # return blog page with msg
+                return redirect(url_for(".viewBlog", pageNum = 1, username = username))
     
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
@@ -455,8 +472,16 @@ def unfollow(username):
         if (not checkFollower(getInfo(username, "id"), getInfo(session["username"], "id"))):
             # set msg to not following blog, can't unfollow
             session["error_msg"] = "Not following this blog yet, cannot unfollow."
-            # return home page with msg
-            return redirect(url_for(".homepage"))
+            
+            # if user unfollows blog from home page
+            if "home" in request.form:
+                # return home page with msg
+                return redirect(url_for(".homepage"))
+            
+            # if user unfollows blog from blog page
+            if "viewBlog" in request.form:
+                # return blog page with msg
+                return redirect(url_for(".viewBlog", pageNum = 1, username = username))
        
         # if user following blog
         else:
@@ -464,8 +489,21 @@ def unfollow(username):
             removeFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
             # if following blog, set msg to unfollowing
             session["error_msg"] = "Successfully unfollowed blog!"
-            # return home page with msg
-            return redirect(url_for(".homepage"))
+            
+            # if user unfollows blog from home page
+            if "home" in request.form:
+                # return home page with msg
+                return redirect(url_for(".homepage"))
+            
+            # if user unfollows blog from blog page
+            if "viewBlog" in request.form:
+                # return blog page with msg
+                return redirect(url_for(".viewBlog", pageNum = 1, username = username))
+
+            # if user unfollows blog from following blogs page
+            if "followUnfollow" in request.form:
+                # return following blog page with msg
+                return redirect(url_for(".followedBlogs"))
     
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
@@ -480,6 +518,14 @@ def followedBlogs():
         for blog in getFollowedBlogs(getInfo(session["username"], "id")):
             # add blogname to list
             following += [blog["blogname"]]
+        # if user successfully unfollowed blog
+        if "error_msg" in session:
+            # store error
+            msg = session["error_msg"]
+            # remove error from session
+            session.pop("error_msg")
+            # return followed blogs
+            return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")), following = following, error_msg = msg)
         # return followed blogs
         return render_template("follow-blog.html", blogs = getFollowedBlogs(getInfo(session["username"], "id")), following = following)
 
