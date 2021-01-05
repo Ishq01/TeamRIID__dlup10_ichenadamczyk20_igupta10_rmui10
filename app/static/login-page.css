@@ -2,18 +2,13 @@
 
 /* || Layout */
 
-body {
-    display: grid;
-}
-
 .container {
-    position: absolute;
     width: clamp(400px, 33%, 600px);
-    height: 100%;
     border-right: 6px solid #b16b6b;
     background-color: #e96e6e;
     padding: 20px;
     font-size: 30px;
+    flex: 1 1 auto;
 }
 
 .title {
