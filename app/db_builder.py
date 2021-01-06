@@ -2,6 +2,8 @@ import sqlite3
 import hashlib
 
 DB_FILE = "data.db"
+text_factory = str
+salt = b"I am a static, plaintext salt!!@#T gp127 They're actually more effective than one might think..."
 
 # salts and hashes the given string
 def saltString(string, salt):
@@ -10,7 +12,7 @@ def saltString(string, salt):
 # makes users and entries table in database if they do not exist already
 def createTables():
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT,
               password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
@@ -23,7 +25,7 @@ def createTables():
 # adds user info to user table
 def register(username, password, blogname, blogdescription):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimeTup)))
@@ -35,7 +37,7 @@ def register(username, password, blogname, blogdescription):
 # returns whether or not username is in user table
 def checkUsername(username):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     found = False
     for row in c.execute("SELECT * FROM users;"):
@@ -47,7 +49,7 @@ def checkUsername(username):
 # prints user table (for testing purposes)
 def printDatabase():
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     print("--------Users Table-----------")
     for row in c.execute("SELECT * FROM users;"):
@@ -63,7 +65,7 @@ def printDatabase():
 def getInfo(username, col):
     if checkUsername(username):
         db = sqlite3.connect(DB_FILE)
-        db.text_factory = str
+        db.text_factory = text_factory
         c = db.cursor()
         info = c.execute("SELECT " + col + " FROM users WHERE username=?;", [username]).fetchone()[0]
         db.commit()
@@ -73,7 +75,7 @@ def getInfo(username, col):
 
 def getUsername(userID):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     info = c.execute("SELECT username FROM users WHERE id=?;", [userID]).fetchone()[0]
     db.commit()
@@ -84,7 +86,7 @@ def getUsername(userID):
 def updateBlogInfo(username, blogname, desc):
     if checkUsername(username):
         db = sqlite3.connect(DB_FILE)
-        db.text_factory = str
+        db.text_factory = text_factory
         c = db.cursor()
         c.execute("UPDATE users SET blogname=? WHERE username=?;", (blogname, username))
         c.execute("UPDATE users SET blogdescription=? WHERE username=?;", (desc, username))
@@ -101,7 +103,7 @@ def dict_factory(cursor, row):
 # returns a list of dictionaries containing each blog's info
 def getBlogs():
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     db.row_factory = dict_factory
     c = db.cursor()
     blogs = c.execute("SELECT * from users ORDER BY time DESC;").fetchall()
@@ -112,7 +114,7 @@ def getBlogs():
 # deletes all users from the database (for testing purposes)
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     c.execute("DELETE from users;")
     db.commit()
@@ -120,7 +122,7 @@ def clearUsers():
 
 def addEntry(userID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimeTup)))
@@ -132,7 +134,7 @@ def addEntry(userID, title, post, pic):
 
 def editEntry(entryID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimeTup)))
@@ -147,7 +149,7 @@ def editEntry(entryID, title, post, pic):
 
 def getEntries(userID):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     db.row_factory = dict_factory
     c = db.cursor()
     entries = c.execute("SELECT * FROM entries WHERE userID=? ORDER BY time DESC;", [str(userID)]).fetchall()
@@ -157,7 +159,7 @@ def getEntries(userID):
 
 def getEntryInfo(entryID, col):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     info = c.execute("SELECT " + col + " FROM entries WHERE id=?;", [str(entryID)]).fetchone()[0]
     db.commit()
@@ -166,7 +168,7 @@ def getEntryInfo(entryID, col):
 
 def deleteEntry(entryID):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     c.execute("DELETE FROM entries WHERE id=?;", [str(entryID)])
     db.commit()
@@ -174,7 +176,7 @@ def deleteEntry(entryID):
 
 def search(criteria):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     db.row_factory = dict_factory
     c = db.cursor()
     criteria_list = ['%' + i + '%' for i in criteria.split()]
@@ -189,7 +191,7 @@ def search(criteria):
 
 def clearEntries():
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     c.execute("DELETE from entries;")
     db.commit()
@@ -200,7 +202,7 @@ def clearEntries():
 def addFollower(userID, followerID):
     if not checkFollower(userID, followerID):
         db = sqlite3.connect(DB_FILE)
-        db.text_factory = str
+        db.text_factory = text_factory
         c = db.cursor()
         command = "INSERT INTO followers VALUES (?,?);"
         c.execute(command, (userID, followerID))
@@ -210,7 +212,7 @@ def addFollower(userID, followerID):
 # removes row with specified info from followers table
 def removeFollower(userID, followerID):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     c.execute("DELETE FROM followers WHERE userID=? AND followerID=?;", (str(userID), str(followerID)))
     db.commit()
@@ -219,7 +221,7 @@ def removeFollower(userID, followerID):
 # return whether or not a user-follower pair exists
 def checkFollower(userID, followerID):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     found = c.execute("SELECT * FROM followers WHERE userID=? AND followerID=?;",
                       (str(userID), str(followerID))).fetchone()
@@ -230,7 +232,7 @@ def checkFollower(userID, followerID):
 # deletes everything in followers table
 def clearFollowers():
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     c.execute("DELETE from followers;")
     db.commit()
@@ -239,7 +241,7 @@ def clearFollowers():
 # returns a list of dictionaries of blogs a user is following
 def getFollowedBlogs(followerID):
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     db.row_factory = dict_factory
     c = db.cursor()
     followedUsers = c.execute("SELECT userID FROM followers WHERE followerID=?;", [str(followerID)]).fetchall()
@@ -258,7 +260,7 @@ def clearAll():
 
 def clear():
     db = sqlite3.connect(DB_FILE)
-    db.text_factory = str
+    db.text_factory = text_factory
     c = db.cursor()
     c.execute("DROP TABLE entries;")
     db.commit()
@@ -268,11 +270,12 @@ def clear():
 createTables()
 
 if __name__ == "__main__":
+    clearAll()
     clear()
     createTables()
-    register("userA", "passsssssss", "my first blog", "A very cool lil blog")
-    register("userB", "passsssssss", "I hate the other blog", "I am raging schizophrenic")
-    register("userC", "passsssssss", "Cute Dog Pictures", "Cute dog pictures")
+    register("userA", saltString("passsssssss", salt), "my first blog", "A very cool lil blog")
+    register("userB", saltString("passsssssss", salt), "I hate the other blog", "I am raging schizophrenic")
+    register("userC", saltString("passsssssss", salt), "Cute Dog Pictures", "Cute dog pictures")
 
     addEntry("1", "Hey guys!", "Hows it going", "")
     addEntry("2", "Stop", "get off", "")
