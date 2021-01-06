@@ -1,7 +1,7 @@
 # Web Log by Team RIID
 ## Roster
 * Dragos Lup: Project Manager + Entries Database
-* Renee Mui: User Database
+* Renee Mui: Users + Followers Databases
 * Ishita Gupta: Flask
 * Ian Chen-Adamczyk: HTML templates
 ## Description
