@@ -18,6 +18,9 @@ def pageEntries(entries, pageSize):
         pagedEntries += [entries[i:min(i + pageSize, len(entries))]]
     return pagedEntries
 
+# helper function to limit characters
+# session["error_msg"] = "character limit exceeded" 
+
 # if user tries to access page that doesn't exist
 @app.errorhandler(404) 
 def pageNotFound(error):
