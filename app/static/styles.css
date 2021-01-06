@@ -103,6 +103,10 @@ fieldset .text {
     width: 100%;
 }
 
+fieldset a {
+    color: white;
+}
+
 /************** HEADER  *****************/
 
 /* Overall Header */
@@ -195,6 +199,7 @@ fieldset .text {
 body > #home {
     display: flex;
     flex: 1 1 auto;
+    flex-direction: column;
 }
 
 body > #home .container {
