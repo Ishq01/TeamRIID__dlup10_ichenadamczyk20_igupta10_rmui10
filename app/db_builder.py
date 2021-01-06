@@ -15,7 +15,7 @@ def createTables():
     db.text_factory = text_factory
     c = db.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT,
-              password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
+              password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""") #
     c.execute("""CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY,
               userID INTEGER, time DATETIME, title TEXT, post TEXT, pic TEXT);""")
     c.execute('CREATE TABLE IF NOT EXISTS followers (userID INTEGER, followerID INTEGER);')
@@ -27,6 +27,7 @@ def register(username, password, blogname, blogdescription):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
     c = db.cursor()
+    #Finds the current date and time based on the local time
     dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimeTup)))
     command = "INSERT INTO users (username, password, blogname, blogdescription, time) VALUES (?,?,?,?,?);"
@@ -67,12 +68,14 @@ def getInfo(username, col):
         db = sqlite3.connect(DB_FILE)
         db.text_factory = text_factory
         c = db.cursor()
+        #Finds the user with the correct username
         info = c.execute("SELECT " + col + " FROM users WHERE username=?;", [username]).fetchone()[0]
         db.commit()
         db.close()
         return info
     return None
 
+#Gets a username based on a user id
 def getUsername(userID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
@@ -120,24 +123,30 @@ def clearUsers():
     db.commit()
     db.close()
 
+#Adds an entry to the entries table
 def addEntry(userID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
     c = db.cursor()
+    #Gets the current date and time
     dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimeTup)))
     command = "INSERT INTO entries (userID, time, title, post, pic) VALUES (?,?,?,?,?);"
+    #Executes command
     c.execute(command, (str(userID), dateAndTime, title, post, pic))
+    #New time of entry
     c.execute("UPDATE users SET time=? WHERE id=?;", (dateAndTime, str(userID)))
     db.commit()
     db.close()
 
+#Edits a past entry based on id
 def editEntry(entryID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
     c = db.cursor()
     dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
     dateAndTime = str(''.join(map(str, dateAndTimeTup)))
+    #Updates the entries
     c.execute("UPDATE entries SET title=? WHERE id=?;", (title, str(entryID)))
     c.execute("UPDATE entries SET post=? WHERE id=?;", (post, str(entryID)))
     c.execute("UPDATE entries SET time=? WHERE id=?;", (dateAndTime, str(entryID)))
@@ -147,6 +156,7 @@ def editEntry(entryID, title, post, pic):
     db.commit()
     db.close()
 
+#Gets all of a users entries
 def getEntries(userID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
@@ -157,6 +167,7 @@ def getEntries(userID):
     db.close()
     return entries
 
+#Gets an entries information based on entryID
 def getEntryInfo(entryID, col):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
@@ -166,6 +177,7 @@ def getEntryInfo(entryID, col):
     db.close()
     return info
 
+#deletes an entry
 def deleteEntry(entryID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
@@ -174,6 +186,7 @@ def deleteEntry(entryID):
     db.commit()
     db.close()
 
+#searches the database's entries for a specific word
 def search(criteria):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
@@ -189,6 +202,7 @@ def search(criteria):
     db.close()
     return entries
 
+#Clears all entries, bugfixxing
 def clearEntries():
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
@@ -253,6 +267,7 @@ def getFollowedBlogs(followerID):
     db.close()
     return blogs
 
+#Clears everything
 def clearAll():
     clearEntries()
     clearUsers()
