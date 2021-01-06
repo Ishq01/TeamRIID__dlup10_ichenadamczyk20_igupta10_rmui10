@@ -377,10 +377,6 @@ body > #bloghome .containers {
     margin-bottom: 20px;
 }
 
-body > #bloghome .containers:first-of-type {
-    margin-top: 0;
-}
-
 body > #bloghome .entries {
     background: transparent;
     width: calc(80%);
