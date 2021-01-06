@@ -35,10 +35,10 @@ SENDS to /register by GET
                 <form action="/login" method="POST">
                     <label for="username">Username <span class="required">*</span></label>
                     <input type="text" name="username" id="username" value="{{ username }}" required />
-    
+                    <br class = "spacing"><br class = "spacing">
                     <label for="password">Password <span class="required">*</span></label>
                     <input type="password" name="password" id="password" value="{{ password }}" required />
-    
+                    <br class = "spacing">
                     <label for="submit">...</label>
                     <input name="login" type="submit" value="Log In" />
                     <p id="link">Not a registered user? <a href="/register">Register here.</a></p>
