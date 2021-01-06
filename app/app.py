@@ -353,7 +353,7 @@ def editBlog(pageNum):
 
         # if user submits delete entry form
         if "deleteEntry" in request.form:
-            if session["error_msg"] == "Successfully deleted entry!":
+            if session["error_msg"] and session["error_msg"] == "Successfully deleted entry!":
                 # store error
                 msg = session["error_msg"]
                 # remove from session
