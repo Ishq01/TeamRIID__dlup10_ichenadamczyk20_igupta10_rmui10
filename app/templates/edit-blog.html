@@ -52,11 +52,11 @@ SENDS to /logout by GET
         {% include 'header.html' %}
         <div id="bloghome">
             <div class="containers">
-                <h1 class="title">Edit Blog Metadata</h1>
-                <a href="/home/blog/{{username}}">View Blog</a></p>
                 {% if error_msg is defined and error_msg %}
                     <p class="error-msg">{{ error_msg }}</p>
                 {% endif %}
+                <h1 class="title">Edit Blog Metadata</h1>
+                <a href="/home/blog/{{username}}">View Blog</a></p>
                 <form class="loginForm" action="/edit-blog" method="POST">
                     <label for="blogname">Blog Name <span class="required">*</span></label>
                     <br class = "spacing" />
