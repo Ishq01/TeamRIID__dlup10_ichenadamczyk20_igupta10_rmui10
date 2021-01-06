@@ -1,4 +1,4 @@
-# Web Log by Team RIID
+# Riidordie by Team RIID
 ## Roster
 * Dragos Lup: Project Manager + Entries Database
 * Renee Mui: Users + Followers Databases
