@@ -120,6 +120,7 @@ fieldset a {
     position: sticky;
     font-size: 20px;
     top: 0;
+    z-index: 999999999;
 }
 
 /* Split into left/right/center but still overall */
