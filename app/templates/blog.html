@@ -52,7 +52,7 @@ viewBlog - Submit button
                         <p>{{ line }}</p>
                     {% endfor %}
                 </div>
-                {% if iscreator %}
+                {% if not iscreator %}
                     {% if following %}
                         <form action="/unfollow/{{ creator }}" method="POST">
                             <input type="submit" name="viewBlog" value="Unfollow Blog">
