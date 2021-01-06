@@ -272,3 +272,13 @@ ishitaG -- 2021-1-6
 	- Tested site while removing stylesheet 
 		- Modified login and register pages to be more organized without css
 	- Fixed bug: user couldn't add numbers in username
+
+ianC -- 2021-1-6 13:07
+    - Made sure app.py and db_builder.py complied to PEP8 standards
+    - Refactored app.py to use validateInput to validate inputs
+    - Implemented character limits in app.py and in HTML templates
+    - Fixed consistency issue with margins on search-results, follow-blog, and home
+    - Sanitized inputs for search
+    - Added page-view and showing username on search-results
+    - Fixed text overflowing in tables and blog pages
+    - Added error message animation
