@@ -295,3 +295,6 @@ RIID -- 2021-1-6 15:31
 
 ishitaG -- 2021-1-6 15:31
 	- Added team flag
+	
+reneeM -- 2021-1-6 15:32
+	- Added requirements.txt and update README with launch codes and roster
