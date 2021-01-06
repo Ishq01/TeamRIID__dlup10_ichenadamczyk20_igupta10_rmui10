@@ -315,7 +315,6 @@ def editBlog(pageNum):
             entrycontent = validateInput("entrycontent", request.form["content"], error_msg)
             entrypic = validateInput("entrypic", request.form["pic"], error_msg)
             if len(error_msg) > 0:
-                print("bruh moment")
                 # return template with information filled in and error msg
                 return render_template("edit-blog.html", username=session["username"],
                                        blogname=getInfo(session["username"], "blogname"),
