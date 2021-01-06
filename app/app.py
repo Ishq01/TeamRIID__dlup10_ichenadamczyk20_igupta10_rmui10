@@ -77,7 +77,7 @@ def validateInput(name, value, error_msg_output):
 
 # if user tries to access page that doesn't exist
 @app.errorhandler(404) 
-def pageNotFound():
+def pageNotFound(error):
     # return page not found template if user is logged in
     if "username" in session:
         return render_template("404.html", code=404)
