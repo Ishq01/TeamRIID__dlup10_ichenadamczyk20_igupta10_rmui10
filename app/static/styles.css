@@ -4,14 +4,16 @@
 html, body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     font-family: 'Roboto Condensed', sans-serif;
+    display: flex;
 }
 
 body {
     background-color: #dee2ff;
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
     align-items: stretch;
 }
@@ -117,7 +119,8 @@ fieldset a {
     align-items: stretch;
     background-color: #03045e;
     height: 50px;
-    position: sticky;
+    width: 100%;
+    position: fixed;
     font-size: 20px;
     top: 0;
     z-index: 999999999;
@@ -293,11 +296,16 @@ input[type="submit"]:hover {
     background-repeat: no-repeat;
     background-position: right bottom;
     background-size: cover;
-    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 #login {
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
+    padding: 0;
+    margin: 0;
 }
 
 #login .container {
@@ -306,6 +314,7 @@ input[type="submit"]:hover {
     font-size: 20px;
     background-color: #abc4ffb4;
     height: 100%;
+    margin: 0;
 }
 
 #login input, #login textarea, .loginForm input, .loginForm textarea {
