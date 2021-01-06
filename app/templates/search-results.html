@@ -26,7 +26,7 @@ REQUIRES
                     <nav>
                         {% for page in entries %}
                             {% if loop.index != pageNum %}
-                                <a href="/home/search-results/{{ loop.index }}">Page {{loop.index}}</a>
+                                <a href="/search-results/{{ loop.index }}">Page {{loop.index}}</a>
                             {% else %}
                                 <p>Page {{loop.index}}</p>
                             {% endif %}
@@ -53,7 +53,7 @@ REQUIRES
                     <nav>
                         {% for page in entries %}
                             {% if loop.index != pageNum %}
-                                <a href="/home/search-results/{{ loop.index }}">Page {{loop.index}}</a>
+                                <a href="/search-results/{{ loop.index }}">Page {{loop.index}}</a>
                             {% else %}
                                 <p>Page {{loop.index}}</p>
                             {% endif %}
