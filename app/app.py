@@ -435,22 +435,25 @@ def searchFunction(pageNum):
     if "username" in session:
         # if user submits search form
         if "search" in request.form:
+            session["keywords"] = request.form["keywords"]
+
+        if "keywords" in session:
             # if no keywords, reload page
-            if request.form["keywords"].strip() == "":
+            if session["keywords"].strip() == "":
                 # reload home page
                 return redirect(url_for(".homepage"))
             
             # return entries that have the keywords
             else:
                 # get matching entries from db
-                entries = search(request.form["keywords"])
+                entries = search(session["keywords"])
                 for i in entries:
                     # add username of creator to each entry
                     i["username"] = getUsername(i["userID"])
                     # split post by new lines
                     i["post"] = i["post"].split("\n")
                 return render_template("search-results.html", entries=pageEntries(entries, 10),
-                                       username=session["username"], pageNum=pageNum)
+                                       username=session["username"], pageNum=pageNum, search=session["keywords"])
         
         return redirect(url_for(".homepage"))
     # if user tries to access page without being logged in, redirect to login page

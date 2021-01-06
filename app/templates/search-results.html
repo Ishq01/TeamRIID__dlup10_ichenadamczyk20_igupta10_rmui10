@@ -22,7 +22,7 @@ REQUIRES
         {% if entries %}
             <div id="bloghome">
                 <div class="containers">
-                    <h1>Search Results</h1>
+                    <h1>Search Results for {{ search }}</h1>
                     <nav>
                         {% for page in entries %}
                             {% if loop.index != pageNum %}
@@ -64,7 +64,7 @@ REQUIRES
         {% else %}
             <div id="home">
                 <div class="container">
-                    <h1>Search Results</h1>
+                    <h1>Search Results for {{ search }}</h1>
                     <h3>No matching entries. Try different search words.</h3>
                 </div>
             </div>
