@@ -135,7 +135,8 @@ fieldset {
 }
 
 fieldset legend {
-    background-color: grey;
+    background-color: rgb(207, 195, 248);
+    border: 3px solid grey;
     padding: 3px;
 }
 
@@ -152,7 +153,7 @@ fieldset .text {
 }
 
 fieldset a {
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 /************** HEADER  *****************/
