@@ -178,12 +178,10 @@ def search(criteria):
     db.row_factory = dict_factory
     c = db.cursor()
     criteria_list = ['%' + i + '%' for i in criteria.split()]
-    print(len(criteria_list))
     command = "SELECT * FROM entries WHERE post LIKE ?"
     for x in criteria_list[1:]:
         command += "AND post LIKE ?"
     command += ";"
-    print(command)
     entries = c.execute(command, criteria_list).fetchall()
     db.commit()
     db.close()
