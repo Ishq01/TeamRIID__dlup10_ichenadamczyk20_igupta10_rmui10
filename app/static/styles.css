@@ -86,12 +86,12 @@ div.text {
         position: static;
     }
 
-    90% {
-        opacity: 1;
+    50% {
+        opacity: .8;
     }
 
-    99% {
-        opacity: 0;
+    80% {
+        opacity: .5;
         position: static;
     }
 
