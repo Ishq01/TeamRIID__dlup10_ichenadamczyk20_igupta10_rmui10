@@ -39,22 +39,24 @@ SENDS to / by GET
                 {% endif %}
                 <form action="/register" method="POST">
                     <label for="username">Username <span class="required">*</span></label>
+                    <br class = "spacing">
                     <small>Can have only letters, numbers, and underscores.</small>
-                    <input type="text" name="username" id="username" required pattern="[A-Za-z_]+" />
-    
+                    <input type="text" name="username" id="username" required pattern="[A-Za-z_0-9]+" />
+                    <br class = "spacing">
                     <label for="password">Password <span class="required">*</span></label>
+                    <br class = "spacing">
                     <small>Must be at least 8 characters long.</small>
                     <input type="password" name="password" id="password" required minlength="8" />
-    
+                    <br class = "spacing">
                     <label for="password-conf">Confirm Password <span class="required">*</span></label>
                     <input type="password" name="password-conf" id="password-conf" required minlength="8" />
-    
+                    <br class = "spacing">
                     <label for="blogname">Blog Name <span class="required">*</span></label>
                     <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required />
-    
+                    <br class = "spacing">
                     <label for="blogdescription">Blog Description</label>
                     <textarea name="blogdescription" id="blogdescription">{{ blogdescription }}</textarea>
-    
+                    <br class = "spacing">
                     <label for="submit">...</label>
                     <input name="register" type="submit" value="Register" />
                     <p id="link">Already registered? <a href="/">Log in here.</a></p>

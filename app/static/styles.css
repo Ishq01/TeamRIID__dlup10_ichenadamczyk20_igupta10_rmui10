@@ -18,6 +18,10 @@ body {
     align-items: stretch;
 }
 
+br {
+    display: none;
+}
+
 .container, .containers {
     background-color: #abc4ff;
     padding: 20px;
@@ -315,6 +319,7 @@ input[type="submit"]:hover {
     background-color: #abc4ffb4;
     height: 100%;
     margin: 0;
+    padding-top: 10px;
 }
 
 #login input, #login textarea, .loginForm input, .loginForm textarea {
