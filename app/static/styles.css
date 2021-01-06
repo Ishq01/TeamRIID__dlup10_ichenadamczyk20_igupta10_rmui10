@@ -11,7 +11,7 @@ html, body {
 }
 
 body {
-    background-color: #dee2ff;
+    background-color: #e0c7fdb0;
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -26,7 +26,7 @@ br {
 }
 
 .container, .containers {
-    background-color: #abc4ff;
+    background-color: #B295FF;
     padding: 20px;
     font-size: 20px;
 }
@@ -63,7 +63,7 @@ div.text {
 }
 
 .error-msg {
-    background-color: #e4c1f9;
+    background-color: #D9B4FD;
     border-color: #000000;
     border-style: ridge;
     border-width: 3px;
@@ -113,7 +113,7 @@ div.text {
 }
 
 span.required {
-    color: #7b2cbf;
+    color: #6C33A6;
 }
 
 nav a, nav p {
@@ -163,7 +163,7 @@ fieldset a {
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: stretch;
-    background-color: #03045e;
+    background-color: #29088D;
     height: 50px;
     width: 100%;
     position: sticky;
@@ -290,7 +290,7 @@ td .desc {
 }
 
 tr:nth-child(odd) {
-    background-color: #cdd2f8;
+    background-color: #C5BDFA;
     color: black;
 }
 
@@ -369,7 +369,7 @@ input[type="submit"]:hover {
     width: clamp(400px, 33%, 600px);
     border-right: 6px solid #7b2cbf;
     font-size: 20px;
-    background-color: #abc4ffb4;
+    background-color: #877effc4;
     height: 100%;
     margin: 0;
     padding-top: 10px;
@@ -436,7 +436,7 @@ body > #bloghome .entries {
     margin: -20px auto;
     margin-left: auto;
     margin-right: auto;
-    border-left: 50px solid #abc4ff;
+    border-left: 50px solid #877effc4;
     z-index: 0;
     transform: translateX(25px);
 }
