@@ -10,6 +10,6 @@ Users can create an account with a blog. They can customize their blog name and 
 Web Log was implemented using a Flask backend framework running on Python 3, with SQLite 3 used to store data and Jinja 2 used to serve templates. The frontend was created with only HTML and CSS.
 ## Launch codes
 1. Clone this repository with `git clone https://github.com/DragosLup10/TeamRIID__dlup10_ichenadamczyk20_igupta10_rmui10.git`
-2. Install the required modules with `pip install -r requirements.txt`
-3. Go into the app folder of the repo with `cd TeamRIID__dlup10_ichenadamczyk20_igupta10_rmui10/app`
+2. Go into the app folder of the repo with `cd TeamRIID__dlup10_ichenadamczyk20_igupta10_rmui10/app`
+3. Install the required modules with `pip install -r requirements.txt`
 4. Run app.py with `python app.py`
