@@ -428,8 +428,9 @@ def editEntries(entryID):
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
 
-@app.route("/search-results", methods=["GET", "POST"])
-def searchFunction():
+@app.route("/search-results/<int:pageNum>", methods=["GET", "POST"])
+@app.route("/search-results", defaults={'pageNum': 1}, methods=["GET", "POST"])
+def searchFunction(pageNum):
     # if user is logged in
     if "username" in session:
         # if user submits search form
@@ -441,9 +442,15 @@ def searchFunction():
             
             # return entries that have the keywords
             else:
-                # get matching entried from db
+                # get matching entries from db
                 entries = search(request.form["keywords"])
-                return render_template("search-results.html", entries=entries, username=session["username"])
+                for i in entries:
+                    # add username of creator to each entry
+                    i["username"] = getUsername(i["userID"])
+                    # split post by new lines
+                    i["post"] = i["post"].split("\n")
+                return render_template("search-results.html", entries=pageEntries(entries, 10),
+                                       username=session["username"], pageNum=pageNum)
         
         return redirect(url_for(".homepage"))
     # if user tries to access page without being logged in, redirect to login page
