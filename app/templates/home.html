@@ -51,7 +51,7 @@ home - Submit button
                             <tr><td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
                                 <td>{{ blog["username"] }}</td>
                                 <td>{{ blog["time"] }}</td>
-                                <td>{{ blog["blogdescription"] }}</td>
+                                <td class = "desc">{{ blog["blogdescription"] }}</td>
                                 <td>
                                     {% if username != blog["username"] %}
                                         {% if blog["blogname"] not in following %}

@@ -242,6 +242,14 @@ tr{
     border-top: 1px solid black;
 }
 
+td {
+    width: 20px;
+}
+
+td .desc {
+    width: 20px;
+}
+
 tr:nth-child(odd) {
     background-color: #cdd2f8;
     color: black;
