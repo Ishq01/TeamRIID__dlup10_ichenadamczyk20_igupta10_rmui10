@@ -265,7 +265,10 @@ ianC -- 2021-1-5 20:00
 
 ishitaG -- 2021-1-5 21:48
 	- Found and fixed small bugs in css
+	- Bug to fix: user can enter just spaces as blog name/desc etc 
+		- No hyperlink/etc shows up
 
 ishitaG -- 2021-1-6 
 	- Tested site while removing stylesheet 
 		- Modified login and register pages to be more organized without css
+	- Fixed bug: user couldn't add numbers in username
