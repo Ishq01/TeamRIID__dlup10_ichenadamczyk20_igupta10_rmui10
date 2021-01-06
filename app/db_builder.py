@@ -1,5 +1,4 @@
 import sqlite3
-import datetime
 import hashlib
 
 DB_FILE = "data.db"
@@ -14,9 +13,9 @@ def createTables():
     db.text_factory = str
     c = db.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT,
-            password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
+              password TEXT, blogname TEXT, blogdescription TEXT, time DATETIME);""")
     c.execute("""CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY,
-            userID INTEGER, time DATETIME, title TEXT, post TEXT, pic TEXT);""")
+              userID INTEGER, time DATETIME, title TEXT, post TEXT, pic TEXT);""")
     c.execute('CREATE TABLE IF NOT EXISTS followers (userID INTEGER, followerID INTEGER);')
     db.commit()
     db.close()
@@ -26,8 +25,8 @@ def register(username, password, blogname, blogdescription):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
-    dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
-    dateAndTime = str(''.join(map(str, dateAndTimetup)))
+    dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
+    dateAndTime = str(''.join(map(str, dateAndTimeTup)))
     command = "INSERT INTO users (username, password, blogname, blogdescription, time) VALUES (?,?,?,?,?);"
     c.execute(command, (username, password, blogname, blogdescription, dateAndTime))
     db.commit()
@@ -52,21 +51,21 @@ def printDatabase():
     c = db.cursor()
     print("--------Users Table-----------")
     for row in c.execute("SELECT * FROM users;"):
-        print (row)
+        print(row)
     print("-------Entries Table----------")
     for row in c.execute("SELECT * FROM entries;"):
-        print (row)
+        print(row)
     db.commit()
     db.close()
 
 # returns information about a user from the specified column
 # col can be 'id', 'password', 'blogname', or 'blogdescription'
 def getInfo(username, col):
-    if (checkUsername(username)):
+    if checkUsername(username):
         db = sqlite3.connect(DB_FILE)
         db.text_factory = str
         c = db.cursor()
-        info = c.execute("SELECT " + col + " FROM users WHERE username=?;", [username] ).fetchone()[0]
+        info = c.execute("SELECT " + col + " FROM users WHERE username=?;", [username]).fetchone()[0]
         db.commit()
         db.close()
         return info
@@ -76,19 +75,19 @@ def getUsername(userID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
-    info = c.execute("SELECT username FROM users WHERE id=?;", [userID] ).fetchone()[0]
+    info = c.execute("SELECT username FROM users WHERE id=?;", [userID]).fetchone()[0]
     db.commit()
     db.close()
     return info
 
 # changes a user's blog info given a new blog name and description
 def updateBlogInfo(username, blogname, desc):
-    if (checkUsername(username)):
+    if checkUsername(username):
         db = sqlite3.connect(DB_FILE)
         db.text_factory = str
         c = db.cursor()
         c.execute("UPDATE users SET blogname=? WHERE username=?;", (blogname, username))
-        c.execute("UPDATE users SET blogdescription=? WHERE username=?;", (desc,username))
+        c.execute("UPDATE users SET blogdescription=? WHERE username=?;", (desc, username))
         db.commit()
         db.close()
 
@@ -110,7 +109,6 @@ def getBlogs():
     db.close()
     return blogs
 
-
 # deletes all users from the database (for testing purposes)
 def clearUsers():
     db = sqlite3.connect(DB_FILE)
@@ -124,8 +122,8 @@ def addEntry(userID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
-    dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
-    dateAndTime = str(''.join(map(str, dateAndTimetup)))
+    dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
+    dateAndTime = str(''.join(map(str, dateAndTimeTup)))
     command = "INSERT INTO entries (userID, time, title, post, pic) VALUES (?,?,?,?,?);"
     c.execute(command, (str(userID), dateAndTime, title, post, pic))
     c.execute("UPDATE users SET time=? WHERE id=?;", (dateAndTime, str(userID)))
@@ -136,13 +134,13 @@ def editEntry(entryID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
-    dateAndTimetup = c.execute("SELECT datetime('now','localtime');").fetchone()
-    dateAndTime = str(''.join(map(str, dateAndTimetup)))
+    dateAndTimeTup = c.execute("SELECT datetime('now','localtime');").fetchone()
+    dateAndTime = str(''.join(map(str, dateAndTimeTup)))
     c.execute("UPDATE entries SET title=? WHERE id=?;", (title, str(entryID)))
     c.execute("UPDATE entries SET post=? WHERE id=?;", (post, str(entryID)))
     c.execute("UPDATE entries SET time=? WHERE id=?;", (dateAndTime, str(entryID)))
     c.execute("UPDATE entries SET pic=? WHERE id=?;", (pic, str(entryID)))
-    userID = c.execute("SELECT userID FROM entries WHERE id=?;", [str(entryID)] ).fetchone()
+    userID = c.execute("SELECT userID FROM entries WHERE id=?;", [str(entryID)]).fetchone()
     c.execute("UPDATE users SET time=? WHERE id=?;", (dateAndTime, str(userID[0])))
     db.commit()
     db.close()
@@ -152,17 +150,16 @@ def getEntries(userID):
     db.text_factory = str
     db.row_factory = dict_factory
     c = db.cursor()
-    entries = c.execute("SELECT * FROM entries WHERE userID=? ORDER BY time DESC;", [str(userID)] ).fetchall()
+    entries = c.execute("SELECT * FROM entries WHERE userID=? ORDER BY time DESC;", [str(userID)]).fetchall()
     db.commit()
     db.close()
     return entries
-
 
 def getEntryInfo(entryID, col):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
-    info = c.execute("SELECT " + col + " FROM entries WHERE id=?;", [str(entryID)] ).fetchone()[0]
+    info = c.execute("SELECT " + col + " FROM entries WHERE id=?;", [str(entryID)]).fetchone()[0]
     db.commit()
     db.close()
     return info
@@ -171,7 +168,7 @@ def deleteEntry(entryID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
-    c.execute("DELETE FROM entries WHERE id=?;",[str(entryID)])
+    c.execute("DELETE FROM entries WHERE id=?;", [str(entryID)])
     db.commit()
     db.close()
 
@@ -180,14 +177,14 @@ def search(criteria):
     db.text_factory = str
     db.row_factory = dict_factory
     c = db.cursor()
-    criteria_list = criteria.split()
-    command = "SELECT * FROM entries WHERE post LIKE '%" + criteria_list[0] + "%'"
-    for x in criteria_list:
-        if x == criteria_list[0]:
-            continue
-        command += "AND post LIKE '%" + x + "%'"
+    criteria_list = ['%' + i + '%' for i in criteria.split()]
+    print(len(criteria_list))
+    command = "SELECT * FROM entries WHERE post LIKE ?"
+    for x in criteria_list[1:]:
+        command += "AND post LIKE ?"
     command += ";"
-    entries = c.execute(command).fetchall()
+    print(command)
+    entries = c.execute(command, criteria_list).fetchall()
     db.commit()
     db.close()
     return entries
@@ -203,7 +200,7 @@ def clearEntries():
 # adds row to followers table if it doesn't already exist
 # users with followerID follws user with userID
 def addFollower(userID, followerID):
-    if (not checkFollower(userID, followerID)):
+    if not checkFollower(userID, followerID):
         db = sqlite3.connect(DB_FILE)
         db.text_factory = str
         c = db.cursor()
@@ -226,10 +223,11 @@ def checkFollower(userID, followerID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = str
     c = db.cursor()
-    found = c.execute("SELECT * FROM followers WHERE userID=? AND followerID=?;", (str(userID), str(followerID))).fetchone()
+    found = c.execute("SELECT * FROM followers WHERE userID=? AND followerID=?;",
+                      (str(userID), str(followerID))).fetchone()
     db.commit()
     db.close()
-    return (found != None)
+    return found is not None
 
 # deletes everything in followers table
 def clearFollowers():
@@ -268,6 +266,7 @@ def clear():
     db.commit()
     db.close()
 
+
 createTables()
 
 if __name__ == "__main__":
@@ -285,16 +284,14 @@ if __name__ == "__main__":
 
     deleteEntry("4")
 
-    addFollower(1, 2) #2 follows 1
-    addFollower(2, 1) #1 follows 2
-    addFollower(3, 2) #2 follows 3
+    addFollower(1, 2)  # 2 follows 1
+    addFollower(2, 1)  # 1 follows 2
+    addFollower(3, 2)  # 2 follows 3
+    # removeFollower(1,2)
 
-    #removeFollower(1,2)
-    print(checkFollower(2,1))
-    print(checkFollower(1,2))
-
+    print(checkFollower(2, 1))
+    print(checkFollower(1, 2))
     print(getFollowedBlogs(2))
-
 
 
 printDatabase()
