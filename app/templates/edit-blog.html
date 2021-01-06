@@ -59,10 +59,16 @@ SENDS to /logout by GET
                 {% endif %}
                 <form class="loginForm" action="/edit-blog" method="POST">
                     <label for="blogname">Blog Name <span class="required">*</span></label>
-                    <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required />
+                    <br class = "spacing" />
+                    <small>Must be at most 100 characters long.</small>
+                    <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required maxlength="100" />
+                    <br class = "spacing" />
 
                     <label for="blogdescription">Blog Description</label>
-                    <textarea name="blogdescription" id="blogdescription">{{ blogdescription }}</textarea></td></tr>
+                    <br class = "spacing" />
+                    <small>Must be at most 250 characters long.</small>
+                    <textarea name="blogdescription" id="blogdescription" maxlength="250">{{ blogdescription }}</textarea></td></tr>
+                    <br class = "spacing" />
 
                     <label for="submit">...</label>
                     <input name="blog" type="submit" value="Update Blog Name and Description" />
@@ -73,13 +79,19 @@ SENDS to /logout by GET
                 <h1 class="title">Add Entry</h1>
                 <form class="loginForm" action="/edit-blog" method="POST">
                     <label for="title1">Entry Title <span class="required">*</span></label>
-                    <input type="text" name="title" id="title1" value="{{ entrytitle }}" required />
+                    <br class = "spacing" />
+                    <small>Must be at most 100 characters long.</small>
+                    <input type="text" name="title" id="title1" value="{{ entrytitle }}" required maxlength="100" />
+                    <br class = "spacing" />
 
                     <label for="pic1">Image URL</label>
                     <input type="url" name="pic" id="pic1" />
 
                     <label for="content1">Entry Content <span class="required">*</span></label>
-                    <textarea name="content" id="blogname" value="{{ blogname }}" required></textarea>
+                    <br class = "spacing" />
+                    <small>Must be at most 10,000 characters long.</small>
+                    <textarea name="content" id="blogname" value="{{ blogname }}" required maxlength="10000" ></textarea>
+                    <br class = "spacing" />
 
 
                     <label for="submit">...</label>
@@ -107,13 +119,19 @@ SENDS to /logout by GET
                     {% for entry in entries[pageNum - 1] %}
                         <form class="containers loginForm" action="/edit/{{ entry['id'] }}" method="POST">
                             <label for="title2">Entry Title <span class="required">*</span></label>
-                            <input type="text" name="title" id="title1" value="{{ entry['title'] }}" />
+                            <br class = "spacing" />
+                            <small>Must be at most 100 characters long.</small>
+                            <input type="text" name="title" id="title1" value="{{ entry['title'] }}" maxlength="100" />
+                            <br class = "spacing" />
 
                             <label for="pic2">Image URL</label>
                             <input type="url" name="pic" id="pic1" value="{{ entry['pic'] }}" />
 
                             <label for="content2">Entry Content <span class="required">*</span></label>
-                            <textarea name="content" id="content2" required>{{ entry['post'] }}</textarea>
+                            <br class = "spacing" />
+                            <small>Must be at most 100 characters long.</small>
+                            <textarea name="content" id="content2" required maxlength="10000">{{ entry['post'] }}</textarea>
+                            <br class = "spacing" />
 
 
                             <label for="submit">...</label>

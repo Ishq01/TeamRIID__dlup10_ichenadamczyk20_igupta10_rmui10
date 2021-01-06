@@ -31,7 +31,7 @@ REQUIRES
                     {% for entry in entries %}
                         <fieldset class="containers">
                             <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
-                            <p><i>Posted at {{ entry["time"] }}</i></p>
+                            <p><i>Posted at {{ entry["time"] }} by {{ entry["username"] }}</i></p>
                             <p>{{entry["post"]}}</p>
                         </fieldset>
                     {% endfor %}
