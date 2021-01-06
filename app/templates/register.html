@@ -8,7 +8,6 @@ blogdescription - String of attempted blog description, undefined otherwise
 
 IMPORTS
 /static/styles.css
-/static/login-page.css
 
 [if user submits registration form]
 SENDS to /register by POST
@@ -58,7 +57,7 @@ SENDS to / by GET
     
                     <label for="submit">...</label>
                     <input name="register" type="submit" value="Register" />
-                    <p>Already registered? <a href="/">Log in here.</a></p>
+                    <p id="link">Already registered? <a href="/">Log in here.</a></p>
                 </form>
             </div>
         </div>

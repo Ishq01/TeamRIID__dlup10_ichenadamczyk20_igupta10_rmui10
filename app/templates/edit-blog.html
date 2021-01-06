@@ -1,4 +1,5 @@
 <!--
+UPDATE COMMENTS HERE
 Allows a user to add/edit entries and blog metadata
 
 REQUIRES
@@ -44,74 +45,100 @@ SENDS to /logout by GET
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Edit Blog {{ blogname }} - Web Log</title>
-        <link rel="stylesheet" href="/static/pageview.css" />
+        <title>Editing {{ blogname }} - Web Log</title>
         <link rel="stylesheet" href="/static/styles.css" />
     </head>
     <body>
         {% include 'header.html' %}
-
-        <p><a href="/home">Back to Home</a> <a href="/home/blog/{{username}}">Preview Blog</a></p>
-        {% if error_msg is defined %}
-            <p><b>{{ error_msg }}</b></p>
-        {% endif %}
-        <form action="/edit-blog" method="POST">
-            <table>
-                <tr><td>Blog Name *</td><td><input name="blogname" value="{{ blogname }}" /></td></tr>
-                <tr><td></td><td><p>A blog by {{ username }}</p></td></tr>
-                <tr><td>Blog Description</td><td><textarea name="blogdescription">{{ blogdescription }}</textarea></td></tr>
-                <tr><td></td><td><input name="blog" type="submit" value="Update Blog Name and Description" /></td></tr>
-            </table>
-        </form>
-
-        <hr />
-
-        <form action="/edit-blog" method="POST">
-            <table>
-                <tr><td>Entry Title *</td><td><input type="text" name="title" value="{{ entrytitle }}" /></td></tr>
-                <tr><td>Image URL</td><td><input type="url" name="pic" /></td></tr>
-                <tr><td>Entry Content *</td><td><textarea name="content">{{ entrycontent }}</textarea></td></tr>
-                <tr><td></td><td><input name="addEntry" type="submit" value="Add Entry" /></td></tr>
-            </table>
-        </form>
-
-        <hr />
-
-        <nav>
-            {% for page in entries %}
-                {% if loop.index != pageNum %}
-                    <a href="/edit-blog/{{ loop.index }}">Page {{loop.index}}</a>
-                {% else %}
-                    <p>Page {{loop.index}}</p>
+        <div id="bloghome">
+            <div class="containers">
+                <h1 class="title">Edit Blog Metadata</h1>
+                <a href="/home/blog/{{username}}">View Blog</a></p>
+                {% if error_msg is defined and error_msg %}
+                    <p class="error-msg">{{ error_msg }}</p>
                 {% endif %}
-            {% endfor %}
-        </nav>
+                <form class="loginForm" action="/edit-blog" method="POST">
+                    <label for="blogname">Blog Name <span class="required">*</span></label>
+                    <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required />
 
-        {% for entry in entries[pageNum - 1] %}
-            {% if loop.index != 1 %}
-                <hr />
-            {% else %}
-                <br />
-            {% endif %}
-            <form action="/edit/{{ entry['id'] }}" method="POST">
-                <table>
-                    <tr><td>Entry Title *</td><td><input name="title" type="text" value="{{ entry['title'] }}" /></td></tr>
-                    <tr><td>Image URL</td><td><input type="url" name="pic" value="{{ entry['pic'] }}" /></td></tr>
-                    <tr><td>Entry Content *</td><td><textarea name="content">{{ entry['post'] }}</textarea></td></tr>
-                    <tr><td></td><td><input name="editEntry" type="submit" value="Edit Entry"/></td></tr>
-                    <tr><td></td><td><details><summary>Delete Entry</summary><input name="deleteEntry" type="submit" value="Confirm Delete Entry" /></details></td></tr>
-                </table>
-            </form>
-        {% endfor %}
+                    <label for="blogdescription">Blog Description</label>
+                    <textarea name="blogdescription" id="blogdescription">{{ blogdescription }}</textarea></td></tr>
 
-        <nav>
-            {% for page in entries %}
-                {% if loop.index != pageNum %}
-                    <a href="/edit-blog/{{ loop.index }}">Page {{loop.index}}</a>
+                    <label for="submit">...</label>
+                    <input name="blog" type="submit" value="Update Blog Name and Description" />
+                </form>
+            </div>
+
+            <div class="containers">
+                <h1 class="title">Add Entry</h1>
+                <form class="loginForm" action="/edit-blog" method="POST">
+                    <label for="title1">Entry Title <span class="required">*</span></label>
+                    <input type="text" name="title" id="title1" value="{{ entrytitle }}" required />
+
+                    <label for="pic1">Image URL</label>
+                    <input type="url" name="pic" id="pic1" />
+
+                    <label for="content1">Entry Content <span class="required">*</span></label>
+                    <textarea name="content" id="blogname" value="{{ blogname }}" required></textarea>
+
+
+                    <label for="submit">...</label>
+                    <input name="addEntry" type="submit" value="Add Entry" />
+                </form>
+            </div>
+
+            <div class="containers">
+                <h1 class="title">Edit Entries</h1>
+                {% if not entries %}
+                    <h3>You don't have any entries for this blog...</h3>
                 {% else %}
-                    <p>Page {{loop.index}}</p>
+                    <nav>
+                        {% for page in entries %}
+                            {% if loop.index != pageNum %}
+                                <a href="/edit-blog/{{ loop.index }}">Page {{loop.index}}</a>
+                            {% else %}
+                                <p>Page {{loop.index}}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </nav>
+            </div>
+
+            <div class="containers entries">
+                    {% for entry in entries[pageNum - 1] %}
+                        <form class="containers loginForm" action="/edit/{{ entry['id'] }}" method="POST">
+                            <label for="title2">Entry Title <span class="required">*</span></label>
+                            <input type="text" name="title" id="title1" value="{{ entry['title'] }}" />
+
+                            <label for="pic2">Image URL</label>
+                            <input type="url" name="pic" id="pic1" value="{{ entry['pic'] }}" />
+
+                            <label for="content2">Entry Content <span class="required">*</span></label>
+                            <textarea name="content" id="content2" required>{{ entry['post'] }}</textarea>
+
+
+                            <label for="submit">...</label>
+                            <input name="editEntry" type="submit" value="Edit Entry" />
+
+                            <details>
+                                <summary>Delete Entry</summary>
+                                <input name="deleteEntry" type="submit" value="Confirm Delete Entry" />
+                            </details>
+                        </form>
+                    {% endfor %}
+            </div>
+
+            <div class="containers">
+                    <nav>
+                        {% for page in entries %}
+                            {% if loop.index != pageNum %}
+                                <a href="/edit-blog/{{ loop.index }}">Page {{loop.index}}</a>
+                            {% else %}
+                                <p>Page {{loop.index}}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </nav>
                 {% endif %}
-            {% endfor %}
-        </nav>
+            </div>
+        </div>
     </body>
 </html>

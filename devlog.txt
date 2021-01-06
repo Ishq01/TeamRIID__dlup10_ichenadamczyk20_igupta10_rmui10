@@ -249,3 +249,13 @@ ianC -- 2021-1-5 15:00
     - Reorganized HTML in header.html, home.html, login.html, register.html
     - Created header for all pages
     - Added HTML validation for all applicable fields (header.html, home.html, login.html, register.html)
+
+
+ianC -- 2021-1-5 20:00
+    - Fixed error_msg related bug when logging in
+    - Fixed a jinja logic error involving rendering entries
+    - Fixed CSS issue due to conflicting ids
+    - Fixed wrong username being rendered in jinja
+    - Made it so user has to be logged-in to view 404 page
+    - Styled 404.html, blog.html, edit-blog.html, follow-blog.html, search-results.html
+    - Fixed comments on 404.html, blog.html, follow-blog.html

@@ -19,18 +19,30 @@ REQUIRES
     </head>
     <body>
         {% include 'header.html' %}
+        <div id="bloghome">
+            <div class="containers">
+                <h1>Search Results</h1>
+                {% if not entries %}
+                    <h3>No matching entries. Try different search words.</h3>
+                {% else %}
+            </div>
 
-        <h1>Search Results</h1>
-        {% if not entries %}
-            <h3>No matching entries. Try different search words.</h3>
-        {% else %}
-            {% for entry in entries %}
-                <fieldset>
-                    <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
-                    <p><i>Posted at {{ entry["time"] }}</i></p>
-                    <p>{{entry["post"]}}</p>
-                </fieldset>
-            {% endfor %}
-        {% endif %}
+            <div class="containers entries">
+                <div class="containers">
+                    {% for entry in entries %}
+                        <fieldset>
+                            <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
+                            <p><i>Posted at {{ entry["time"] }}</i></p>
+                            <p>{{entry["post"]}}</p>
+                        </fieldset>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="containers loginForm">
+                <label for="submit">...</label>
+            </div>
+        </div>
     </body>
 </html>

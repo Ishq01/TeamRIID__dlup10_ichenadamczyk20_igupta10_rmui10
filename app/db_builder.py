@@ -270,29 +270,32 @@ def clear():
 
 createTables()
 
-'''
-register("userA", "passsssssss", "my first blog", "A very cool lil blog")
-register("userB", "passsssssss", "I hate the other blog", "I am raging schizophrenic")
-register("userC", "passsssssss", "Cute Dog Pictures", "Cute dog pictures")
+if __name__ == "__main__":
+    clear()
+    createTables()
+    register("userA", "passsssssss", "my first blog", "A very cool lil blog")
+    register("userB", "passsssssss", "I hate the other blog", "I am raging schizophrenic")
+    register("userC", "passsssssss", "Cute Dog Pictures", "Cute dog pictures")
 
-addEntry("1", "Hey guys!", "Hows it going", "")
-addEntry("2", "Stop", "get off", "")
-addEntry("1", "Why are you mean :(", "You guys alright?", "")
-addEntry("3", "Dog", "imagine a dog here", "")
-addEntry("1", "oh god", "Hahah hey", "")
+    addEntry("1", "Hey guys!", "Hows it going", "")
+    addEntry("2", "Stop", "get off", "")
+    addEntry("1", "Why are you mean :(", "You guys alright?", "")
+    addEntry("3", "Dog", "imagine a dog here", "")
+    addEntry("1", "oh god", "Hahah hey", "")
 
-deleteEntry("4")
+    deleteEntry("4")
 
-addFollower(1, 2) #2 follows 1
-addFollower(2, 1) #1 follows 2
-addFollower(3, 2) #2 follows 3
+    addFollower(1, 2) #2 follows 1
+    addFollower(2, 1) #1 follows 2
+    addFollower(3, 2) #2 follows 3
 
-#removeFollower(1,2)
-print(checkFollower(2,1))
-print(checkFollower(1,2))
+    #removeFollower(1,2)
+    print(checkFollower(2,1))
+    print(checkFollower(1,2))
 
-print(getFollowedBlogs(2))
-'''
+    print(getFollowedBlogs(2))
+
+
 
 printDatabase()
 getBlogs()

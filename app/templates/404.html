@@ -1,6 +1,11 @@
 <!--
-Basic 404 template, returned if the user tries to access a non-existent page
+The 404 error page
 
+IMPORTS
+/static/styles.css
+header.html
+
+REQUIRES
 [if user wants to return to home]
 SENDS to /home by GET
 -->
@@ -8,11 +13,17 @@ SENDS to /home by GET
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>404 Page Not Found - Web Log</title>
+        <title>404 Error - Web Log</title>
+        <link rel="stylesheet" href="/static/styles.css" />
     </head>
     <body>
-        <h1>Whoops</h1>
-        <p>Page not found</p>
-        <a href="/home">Back to home</a>
+        {% include 'header.html' %}
+        <div id="home">
+            <div class="container">
+                <h1 class="title">404 Error (Whoops)</h1>
+                <p>Page not found</p>
+                <a href="/home">Back to home</a>
+            </div>
+        </div>
     </body>
 </html>

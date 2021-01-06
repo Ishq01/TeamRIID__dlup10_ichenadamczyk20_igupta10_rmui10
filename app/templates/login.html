@@ -8,7 +8,6 @@ password  - Password
 
 IMPORTS
 /static/styles.css
-/static/login-page.css
 
 [if user tries to log in]
 SENDS to /login by POST
@@ -42,7 +41,7 @@ SENDS to /register by GET
     
                     <label for="submit">...</label>
                     <input name="login" type="submit" value="Log In" />
-                    <p>Not a registered user? <a href="/register">Register here.</a></p>
+                    <p id="link">Not a registered user? <a href="/register">Register here.</a></p>
                 </form>
             </div>
         </div>

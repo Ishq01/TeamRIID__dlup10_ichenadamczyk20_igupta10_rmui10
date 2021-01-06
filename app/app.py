@@ -12,7 +12,7 @@ salt = b"I am a static, plaintext salt!!@#T gp127 They're actually more effectiv
 
 # helper function to format list of entries in paged format
 def pageEntries(entries, pageSize):
-    if len(entries) == 0: return [[]]
+    if len(entries) == 0: return []
     pagedEntries = []
     for i in range(0, len(entries), pageSize):
         pagedEntries += [entries[i:min(i + pageSize, len(entries))]]
@@ -21,8 +21,11 @@ def pageEntries(entries, pageSize):
 # if user tries to access page that doesn't exist
 @app.errorhandler(404) 
 def pageNotFound(error):
-    # return page not found template
-    return render_template("404.html", code = 404)
+    # return page not found template if user is logged in
+    if "username" in session:
+        return render_template("404.html", code = 404)
+    # otherwise redirect user to login page
+    return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -128,6 +131,7 @@ def login():
             # set username/password in session if successful login
             session["username"] = request.form["username"]
             session["password"] = request.form["password"]
+            session["error_msg"] = ""
             # return home page for user
             return redirect(url_for(".homepage"))
             
@@ -213,15 +217,15 @@ def viewBlog(username, pageNum):
             session.pop("error_msg")
             # returns home page with error
             return render_template("blog.html", blogname = getInfo(username, "blogname"), 
-            blogdescription = blogdescription, username = username,
+            blogdescription = blogdescription, creator = username,
             iscreator = iscreator, entries = entries, pageNum = pageNum,
-            error_msg = msg, following = following)
+            error_msg = msg, following = following, username = session["username"])
         
         # show blog with all info received from db 
         return render_template("blog.html", blogname = getInfo(username, "blogname"), 
-            blogdescription = blogdescription, username = username,
+            blogdescription = blogdescription, creator = username,
             iscreator = iscreator, entries = entries, pageNum = pageNum,
-            following  = following) # get id of username from url
+            following  = following, username = session["username"]) # get id of username from url
     
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")

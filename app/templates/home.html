@@ -3,7 +3,6 @@ The homepage for a logged-in user -- lists all blogs on the website
 
 IMPORTS
 /static/styles.css
-/static/home.css
 header.html
 
 REQUIRES
@@ -23,7 +22,7 @@ SENDS to /home/blog/<username> by GET
 SENDS to /follow/<username> by POST
 home - Submit button
 
-[if user wants to follow blog]
+[if user wants to unfollow blog]
 SENDS to /unfollow/<username> by POST
 home - Submit button
 -->
@@ -36,10 +35,10 @@ home - Submit button
     </head>
     <body>
         {% include 'header.html' %}
-        <div id = "home">
+        <div id="home">
             <div class="container">
                 <h1 class="title">Welcome to Web Log 0.1, {{ username }}</h1>
-                {% if error_msg is defined %}
+                {% if error_msg is defined and error_msg %}
                     <p class="error-msg">{{ error_msg }}</p>
                 {% endif %}
 
