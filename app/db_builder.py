@@ -268,17 +268,17 @@ def getFollowedBlogs(followerID):
     return blogs
 
 def setAdminUser():
-    username = input("Username> ")
+    username = "God"
     password = input("Password> ")
 
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
     db.row_factory = dict_factory
     c = db.cursor()
-    blogs = []
-    for user in followedUsers:
-        blog = c.execute("SELECT * FROM users WHERE id=?;", [str(user["userID"])]).fetchone()
-        blogs.append(blog)
+
+    
+    
+
     db.commit()
     db.close()
     return blogs
