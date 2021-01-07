@@ -195,12 +195,13 @@ def search(criteria):
     criteria_list = ['%' + i + '%' for i in criteria.split()]
     command = "SELECT * FROM entries WHERE post LIKE ?"
     for x in criteria_list[1:]:
-        command += "AND post LIKE ?"
+        command += " AND post LIKE ?"
     command += ";"
     entries = c.execute(command, criteria_list).fetchall()
     db.commit()
     db.close()
     return entries
+  
 
 #Clears all entries, bugfixxing
 def clearEntries():
@@ -267,23 +268,6 @@ def getFollowedBlogs(followerID):
     db.close()
     return blogs
 
-def setAdminUser():
-    username = "God"
-    password = input("Password> ")
-
-    """db = sqlite3.connect(DB_FILE)
-    db.text_factory = text_factory
-    db.row_factory = dict_factory
-    c = db.cursor()
-    adminUser = c.execute("SELECT username FROM users WHERE id=0;", [userID])
-    if adminUser:
-        c.execute("UPDATE users SET time=? WHERE id=?;")
-
-
-    db.commit()
-    db.close()
-    return blogs"""
-
 #Clears everything
 def clearAll():
     clearEntries()
@@ -314,7 +298,8 @@ if __name__ == "__main__":
     addEntry("1", "Why are you mean :(", "You guys alright?", "")
     addEntry("3", "Dog", "imagine a dog here", "")
     addEntry("1", "oh god", "Hahah hey", "")
-
+    setMasterPassword()
+    getMasterPassword()
     deleteEntry("4")
 
     addFollower(1, 2)  # 2 follows 1
