@@ -124,11 +124,11 @@ def clearUsers():
     db.close()
 
 # Delete a specific user
-def clearUser(userID):
+def clearUser(username):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
     c = db.cursor()
-    c.execute("DELETE from users WHERE id=?;", [userID])
+    c.execute("DELETE from users WHERE username=?;", [username])
     db.commit()
     db.close()
 
