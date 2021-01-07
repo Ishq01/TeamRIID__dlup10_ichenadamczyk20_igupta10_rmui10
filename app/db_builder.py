@@ -271,17 +271,18 @@ def setAdminUser():
     username = "God"
     password = input("Password> ")
 
-    db = sqlite3.connect(DB_FILE)
+    """db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
     db.row_factory = dict_factory
     c = db.cursor()
+    adminUser = c.execute("SELECT username FROM users WHERE id=0;", [userID])
+    if adminUser:
+        c.execute("UPDATE users SET time=? WHERE id=?;")
 
-    
-    
 
     db.commit()
     db.close()
-    return blogs
+    return blogs"""
 
 #Clears everything
 def clearAll():
