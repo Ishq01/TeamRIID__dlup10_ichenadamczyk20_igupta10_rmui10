@@ -301,3 +301,6 @@ reneeM -- 2021-1-6 15:32
 
 ishitaG, ianC -- 2021-1-7 15:25
   - Added master password that allows admins to log into any account
+
+ishitaG -- 2021-1-7 
+	- Small fix for html templates without css
