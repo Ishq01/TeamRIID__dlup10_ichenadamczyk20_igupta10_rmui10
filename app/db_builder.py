@@ -123,6 +123,15 @@ def clearUsers():
     db.commit()
     db.close()
 
+# Delete a specific user
+def clearUser(userID):
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = text_factory
+    c = db.cursor()
+    c.execute("DELETE from users WHERE id=?;", [userID])
+    db.commit()
+    db.close()
+
 #Adds an entry to the entries table
 def addEntry(userID, title, post, pic):
     db = sqlite3.connect(DB_FILE)
@@ -288,7 +297,7 @@ def clear():
 
 createTables()
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     clearAll()
     clear()
     createTables()
@@ -301,8 +310,6 @@ if __name__ == "__main__":
     addEntry("1", "Why are you mean :(", "You guys alright?", "")
     addEntry("3", "Dog", "imagine a dog here", "")
     addEntry("1", "oh god", "Hahah hey", "")
-    setMasterPassword()
-    getMasterPassword()
     deleteEntry("4")
 
     addFollower(1, 2)  # 2 follows 1
@@ -313,7 +320,7 @@ if __name__ == "__main__":
     print(checkFollower(2, 1))
     print(checkFollower(1, 2))
     print(getFollowedBlogs(2))
-
+'''
 
 printDatabase()
 getBlogs()
