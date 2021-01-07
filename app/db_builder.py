@@ -201,7 +201,7 @@ def search(criteria):
     db.text_factory = text_factory
     db.row_factory = dict_factory
     c = db.cursor()
-    criteria_list = ['%' + i + '%' for i in criteria.split()]
+    criteria_list = ['%' + i.replace('%', '[%]') + '%' for i in criteria.split()]
     command = "SELECT * FROM entries WHERE (post LIKE ?"
     for x in criteria_list[1:]:
         command += " AND post LIKE ?"
