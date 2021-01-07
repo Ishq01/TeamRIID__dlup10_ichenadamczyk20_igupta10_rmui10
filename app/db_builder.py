@@ -267,6 +267,22 @@ def getFollowedBlogs(followerID):
     db.close()
     return blogs
 
+def setAdminUser():
+    username = input("Username> ")
+    password = input("Password> ")
+
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = text_factory
+    db.row_factory = dict_factory
+    c = db.cursor()
+    blogs = []
+    for user in followedUsers:
+        blog = c.execute("SELECT * FROM users WHERE id=?;", [str(user["userID"])]).fetchone()
+        blogs.append(blog)
+    db.commit()
+    db.close()
+    return blogs
+
 #Clears everything
 def clearAll():
     clearEntries()

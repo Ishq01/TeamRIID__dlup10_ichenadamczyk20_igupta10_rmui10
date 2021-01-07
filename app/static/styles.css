@@ -11,7 +11,7 @@ html, body {
 }
 
 body {
-    background-color: #e0c7fdb0;
+    background-color: #E0C7FDB0;
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -21,25 +21,12 @@ body {
     word-break: break-all;
 }
 
+/* Remove br's in place as fallback without CSS */
 br {
     display: none;
 }
 
-.container, .containers {
-    background-color: #B295FF;
-    padding: 20px;
-    font-size: 20px;
-}
-
-.container {
-    flex: 1 1 auto;
-}
-
-.containers img {
-    max-width: calc(100vw - 50px);
-    max-height: 100vh;
-}
-
+/* || Typography Rules */
 p {
     font-weight: 300;
 }
@@ -68,6 +55,11 @@ div.text {
     margin: 1em 0;
 }
 
+span.required {
+    color: #6C33A6;
+}
+
+/* Error message at top of page */
 .error-msg {
     background-color: #D9B4FD;
     border-color: #000000;
@@ -86,6 +78,7 @@ div.text {
     opacity: 1;
 }
 
+/* Animation to make error message disappear */
 @keyframes disappearing_msg {
     0% {
         opacity: 1;
@@ -118,10 +111,7 @@ div.text {
     }
 }
 
-span.required {
-    color: #6C33A6;
-}
-
+/* Navigation bar for entry pages */
 nav a, nav p {
     float: left;
     margin: 0 10px 0 0;
@@ -135,31 +125,28 @@ nav {
     margin: 10px 0;
 }
 
+/* Fieldsets for displaying entries */
 fieldset {
     margin: 10px 0;
     border: 3px solid grey;
 }
 
+/* Entry title */
 fieldset legend {
-    background-color: rgb(207, 195, 248);
+    background-color: #CFC3F8;
     border: 3px solid grey;
     padding: 3px;
 }
 
+/* Entry time (and creator) */
 fieldset > p:first-of-type {
     padding: 3px;
     text-decoration: underline;
 }
 
-fieldset .text {
-    padding: 0;
-    border: none;
-    border-top: 3px dotted grey;
-    width: 100%;
-}
-
+/* Link to entry from title */
 fieldset a {
-    color: rgb(0, 0, 0);
+    color: #000000;
 }
 
 /************** HEADER  *****************/
@@ -196,7 +183,7 @@ fieldset a {
 
 /* Hover over link */
 #header a:hover {
-    background-color: #023e8a;
+    background-color: #023E8A;
 }
 
 /* Title is not a link */
@@ -208,8 +195,8 @@ fieldset a {
     justify-content: flex-start;
 }
 
+/* Website name and links */
 #header #left {
-    float: left;
     flex-grow: 1;
 }
 
@@ -253,12 +240,7 @@ fieldset a {
 
 /************** HOME  *****************/
 
-body > #home {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
-}
-
+/* Container for main content */
 body > #home .container {
     width: 80%;
     margin-left: auto;
@@ -268,6 +250,26 @@ body > #home .container {
     margin-bottom: 20px;
 }
 
+/* Container for main content and also containers to split up content */
+.container, .containers {
+    background-color: #B295FF;
+    padding: 20px;
+    font-size: 20px;
+}
+
+/* Make container fill body */
+.container {
+    flex: 1 1 auto;
+}
+
+/* Select entry images and limit their size */
+.containers img {
+    max-width: 100%;
+    max-height: 90vh;
+}
+
+/* || Table */
+
 table {
     border-collapse: collapse;
     font-size: 20px;
@@ -276,7 +278,7 @@ table {
 }
 
 thead, th {
-    background-color: #02033a;
+    background-color: #02033A;
     color: white;
     font-weight: 300;
     word-wrap: normal;
@@ -302,12 +304,12 @@ tr:nth-child(odd) {
 }
 
 tr:nth-child(even) {
-    background-color: #f7defd;
+    background-color: #F7DEFD;
     color: black;
 }
 
 table input {
-    background-color: #ffffff;
+    background-color: #FFFFFF;
 }
 
 
@@ -376,7 +378,7 @@ input[type="submit"]:hover {
     width: clamp(400px, 33%, 600px);
     border-right: 6px solid #7b2cbf;
     font-size: 20px;
-    background-color: #877effc4;
+    background-color: #877EFFC4;
     height: 100%;
     margin: 0;
     padding-top: 10px;
@@ -430,19 +432,14 @@ body > #bloghome {
 
 body > #bloghome .containers {
     width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px auto;
     max-width: 1500px;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 body > #bloghome .entries {
     background: transparent;
     width: calc(80%);
     margin: -20px auto;
-    margin-left: auto;
-    margin-right: auto;
     border-left: 50px solid #B295FF;
     z-index: 0;
     transform: translateX(25px);
