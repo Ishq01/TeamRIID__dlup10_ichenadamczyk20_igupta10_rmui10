@@ -302,5 +302,11 @@ reneeM -- 2021-1-6 15:32
 ishitaG, ianC -- 2021-1-7 15:25
   - Added master password that allows admins to log into any account
 
-ishitaG -- 2021-1-7 
+ishitaG -- 2021-1-7 16:45
 	- Small fix for html templates without css
+
+ianC -- 2021-1-7 17:00
+    - Added function to delete specific users
+    - Fixed issue where user could resize textarea past width of container
+    - Mostly fixed searching "%" symbols
+    - Added searching by title and content
