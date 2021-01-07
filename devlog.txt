@@ -298,3 +298,6 @@ ishitaG -- 2021-1-6 15:31
 	
 reneeM -- 2021-1-6 15:32
 	- Added requirements.txt and update README with launch codes and roster
+
+ishitaG, ianC -- 2021-1-7 15:25
+  - Added master password that allows admins to log into any account
