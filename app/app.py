@@ -450,12 +450,10 @@ def searchFunction(pageNum):
             # return entries that have the keywords
             else:
                 # get matching entries from db
-                entries = search(session["keywords"])
+                entries = [entry for entry in search(session["keywords"]) if getUsername(entry["userID"]) is not None]
                 for i in entries:
                     # add username of creator to each entry
                     i["username"] = getUsername(i["userID"])
-                    if i["username"] is None:
-                        i["username"] = "[deleted user]"
                     # split post by new lines
                     i["post"] = i["post"].split("\n")
                 # if page doesn't exist, default to page 1
