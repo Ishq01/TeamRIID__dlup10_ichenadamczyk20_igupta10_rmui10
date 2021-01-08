@@ -6,8 +6,22 @@ IMPORTS
 header.html
 
 REQUIRES
+entries (list of list of dictionaries)
+ -- entries[0]                - First page of entries
+ -- entries[i][j]["id"]       - ID of blog page
+ -- entries[i][j]["username"] - Username of creator of blog
+ -- entries[i][j]["title"]    - Title
+ -- entries[i][j]["time"]     - Date time (in human readable format)
+ -- entries[i][j]["post"]     - Content of the entry
+ -- entries[i][j]["pic"]      - URL of included image
+search - search query
 
-[if user wants to edit blog]
+
+[if user wants to view blog]
+SENDS to /home/blog/<username> by GET
+
+[if user wants to view different page]
+SENDS to /search-results/<pageNum> by GET
 
 -->
 <!DOCTYPE html>

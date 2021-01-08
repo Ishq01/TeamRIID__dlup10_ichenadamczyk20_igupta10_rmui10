@@ -37,6 +37,9 @@ SENDS to /home by GET
 
 [if user wants to log out]
 SENDS to /logout by GET
+
+[if user wants to view different page]
+SENDS to /edit-blog/<pageNum> by GET
 -->
 {% if pageNum is not defined %}
     {% set pageNum = 1 %}
