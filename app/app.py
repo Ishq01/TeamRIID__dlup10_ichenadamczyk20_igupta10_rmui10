@@ -575,7 +575,8 @@ def followedBlogs():
         # for each blog user is following
         for blog in getFollowedBlogs(getInfo(session["username"], "id")):
             # add blogname to list
-            following += [blog["blogname"]]
+            if blog is not None:
+                following += [blog["blogname"]]
         # if user successfully unfollowed blog
         if "error_msg" in session:
             # store error
