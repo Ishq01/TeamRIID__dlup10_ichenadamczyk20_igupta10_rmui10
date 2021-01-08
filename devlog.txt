@@ -9,8 +9,8 @@ RIID -- 2020-12-18 16:00s
 	- Updated README.md
 
 ianC -- 2020-12-18 19:50
-    - Added HTML Templates (blog.html, edit-blog.html, edit-entry.html, header.html, home.html, login.html,
-                            register.html)
+	- Added HTML Templates (blog.html, edit-blog.html, edit-entry.html, header.html, home.html, login.html,
+				register.html)
 
 reneeM -- 2020-12-19 16:40
 	- Added db_bulider.py with lines to create the users and entries tables in the database
@@ -18,7 +18,7 @@ reneeM -- 2020-12-19 16:40
 	- Added method to print rows in user table
 
 ianC -- 2020-12-19 17:30
-    - Updated register.html to support multiple error messages.
+	- Updated register.html to support multiple error messages.
 
 ishitaG -- 2020-12-19 17:32
 	- Added @app.routes for /register and /registered
@@ -38,7 +38,7 @@ ishitaG -- 2020-12-19 19:57
 	- Added linkage to login page after user registers successfully
 
 ianC -- 2020-12-22 14:52
-    - Updated login.html to support username and password being filled in automatically
+	- Updated login.html to support username and password being filled in automatically
 
 reneeM -- 2020-12-22 14:55
 	- Added methods to find password when given a username and to clear the users table
@@ -86,8 +86,8 @@ ishitaG -- 2020-12-23 20:05
 	- Remove unnecessary test cases from db_builder.py
 
 ianC -- 2020-12-24 12:31
-    - Added 404.html template
-    - Added form to add entry and improved GUI on edit-blog.html
+	- Added 404.html template
+	- Added form to add entry and improved GUI on edit-blog.html
 
 dragosL -- 2020-12-24 13:57
 	- Added addEntry to db_builder
@@ -130,12 +130,12 @@ ishitaG -- 2020-12-25 00:55
 	  entry info even if form is not submitted
 
 ianC -- 2020-12-30 16:26
-    - Added *'s to required fields
-    - Added requirements for valid usernames and passwords
-    - Updated comments on HTML templates
-    - Implemented SQL parameterization
-    - Added support for new lines in entry content and blog descriptions
-    - Added password hashing and hashed all passwords in existing users
+	- Added *'s to required fields
+	- Added requirements for valid usernames and passwords
+	- Updated comments on HTML templates
+	- Implemented SQL parameterization
+	- Added support for new lines in entry content and blog descriptions
+	- Added password hashing and hashed all passwords in existing users
 
 ishitaG -- 2021-1-1 21:21
 	- Fixed bug: if user submitted an unsuccessful registration form, then went to login page,
@@ -189,8 +189,8 @@ reneeM -- 2021-1-4 10:25
 	- Added methods to check if followers exist and to return all users a user is following
 
 ianC -- 2021-1-4 10:45
-    - Added page view for entries in both viewing and editing blogs
-    - Added buttons to follow blogs (from both the home page and the view blog page)
+	- Added page view for entries in both viewing and editing blogs
+	- Added buttons to follow blogs (from both the home page and the view blog page)
 
 reneeM -- 2021-1-4 11:11
 	- Fixed getFollowedUsers method to return usernames instead of userIDs
@@ -216,7 +216,7 @@ reneeM -- 2021-1-4 14:43
 	- Added column in entries tables to store an image address and adjusted related methods
 
 ianC -- 2021-1-4 15:00
-    - Added single-image-per-entry functionality to editing and viewing blogs.
+	- Added single-image-per-entry functionality to editing and viewing blogs.
 
 ishitaG -- 2021-1-4 15:42
 	- Refactor code to include add/edit/delete code in edit blog method 
@@ -244,24 +244,24 @@ ishitaG -- 2021-1-4 22:07
 		- If user unfollows from followed blog page, page is reloaded with msg
 
 ianC -- 2021-1-5 15:00
-    - Added CSS to home.html, login.html, register.html, header.html
-    - Updated comments in HTML templates home.html, login.html, register.html
-    - Reorganized HTML in header.html, home.html, login.html, register.html
-    - Created header for all pages
-    - Added HTML validation for all applicable fields (header.html, home.html, login.html, register.html)
+	- Added CSS to home.html, login.html, register.html, header.html
+	- Updated comments in HTML templates home.html, login.html, register.html
+	- Reorganized HTML in header.html, home.html, login.html, register.html
+	- Created header for all pages
+	- Added HTML validation for all applicable fields (header.html, home.html, login.html, register.html)
 
 ishitaG -- 2021-1-5 15:30
 	- Updated css for all pages and condensed to one file
 	- Added comments to css
 
 ianC -- 2021-1-5 20:00
-    - Fixed error_msg related bug when logging in
-    - Fixed a jinja logic error involving rendering entries
-    - Fixed CSS issue due to conflicting ids
-    - Fixed wrong username being rendered in jinja
-    - Made it so user has to be logged-in to view 404 page
-    - Styled 404.html, blog.html, edit-blog.html, follow-blog.html, search-results.html
-    - Fixed comments on 404.html, blog.html, follow-blog.html
+	- Fixed error_msg related bug when logging in
+	- Fixed a jinja logic error involving rendering entries
+	- Fixed CSS issue due to conflicting ids
+	- Fixed wrong username being rendered in jinja
+	- Made it so user has to be logged-in to view 404 page
+	- Added CSS to 404.html, blog.html, edit-blog.html, follow-blog.html, search-results.html
+	- Fixed comments on 404.html, blog.html, follow-blog.html
 
 ishitaG -- 2021-1-5 21:48
 	- Found and fixed small bugs in css
@@ -274,14 +274,14 @@ ishitaG -- 2021-1-6 11:00
 	- Fixed bug: user couldn't add numbers in username
 
 ianC -- 2021-1-6 13:07
-    - Made sure app.py and db_builder.py complied to PEP8 standards
-    - Refactored app.py to use validateInput to validate inputs
-    - Implemented character limits in app.py and in HTML templates
-    - Fixed consistency issue with margins on search-results, follow-blog, and home
-    - Sanitized inputs for search
-    - Added page-view and showing username on search-results
-    - Fixed text overflowing in tables and blog pages
-    - Added error message animation
+	- Made sure app.py and db_builder.py complied to PEP8 standards
+	- Refactored app.py to use validateInput to validate inputs
+	- Implemented character limits in app.py and in HTML templates
+	- Fixed consistency issue with margins on search-results, follow-blog, and home
+	- Sanitized inputs for search
+	- Added page-view and showing username on search-results
+	- Fixed text overflowing in tables and blog pages
+	- Added error message animation
 
 ishitaG -- 2021-1-6 13:21
 	- Updated CSS	
@@ -300,16 +300,16 @@ reneeM -- 2021-1-6 15:32
 	- Added requirements.txt and update README with launch codes and roster
 
 ishitaG, ianC -- 2021-1-7 15:25
-  - Added master password that allows admins to log into any account
+	- Added master password that allows admins to log into any account
 
 ishitaG -- 2021-1-7 16:45
 	- Small fix for html templates without css
 
 ianC -- 2021-1-7 17:00
-    - Added function to delete specific users
-    - Fixed issue where user could resize textarea past width of container
-    - Mostly fixed searching "%" symbols
-    - Added searching by title and content
+	- Added function to delete specific users
+	- Fixed issue where user could resize textarea past width of container
+	- Mostly fixed searching "%" symbols
+	- Added searching by title and content
 
 ianC -- 2021-1-8 1:00
 	- Fixed word-wrap appearance across website
