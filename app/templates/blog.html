@@ -27,6 +27,9 @@ viewBlog - Submit button
 [if user wants to follow blog]
 SENDS to /follow/<username> by POST
 viewBlog - Submit button
+
+[if user wants to view different page]
+SENDS to /home/blog/<username>/<pageNum> by GET
 -->
 {% if pageNum is not defined %}
     {% set pageNum = 1 %}

@@ -34,7 +34,7 @@ SENDS to / by GET
                 <h1 class="title">Register an Account</h1>
                 {% if error_msg is defined %}
                     {% for error in error_msg %}
-                        <p class="error-msg"><b>Problem Registering an Account: {{ error }}</b></p>
+                        <p class="error-msg">Problem Registering an Account: {{ error }}</p>
                     {% endfor %}
                 {% endif %}
                 <form action="/register" method="POST">
