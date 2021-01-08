@@ -317,3 +317,8 @@ ianC -- 2021-1-8 1:30
 	- Made sure indents were consistent in devlog
 	- Fixed search bug for fetching usernames when the entry's creator was deleted
 	- Added handling for pageNums of less than 1
+
+ianC -- 2021-1-8 10:30
+	- Fixed bug from following a blog that was deleted
+	- Fixed search bug for displaying entries from deleted blogs (now deleted blogs will not show up in search)
+	- Created alternate app_remote.py that runs without debug mode and hosts the Flask on the network
