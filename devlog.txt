@@ -311,8 +311,9 @@ ianC -- 2021-1-7 17:00
 	- Mostly fixed searching "%" symbols
 	- Added searching by title and content
 
-ianC -- 2021-1-8 1:00
+ianC -- 2021-1-8 1:30
 	- Fixed word-wrap appearance across website
 	- Finished commenting HTML templates and CSS
 	- Made sure indents were consistent in devlog
 	- Fixed search bug for fetching usernames when the entry's creator was deleted
+	- Added handling for pageNums of less than 1

@@ -255,7 +255,7 @@ def viewBlog(username, pageNum):
         # make list of pages of entries
         entries = pageEntries(entries, 10)
         # if page doesn't exist, default to page 1
-        if len(entries) < pageNum:
+        if len(entries) < pageNum or pageNum < 1:
             pageNum = 1
        
         # checks if follow/unfollow related message in session
@@ -283,7 +283,7 @@ def editBlog(pageNum):
     # if user is logged in
     if "username" in session:
         entries = pageEntries(getEntries(getInfo(session["username"], "id")), 10)
-        if len(entries) < pageNum:
+        if len(entries) < pageNum or pageNum < 1:
             pageNum = 1
         
         # if user has submitted the form
@@ -460,7 +460,7 @@ def searchFunction(pageNum):
                     i["post"] = i["post"].split("\n")
                 # if page doesn't exist, default to page 1
                 entries = pageEntries(entries, 10)
-                if len(entries) < pageNum:
+                if len(entries) < pageNum or pageNum < 1:
                     pageNum = 1
                 return render_template("search-results.html", entries=entries,
                                        username=session["username"], pageNum=pageNum, search=session["keywords"])
