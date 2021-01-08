@@ -315,3 +315,4 @@ ianC -- 2021-1-8 1:00
 	- Fixed word-wrap appearance across website
 	- Finished commenting HTML templates and CSS
 	- Made sure indents were consistent in devlog
+	- Fixed search bug for fetching usernames when the entry's creator was deleted

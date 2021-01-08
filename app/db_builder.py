@@ -80,10 +80,12 @@ def getUsername(userID):
     db = sqlite3.connect(DB_FILE)
     db.text_factory = text_factory
     c = db.cursor()
-    info = c.execute("SELECT username FROM users WHERE id=?;", [userID]).fetchone()[0]
+    info = c.execute("SELECT username FROM users WHERE id=?;", [userID]).fetchone()
     db.commit()
     db.close()
-    return info
+    if info is None:
+        return info
+    return info[0]
 
 # changes a user's blog info given a new blog name and description
 def updateBlogInfo(username, blogname, desc):

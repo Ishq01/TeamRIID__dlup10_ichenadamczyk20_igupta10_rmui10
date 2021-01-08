@@ -454,6 +454,8 @@ def searchFunction(pageNum):
                 for i in entries:
                     # add username of creator to each entry
                     i["username"] = getUsername(i["userID"])
+                    if i["username"] is None:
+                        i["username"] = "[deleted user]"
                     # split post by new lines
                     i["post"] = i["post"].split("\n")
                 # if page doesn't exist, default to page 1
@@ -595,4 +597,4 @@ def followedBlogs():
 
 if __name__ == "__main__":  
     app.debug = True  
-    app.run() 
+    app.run(host='0.0.0.0') 
