@@ -1,7 +1,7 @@
 # Riidordie by Team RIID
 ## Roster
 * Dragos Lup: Project Manager + Entries Database
-* Renee Mui: Users + Followers Databases
+* Renee Mui: Users Database
 * Ishita Gupta: Flask
 * Ian Chen-Adamczyk: HTML templates
 ## Description
