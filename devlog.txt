@@ -310,3 +310,8 @@ ianC -- 2021-1-7 17:00
     - Fixed issue where user could resize textarea past width of container
     - Mostly fixed searching "%" symbols
     - Added searching by title and content
+
+ianC -- 2021-1-8 1:00
+	- Fixed word-wrap appearance across website
+	- Finished commenting HTML templates and CSS
+	- Made sure indents were consistent in devlog
