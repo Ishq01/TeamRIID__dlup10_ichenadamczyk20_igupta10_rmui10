@@ -1,67 +1,17 @@
-<!--
-UPDATE COMMENTS HERE
-Allows a user to add/edit entries and blog metadata
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Editing {{ blogname }} - Riidordie{% endblock %}</h1>
+{% endblock %} {% block content %}
 
-REQUIRES
-entries (list of list of dictionaries)
- -- entries[0]                - First page of entries
- -- entries[i][j]["title"]    - Title
- -- entries[i][j]["datetime"] - Date time (in human readable format)
- -- entries[i][j]["post"]     - Content of the entry
- -- entries[i][j]["id"]       - ID of the entry
-pageNum         (Integer of page number, one plus the index of the entries)
-error_msg       (String of why blog edit didn't succeed, undefined if no such problem)
-blogname        (String of name of blog)
-blogdescription (String of description of blog)
-entrytitle      (String of title of entry)
-entrycontent    (String of content of entry)
-username        (String of username of creator)
-
-[if user submits edits to blog]
-SENDS to /edit-blog by POST
-"blogname"        - Updated blog name
-"blogdescription" - Updated blog description
-
-[if user wants to edit an entry]
-SENDS to /edit/<entryid> by POST
-"title"         - Entry title
-"content"       - Entry content
-
-[if user wants to add an entry]
-SENDS to /add-entry/ by POST
-"title"         - Entry title
-"content"       - Entry content
-
-[if user wants to see existing blogs]
-SENDS to /home by GET
-
-[if user wants to log out]
-SENDS to /logout by GET
-
-[if user wants to view different page]
-SENDS to /edit-blog/<pageNum> by GET
--->
-{% if pageNum is not defined %}
-    {% set pageNum = 1 %}
-{% endif %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Editing {{ blogname }} - Riidordie</title>
-        <link rel="stylesheet" href="/static/styles.css" />
-    </head>
-    <body>
-        {% include 'header.html' %}
-        <div id="bloghome">
-            <div class="containers">
-                {% if error_msg is defined and error_msg %}
-                    <p class="error-msg">{{ error_msg }}</p>
-                {% endif %}
-                <h1 class="title">Edit Blog Metadata</h1>
-                <a href="/home/blog/{{username}}">View Blog</a></p>
-                <form class="loginForm" action="/edit-blog" method="POST">
-                    <label for="blogname">Blog Name <span class="required">*</span></label>
+<body>
+	<div id="bloghome">
+		<div class="containers">
+			{% if error_msg is defined and error_msg %}
+			<p class="error-msg">{{ error_msg }}</p>
+			{% endif %}
+			<h1 class="title">Edit Blog Metadata</h1>
+			<a href="/home/blog/{{username}}">View Blog</a></p>
+			<form class="loginForm" action="/edit-blog" method="POST">
+				<label for="blogname">Blog Name <span class="required">*</span></label>
                     <br class = "spacing" />
                     <small>May not exceed 100 characters.</small>
                     <input type="text" name="blogname" id="blogname" value="{{ blogname }}" required maxlength="100" />
@@ -162,4 +112,4 @@ SENDS to /edit-blog/<pageNum> by GET
             </div>
         </div>
     </body>
-</html>
+{% endblock %}

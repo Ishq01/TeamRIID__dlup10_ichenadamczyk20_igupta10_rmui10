@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import os
 import sys
-from db_builder import register as addUser, printDatabase, checkUsername, getInfo
-from db_builder import updateBlogInfo, getBlogs, addEntry, editEntry, getEntries
-from db_builder import saltString, deleteEntry, search, getEntryInfo, getUsername
-from db_builder import addFollower, removeFollower, getFollowedBlogs, checkFollower
+from db_builder import auth_methods, blog_methods, search_methods, follow_methods
+from db_builder import printDatabase, saltString
+
 
 app = Flask(__name__)
 # generate random secret key
@@ -34,7 +33,7 @@ def validateInput(name, value, error_msg_output):
             error_msg += ["Username can not be blank or have only spaces"]
         if not value.replace("_", "").isalnum() or " " in value:
             error_msg += ["Username can have only letters, numbers, and underscores"]
-        if checkUsername(value):
+        if auth_methods["checkUsername"](value):
             error_msg += ["Username already exists"]
         if len(value) > 100:
             error_msg += ["Username can have only 100 characters or fewer"]
@@ -111,7 +110,7 @@ def register():
                                    blogdescription=blogdescription)
         else:
             # adds user to database
-            addUser(username, saltString(password, salt), blogname, blogdescription)
+            auth_methods["addUser"](username, saltString(password, salt), blogname, blogdescription)
             session["error_msg"] = "Successful registration"
             # when a user has just registered, their information is present in the login form
             # however, url_for uses the GET method, which displays the username/password in the url,
@@ -160,13 +159,13 @@ def login():
     # if user is trying to log in
     if "login" in request.form:
         # if username doesn't exist in the database
-        if not checkUsername(request.form["username"]):
+        if not auth_methods["checkUsername"](request.form["username"]):
             # set error msg in session
             session["error_msg"] = "Incorrect username or password."
             # return login form with error
             return redirect(url_for(".loginpage"), code=307)
 
-        password = getInfo(request.form["username"], "password")    # get correct password for user from database
+        password = auth_methods["getPwd"](request.form["username"], "password")    # get correct password for user from database
         newPassword = saltString(request.form["password"], salt)
 
         # if password is correct
@@ -207,9 +206,9 @@ def homepage():
     # if user is logged in
     if "username" in session:
         # for each blog
-        for blog in getBlogs():
+        for blog in blog_methods["getBlogs"]():
             # if user is following the blog
-            if checkFollower(blog["id"], getInfo(session["username"], "id")):
+            if follow_methods["checkFollower"](blog["id"], blog_methods["getInfo"](session["username"], "id")):
                 # add blogname to list
                 following += [blog["blogname"]]
         # if user successfully followed/unfollowed or already following/unfollowing blog
@@ -219,10 +218,10 @@ def homepage():
             # remove error from session
             session.pop("error_msg")
             # reload page with error
-            return render_template("home.html", blogs=getBlogs(), following=following,
+            return render_template("home.html", blogs=blog_methods["getBlogs"](), following=following,
                                    username=session["username"], error_msg=msg)
         # if user hasn't submitted follow/unfollow form yet, load home page
-        return render_template("home.html", blogs=getBlogs(), following=following,
+        return render_template("home.html", blogs=blog_methods["getBlogs"](), following=following,
                                username=session["username"])
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
@@ -234,21 +233,21 @@ def viewBlog(username, pageNum):
     # if user is logged in
     if "username" in session:
         # check is user exists in db, if not return error page
-        if not checkUsername(username):
+        if not auth_methods["checkUsername"](username):
             return render_template("404.html", code=404)
 
         # check is user is following blog
-        following = checkFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
+        following = follow_methods["checkFollower"](blog_methods["getInfo"](username, "id"), blog_methods["getInfo"](session["username"], "id"))
 
         # split by newlines in blog description and entry bodies
-        blogdescription = getInfo(username, "blogdescription").split("\n")
+        blogdescription = blog_methods["getInfo"](username, "blogdescription").split("\n")
 
         # if user is the one who created the blog, set iscreator to True
         # otherwise, set iscreator to False
         iscreator = (session["username"] == username)
 
         # format entries for pageview
-        entries = getEntries(getInfo(username, "id"))
+        entries = blog_methods["getEntries"](blog_methods["getInfo"](username, "id"))
         for i in entries:
             # splits by new lines in posts of the entries
             i["post"] = i["post"].split("\n")
@@ -265,12 +264,12 @@ def viewBlog(username, pageNum):
             # remove error from session
             session.pop("error_msg")
             # returns home page with error
-            return render_template("blog.html", blogname=getInfo(username, "blogname"), blogdescription=blogdescription,
+            return render_template("blog.html", blogname=blog_methods["getInfo"](username, "blogname"), blogdescription=blogdescription,
                                    creator=username, iscreator=iscreator, entries=entries, pageNum=pageNum,
                                    error_msg=msg, following=following, username=session["username"])
 
         # show blog with all info received from db
-        return render_template("blog.html", blogname=getInfo(username, "blogname"), blogdescription=blogdescription,
+        return render_template("blog.html", blogname=blog_methods["getInfo"](username, "blogname"), blogdescription=blogdescription,
                                creator=username, iscreator=iscreator, entries=entries, pageNum=pageNum,
                                following=following, username=session["username"])  # get id of username from url
 
@@ -282,7 +281,7 @@ def viewBlog(username, pageNum):
 def editBlog(pageNum):
     # if user is logged in
     if "username" in session:
-        entries = pageEntries(getEntries(getInfo(session["username"], "id")), 10)
+        entries = pageEntries(blog_methods["getEntries"](blog_methods["getInfo"](session["username"], "id")), 10)
         if len(entries) < pageNum or pageNum < 1:
             pageNum = 1
 
@@ -298,13 +297,13 @@ def editBlog(pageNum):
                 # return template with username from session, original blogname, new description, add entry content,
                 # old editable entries, and error msg
                 return render_template("edit-blog.html", username=session["username"],
-                                       blogname=getInfo(session["username"], "blogname"),
+                                       blogname=blog_methods["getInfo"](session["username"], "blogname"),
                                        blogdescription=request.form["blogdescription"], entries=entries,
                                        error_msg=error_msg[0], pageNum=pageNum)
 
             # otherwise blog name and blog description are valid
             # update blog name/description
-            updateBlogInfo(session["username"], blogname, blogdescription)
+            blog_methods["updateBlogInfo"](session["username"], blogname, blogdescription)
             # want to display success msg first, then view blog
             error_msg = "Successfully updated blog name and description!"
             return render_template("edit-blog.html", username=session["username"],
@@ -322,24 +321,24 @@ def editBlog(pageNum):
             if len(error_msg) > 0:
                 # return template with information filled in and error msg
                 return render_template("edit-blog.html", username=session["username"],
-                                       blogname=getInfo(session["username"], "blogname"),
-                                       blogdescription=getInfo(session["username"], "blogdescription"),
+                                       blogname=blog_methods["getInfo"](session["username"], "blogname"),
+                                       blogdescription=blog_methods["getInfo"](session["username"], "blogdescription"),
                                        entrycontent=request.form["content"], entrytitle=request.form["title"],
                                        error_msg=error_msg[0],
-                                       entries=pageEntries(getEntries(getInfo(session["username"], "id")), 10))
+                                       entries=pageEntries(blog_methods["getEntries"](blog_methods["getInfo"](session["username"], "id")), 10))
 
             # if user has entry title and content
             else:
                 # get user id from db (since user is editing, username is from session)
-                userID = getInfo(session["username"], "id")
+                userID = blog_methods["getInfo"](session["username"], "id")
                 # add entry to db
-                addEntry(userID, entrytitle, entrycontent, entrypic)
+                blog_methods["addEntry"](userID, entrytitle, entrycontent, entrypic)
                 # if entry is properly filled out, return template with forms filled out and success msg
                 return render_template("edit-blog.html", username=session["username"],
-                                       blogname=getInfo(session["username"], "blogname"),
-                                       blogdescription=getInfo(session["username"], "blogdescription"),
+                                       blogname=blog_methods["getInfo"](session["username"], "blogname"),
+                                       blogdescription=blog_methods["getInfo"](session["username"], "blogdescription"),
                                        error_msg="Successfully added entry!",
-                                       entries=pageEntries(getEntries(getInfo(session["username"], "id")), 10))
+                                       entries=pageEntries(blog_methods["getEntries"](blog_methods["getInfo"](session["username"], "id")), 10))
 
         # if user submits edit entry form
         if "editEntry" in request.form:
@@ -351,9 +350,9 @@ def editBlog(pageNum):
                 session.pop("error_msg")
                 # return template with blog info and entry info filled in, and an error msg
                 return render_template("edit-blog.html", username=session["username"],
-                                       blogname=getInfo(session["username"], "blogname"),
-                                       blogdescription=getInfo(session["username"], "blogdescription"), error_msg=msg,
-                                       entries=pageEntries(getEntries(getInfo(session["username"], "id")), 10))
+                                       blogname=blog_methods["getInfo"](session["username"], "blogname"),
+                                       blogdescription=blog_methods["getInfo"](session["username"], "blogdescription"), error_msg=msg,
+                                       entries=pageEntries(blog_methods["getEntries"](blog_methods["getInfo"](session["username"], "id")), 10))
 
         # if user submits delete entry form
         if "deleteEntry" in request.form:
@@ -364,14 +363,14 @@ def editBlog(pageNum):
                 session.pop("error_msg")
                 # return template with blog info and entry info filled in, and an error msg
                 return render_template("edit-blog.html", username=session["username"],
-                                       blogname=getInfo(session["username"], "blogname"),
-                                       blogdescription=getInfo(session["username"], "blogdescription"), error_msg=msg,
-                                       entries=pageEntries(getEntries(getInfo(session["username"], "id")), 10))
+                                       blogname=blog_methods["getInfo"](session["username"], "blogname"),
+                                       blogdescription=blog_methods["getInfo"](session["username"], "blogdescription"), error_msg=msg,
+                                       entries=pageEntries(blog_methods["getEntries"](blog_methods["getInfo"](session["username"], "id")), 10))
 
         # if user hasn't submitted forms yet, load page with blog name/desc from db, and all entries
         return render_template("edit-blog.html", username=session["username"],
-                               blogname=getInfo(session["username"], "blogname"),
-                               blogdescription=getInfo(session["username"], "blogdescription"),
+                               blogname=blog_methods["getInfo"](session["username"], "blogname"),
+                               blogdescription=blog_methods["getInfo"](session["username"], "blogdescription"),
                                entries=entries, pageNum=pageNum)
     # if user tries to access page without being logged in, redirect to login page
     return redirect("/")
@@ -382,7 +381,7 @@ def editEntries(entryID):
     # if user is logged in
     if "username" in session:
         # get a list of entries that the user owns
-        userEntries = [entry["id"] for entry in getEntries(getInfo(session["username"], "id"))]
+        userEntries = [entry["id"] for entry in blog_methods["getEntries"](blog_methods["getInfo"](session["username"], "id"))]
 
         # check if user owns entry they are trying to edit (if user changes url)
         if entryID in userEntries:
@@ -400,9 +399,9 @@ def editEntries(entryID):
                     return redirect(url_for("editBlog", pageNum=1), code=307)
 
                 # entry title and content cannot be unchanged
-                elif (entrytitle == getEntryInfo(entryID, "title")) \
-                        and (entrycontent == getEntryInfo(entryID, "post")) \
-                        and (entrypic == getEntryInfo(entryID, "pic")):
+                elif (entrytitle == blog_methods["getEntryInfo"](entryID, "title")) \
+                        and (entrycontent == blog_methods["getEntryInfo"](entryID, "post")) \
+                        and (entrypic == blog_methods["getEntryInfo"](entryID, "pic")):
                     # sets msg for edit-blog
                     session["error_msg"] = "No changes made to entry title or content"
                     # redirects to edit-blog page with msg
@@ -411,7 +410,7 @@ def editEntries(entryID):
                 # both are changed and not blank
                 else:
                     # if no error, edit entry and reload page with new entry
-                    editEntry(entryID, entrytitle, entrycontent, entrypic)
+                    blog_methods["editEntry"](entryID, entrytitle, entrycontent, entrypic)
                     # sets msg for edit-blog
                     session["error_msg"] = "Successfully updated entry!"
                     # redirects to edit-blog page with msg
@@ -420,7 +419,7 @@ def editEntries(entryID):
             # if user submits delete entry form
             elif "deleteEntry" in request.form:
                 # delete the entry and reload page
-                deleteEntry(entryID)
+                blog_methods["deleteEntry"](entryID)
                 # sets msg for edit-blog
                 session["error_msg"] = "Successfully deleted entry!"
                 # redirects to edit-blog page with msg
@@ -450,10 +449,10 @@ def searchFunction(pageNum):
             # return entries that have the keywords
             else:
                 # get matching entries from db
-                entries = [entry for entry in search(session["keywords"]) if getUsername(entry["userID"]) is not None]
+                entries = [entry for entry in search_methods["search"](session["keywords"]) if blog_methods["getUsername"](entry["userID"]) is not None]
                 for i in entries:
                     # add username of creator to each entry
-                    i["username"] = getUsername(i["userID"])
+                    i["username"] = blog_methods["getUsername"](i["userID"])
                     # split post by new lines
                     i["post"] = i["post"].split("\n")
                 # if page doesn't exist, default to page 1
@@ -473,9 +472,9 @@ def viewSearchResult(ID):
     # if user is logged in
     if "username" in session:
         # get userID
-        userid = getEntryInfo(ID, "userID")
+        userid = blog_methods["getEntryInfo"](ID, "userID")
         # get username
-        username = getUsername(userid)
+        username = blog_methods["getUsername"](userid)
         # return the blog of the user that posted entry
         return redirect(url_for("viewBlog", username=username))
 
@@ -487,9 +486,9 @@ def follow(username):
     # if user is logged in
     if "username" in session:
         # if user not following blog
-        if not checkFollower(getInfo(username, "id"), getInfo(session["username"], "id")):
+        if not follow_methods["checkFollower"](blog_methods["getInfo"](username, "id"), blog_methods["getInfo"](session["username"], "id")):
             # add blog to db
-            addFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
+            follow_methods["addFollower"](blog_methods["getInfo"](username, "id"), blog_methods["getInfo"](session["username"], "id"))
 
             # set msg to following blog
             session["error_msg"] = "Successfully followed blog!"
@@ -527,7 +526,7 @@ def unfollow(username):
     # if user is logged in
     if "username" in session:
         # if user not following blog
-        if not checkFollower(getInfo(username, "id"), getInfo(session["username"], "id")):
+        if not follow_methods["checkFollower"](blog_methods["getInfo"](username, "id"), blog_methods["getInfo"](session["username"], "id")):
             # set msg to not following blog, can't unfollow
             session["error_msg"] = "Not following this blog yet, cannot unfollow."
 
@@ -544,7 +543,7 @@ def unfollow(username):
         # if user following blog
         else:
             # remove blog from db
-            removeFollower(getInfo(username, "id"), getInfo(session["username"], "id"))
+            follow_methods["removeFollower"](blog_methods["getInfo"](username, "id"), blog_methods["getInfo"](session["username"], "id"))
             # if following blog, set msg to unfollowing
             session["error_msg"] = "Successfully unfollowed blog!"
 
@@ -573,7 +572,7 @@ def followedBlogs():
     # if user is logged in
     if "username" in session:
         # for each blog user is following
-        for blog in getFollowedBlogs(getInfo(session["username"], "id")):
+        for blog in follow_methods["getFollowedBlogs"](blog_methods["getInfo"](session["username"], "id")):
             # add blogname to list
             if blog is not None:
                 following += [blog["blogname"]]
@@ -584,10 +583,10 @@ def followedBlogs():
             # remove error from session
             session.pop("error_msg")
             # return followed blogs
-            return render_template("follow-blog.html", blogs=getFollowedBlogs(getInfo(session["username"], "id")),
+            return render_template("follow-blog.html", blogs=follow_methods["getFollowedBlogs"](blog_methods["getInfo"](session["username"], "id")),
                                    following=following, error_msg=msg, username=session["username"])
         # return followed blogs
-        return render_template("follow-blog.html", blogs=getFollowedBlogs(getInfo(session["username"], "id")),
+        return render_template("follow-blog.html", blogs=follow_methods["getFollowedBlogs"](blog_methods["getInfo"](session["username"], "id")),
                                following=following, username=session["username"])
 
     # if user tries to access page without being logged in, redirect to login page

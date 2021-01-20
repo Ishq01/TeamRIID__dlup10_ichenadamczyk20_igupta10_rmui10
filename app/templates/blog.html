@@ -1,64 +1,24 @@
-<!--
-Displays a blog for the user to view
+<!-- put this in content?? -->
+{% if pageNum is not defined %} {% set pageNum = 1 %} {% endif %} {% extends 'base.html' %} {% block header %}
+<h1>{% block title %}{{ blogname }} - Riidordie{% endblock %}</h1>
+{% endblock %} {% block content %}
 
-IMPORTS
-/static/styles.css
-header.html
-
-REQUIRES
-entries (list of list of dictionaries)
- -- entries[0]             - First page of entries
- -- entries[i][j]["title"] - Title
- -- entries[i][j]["time"]  - Date time (in human readable format)
- -- entries[i][j]["post"]  - Content of the entry
- -- entries[i][j]["pic"]   - URL of included image
-pageNum         - Integer of page number
-blogname        - String of name of blog
-blogdescription - List of lines of description of blog
-following       - True if user is following the blog, False otherwise
-creator         - String of username of creator
-username        - String of username of user
-iscreator       - True if user is creator of the blog
-
-[if user wants to unfollow blog]
-SENDS to /unfollow/<username> by POST
-viewBlog - Submit button
-
-[if user wants to follow blog]
-SENDS to /follow/<username> by POST
-viewBlog - Submit button
-
-[if user wants to view different page]
-SENDS to /home/blog/<username>/<pageNum> by GET
--->
-{% if pageNum is not defined %}
-    {% set pageNum = 1 %}
-{% endif %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>{{ blogname }} - Riidordie</title>
-        <link rel="stylesheet" href="/static/styles.css" />
-    </head>
-    <body>
-        {% include 'header.html' %}
-        <div id="bloghome">
-            <div class="containers">
-                {% if error_msg is defined and error_msg %}
-                    <p class="error-msg">{{ error_msg }}</p>
-                {% endif %}
-                <h1 class="title">{{ blogname }}</h1>
-                <p>A blog by <u>{{ creator }}</u></p>
-                <div class="text">
-                    {% for line in blogdescription %}
-                        <p>{{ line }}</p>
-                    {% endfor %}
-                </div>
-                {% if not iscreator %}
-                    {% if following %}
-                        <form action="/unfollow/{{ creator }}" method="POST">
-                            <input type="submit" name="viewBlog" value="Unfollow Blog">
+<body>
+	<div id="bloghome">
+		<div class="containers">
+			{% if error_msg is defined and error_msg %}
+			<p class="error-msg">{{ error_msg }}</p>
+			{% endif %}
+			<h1 class="title">{{ blogname }}</h1>
+			<p>A blog by <u>{{ creator }}</u></p>
+			<div class="text">
+				{% for line in blogdescription %}
+				<p>{{ line }}</p>
+				{% endfor %}
+			</div>
+			{% if not iscreator %} {% if following %}
+			<form action="/unfollow/{{ creator }}" method="POST">
+				<input type="submit" name="viewBlog" value="Unfollow Blog">
                         </form>
                     {% else %}
                         <form action="/follow/{{ creator }}" method="POST">
@@ -112,4 +72,4 @@ SENDS to /home/blog/<username>/<pageNum> by GET
             </div>
         </div>
     </body>
-</html>
+{% endblock %}

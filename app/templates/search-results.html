@@ -1,60 +1,28 @@
-<!--
-Displays search results
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Search Results - Riidordie{% endblock %}</h1>
+{% endblock %} {% block content %}
 
-IMPORTS
-/static/styles.css
-header.html
+<body>
+	{% if entries %}
+	<div id="bloghome">
+		<div class="containers">
+			<h1>Search Results for {{ search }}</h1>
+			<nav>
+				{% for page in entries %} {% if loop.index != pageNum %}
+				<a href="/search-results/{{ loop.index }}">Page {{loop.index}}</a>
+				{% else %}
+				<p>Page {{loop.index}}</p>
+				{% endif %} {% endfor %}
+			</nav>
+		</div>
 
-REQUIRES
-entries (list of list of dictionaries)
- -- entries[0]                - First page of entries
- -- entries[i][j]["id"]       - ID of blog page
- -- entries[i][j]["username"] - Username of creator of blog
- -- entries[i][j]["title"]    - Title
- -- entries[i][j]["time"]     - Date time (in human readable format)
- -- entries[i][j]["post"]     - Content of the entry
- -- entries[i][j]["pic"]      - URL of included image
-search - search query
-
-
-[if user wants to view blog]
-SENDS to /home/blog/<username> by GET
-
-[if user wants to view different page]
-SENDS to /search-results/<pageNum> by GET
-
--->
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Search Results - Riidordie</title>
-        <link rel="stylesheet" href="/static/styles.css" />
-    </head>
-    <body>
-        {% include 'header.html' %}
-        {% if entries %}
-            <div id="bloghome">
-                <div class="containers">
-                    <h1>Search Results for {{ search }}</h1>
-                    <nav>
-                        {% for page in entries %}
-                            {% if loop.index != pageNum %}
-                                <a href="/search-results/{{ loop.index }}">Page {{loop.index}}</a>
-                            {% else %}
-                                <p>Page {{loop.index}}</p>
-                            {% endif %}
-                        {% endfor %}
-                    </nav>
-                </div>
-
-                <div class="containers entries">
-                    {% for entry in entries[pageNum - 1] %}
-                        <fieldset class="containers">
-                            <legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
-                            <p>Posted at {{ entry["time"] }} by {{ entry["username"] }}</p>
-                            {% if entry["pic"] != "" %}
-                                <img src="{{ entry['pic'] }}" />
+		<div class="containers entries">
+			{% for entry in entries[pageNum - 1] %}
+			<fieldset class="containers">
+				<legend><a href="/home/blog/{{ entry['id'] }}">{{ entry["title"] }}</a></legend>
+				<p>Posted at {{ entry["time"] }} by {{ entry["username"] }}</p>
+				{% if entry["pic"] != "" %}
+				<img src="{{ entry['pic'] }}" />
                             {% endif %}
                             {% for line in entry["post"] %}
                                 <p>{{ line }}</p>
@@ -84,4 +52,4 @@ SENDS to /search-results/<pageNum> by GET
             </div>
         {% endif %}
     </body>
-</html>
+{% endblock %}

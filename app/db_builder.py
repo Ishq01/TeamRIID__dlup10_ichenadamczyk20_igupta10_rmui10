@@ -47,20 +47,6 @@ def checkUsername(username):
     db.close()
     return found
 
-# prints user table (for testing purposes)
-def printDatabase():
-    db = sqlite3.connect(DB_FILE)
-    db.text_factory = text_factory
-    c = db.cursor()
-    print("--------Users Table-----------")
-    for row in c.execute("SELECT * FROM users;"):
-        print(row)
-    print("-------Entries Table----------")
-    for row in c.execute("SELECT * FROM entries;"):
-        print(row)
-    db.commit()
-    db.close()
-
 # returns information about a user from the specified column
 # col can be 'id', 'password', 'blogname', or 'blogdescription'
 def getInfo(username, col):
@@ -115,24 +101,6 @@ def getBlogs():
     db.commit()
     db.close()
     return blogs
-
-# deletes all users from the database (for testing purposes)
-def clearUsers():
-    db = sqlite3.connect(DB_FILE)
-    db.text_factory = text_factory
-    c = db.cursor()
-    c.execute("DELETE from users;")
-    db.commit()
-    db.close()
-
-# Delete a specific user
-def clearUser(username):
-    db = sqlite3.connect(DB_FILE)
-    db.text_factory = text_factory
-    c = db.cursor()
-    c.execute("DELETE from users WHERE username=?;", [username])
-    db.commit()
-    db.close()
 
 #Adds an entry to the entries table
 def addEntry(userID, title, post, pic):
@@ -217,15 +185,6 @@ def search(criteria):
     return entries
   
 
-#Clears all entries, bugfixxing
-def clearEntries():
-    db = sqlite3.connect(DB_FILE)
-    db.text_factory = text_factory
-    c = db.cursor()
-    c.execute("DELETE from entries;")
-    db.commit()
-    db.close()
-
 # adds row to followers table if it doesn't already exist
 # users with followerID follws user with userID
 def addFollower(userID, followerID):
@@ -258,15 +217,6 @@ def checkFollower(userID, followerID):
     db.close()
     return found is not None
 
-# deletes everything in followers table
-def clearFollowers():
-    db = sqlite3.connect(DB_FILE)
-    db.text_factory = text_factory
-    c = db.cursor()
-    c.execute("DELETE from followers;")
-    db.commit()
-    db.close()
-
 # returns a list of dictionaries of blogs a user is following
 def getFollowedBlogs(followerID):
     db = sqlite3.connect(DB_FILE)
@@ -296,6 +246,86 @@ def clear():
     db.commit()
     db.close()
 
+# deletes all users from the database (for testing purposes)
+def clearUsers():
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = text_factory
+    c = db.cursor()
+    c.execute("DELETE from users;")
+    db.commit()
+    db.close()
+
+# Delete a specific user
+def clearUser(username):
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = text_factory
+    c = db.cursor()
+    c.execute("DELETE from users WHERE username=?;", [username])
+    db.commit()
+    db.close()
+
+# deletes everything in followers table
+def clearFollowers():
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = text_factory
+    c = db.cursor()
+    c.execute("DELETE from followers;")
+    db.commit()
+    db.close()
+
+#Clears all entries, bugfixxing
+def clearEntries():
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = text_factory
+    c = db.cursor()
+    c.execute("DELETE from entries;")
+    db.commit()
+    db.close()
+
+# prints user table (for testing purposes)
+def printDatabase():
+    db = sqlite3.connect(DB_FILE)
+    db.text_factory = text_factory
+    c = db.cursor()
+    print("--------Users Table-----------")
+    for row in c.execute("SELECT * FROM users;"):
+        print(row)
+    print("-------Entries Table----------")
+    for row in c.execute("SELECT * FROM entries;"):
+        print(row)
+    db.commit()
+    db.close()
+
+#create a dictionary of method name: method for auth methods
+auth_methods = {
+    'addUser': register,
+    'checkUsername': checkUsername,
+    'getPwd': getInfo
+}
+
+#create a dictionary of method name: method for blog/entry methods 
+blog_methods = {
+  'getInfo': getInfo,
+  'getUsername': getUsername,
+  'updateBlogInfo': updateBlogInfo,
+  'getBlogs': getBlogs,
+  'addEntry': addEntry,
+  'editEntry': editEntry,
+  'getEntries': getEntries,
+  'getEntryInfo': getEntryInfo,
+  'deleteEntry': deleteEntry
+}
+
+search_methods = {
+  'search': search
+}
+
+follow_methods = {
+  'addFollower': addFollower,
+  'removeFollower': removeFollower,
+  'checkFollower': checkFollower,
+  'getFollowedBlogs': getFollowedBlogs
+}
 
 createTables()
 
