@@ -9,8 +9,8 @@
 			<p class="error-msg">{{ error_msg }}</p>
 			{% endif %}
 			<h1 class="title">Edit Blog Metadata</h1>
-			<a href="/home/blog/{{username}}">View Blog</a></p>
-			<form class="loginForm" action="/edit-blog" method="POST">
+			<a href="{{ url_for('blog.viewBlog', username=username) }}">View Blog</a></p>
+			<form class="loginForm" action="{{ url_for('blog.editBlog') }}" method="POST">
 				<label for="blogname">Blog Name <span class="required">*</span></label>
                     <br class = "spacing" />
                     <small>May not exceed 100 characters.</small>
@@ -30,7 +30,7 @@
 
             <div class="containers">
                 <h1 class="title">Add Entry</h1>
-                <form class="loginForm" action="/edit-blog" method="POST">
+                <form class="loginForm" action="{{ url_for('blog.editBlog') }}" method="POST">
                     <label for="title1">Entry Title <span class="required">*</span></label>
                     <br class = "spacing" />
                     <small>May not exceed 100 characters.</small>
@@ -60,7 +60,7 @@
                     <nav>
                         {% for page in entries %}
                             {% if loop.index != pageNum %}
-                                <a href="/edit-blog/{{ loop.index }}">Page {{loop.index}}</a>
+                                <a href="{{ url_for('blog.editBlog', pageNum=loop.index) }}">Page {{loop.index}}</a>
                             {% else %}
                                 <p>Page {{loop.index}}</p>
                             {% endif %}
@@ -70,7 +70,7 @@
 
             <div class="containers entries">
                     {% for entry in entries[pageNum - 1] %}
-                        <form class="containers loginForm" action="/edit/{{ entry['id'] }}" method="POST">
+                        <form class="containers loginForm" action="{{ url_for('blog.editEntries', entryID=entry['id']) }}" method="POST">
                             <label for="title2">Entry Title <span class="required">*</span></label>
                             <br class = "spacing" />
                             <small>May not exceed 100 characters.</small>
@@ -102,7 +102,7 @@
                     <nav>
                         {% for page in entries %}
                             {% if loop.index != pageNum %}
-                                <a href="/edit-blog/{{ loop.index }}">Page {{loop.index}}</a>
+                                <a href="{{ url_for('blog.editBlog', pageNum=loop.index) }}">Page {{loop.index}}</a>
                             {% else %}
                                 <p>Page {{loop.index}}</p>
                             {% endif %}

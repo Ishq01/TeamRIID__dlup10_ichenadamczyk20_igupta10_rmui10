@@ -34,7 +34,7 @@ SENDS to /register by GET
 			{% if error_msg is defined %}
 			<p class="error-msg">{{ error_msg }}</p>
 			{% endif %}
-			<form action="/login" method="POST">
+			<form action="{{ url_for('auth.login') }}" method="POST">
 				<label for="username">Username <span class="required">*</span></label>
                     <input type="text" name="username" id="username" value="{{ username }}" required />
                     <br class = "spacing"><br class = "spacing">
@@ -43,7 +43,7 @@ SENDS to /register by GET
                     <br class = "spacing">
                     <label for="submit"></label>
                     <input name="login" type="submit" value="Log In" />
-                    <p id="link">Not a registered user? <a href="/register">Register here.</a></p>
+                    <p id="link">Not a registered user? <a href="{{ url_for('auth.register') }}">Register here.</a></p>
                 </form>
             </div>
         </div>

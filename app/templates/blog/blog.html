@@ -17,11 +17,11 @@
 				{% endfor %}
 			</div>
 			{% if not iscreator %} {% if following %}
-			<form action="/unfollow/{{ creator }}" method="POST">
+			<form action="{{ url_for('follow.unfollow', username=creator) }}" method="POST">
 				<input type="submit" name="viewBlog" value="Unfollow Blog">
                         </form>
                     {% else %}
-                        <form action="/follow/{{ creator }}" method="POST">
+                        <form action="{{ url_for('follow.follow', username=creator) }}" method="POST">
                             <input type="submit" name="viewBlog" value="Follow Blog">
                         </form>
                     {% endif %}
@@ -35,7 +35,7 @@
                 <nav>
                     {% for page in entries %}
                         {% if loop.index != pageNum %}
-                            <a href="/home/blog/{{ creator }}/{{ loop.index }}">Page {{loop.index}}</a>
+                            <a href="{{ url_for('blog.viewBlog', username=creator, pageNum=loop.index) }}">Page {{loop.index}}</a>
                         {% else %}
                             <p>Page {{loop.index}}</p>
                         {% endif %}
@@ -62,7 +62,7 @@
                 <nav>
                     {% for page in entries %}
                         {% if loop.index != pageNum %}
-                            <a href="/home/blog/{{ creator }}/{{ loop.index }}">Page {{loop.index}}</a>
+                            <a href="{{ url_for('blog.viewBlog', username=creator, pageNum=loop.index) }}">Page {{loop.index}}</a>
                         {% else %}
                             <p>Page {{loop.index}}</p>
                         {% endif %}

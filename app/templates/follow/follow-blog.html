@@ -21,12 +21,12 @@
 				</thead>
 				{% for blog in blogs %}
 				<tr>
-					<td><a href="/home/blog/{{ blog['username'] }}">{{ blog["blogname"] }}</a></td>
+					<td><a href="{{ url_for('blog.viewBlog', username=blog['username']) }}">{{ blog["blogname"] }}</a></td>
 					<td>{{ blog["username"] }}</td>
 					<td>{{ blog["time"] }}</td>
 					<td>{{ blog["blogdescription"] }}</td>
 					<td>
-						<form action="/unfollow/{{ blog['username'] }}" method="POST">
+						<form action="{{ url_for('follow.unfollow', username=blog['username']) }}" method="POST">
 							<input type="submit" name="followUnfollow" value="Unfollow Blog" />
                                     </form>
                                 </td>

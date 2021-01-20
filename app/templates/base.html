@@ -8,18 +8,18 @@
 <nav>
 	<div id="header">
 		<div id="left">
-			<a id="home" href="/home">Home</a>
-			<a id="edit" href="/edit-blog">Edit My Blog</a>
-			<a id="follow" href="/followed-blogs">Followed Blogs</a>
+			<a id="home" href="{{ url_for('blog.homepage') }}">Home</a>
+			<a id="edit" href="{{ url_for('blog.editBlog') }}">Edit My Blog</a>
+			<a id="follow" href="{{ url_for('follow.followedBlogs') }}">Followed Blogs</a>
 		</div>
 		<div id="center">
-			<form action="/search-results" method="POST">
+			<form action="{{ url_for('search.searchFunction') }}" method="POST">
 				<input type="text" name="keywords" id="keywords" placeholder="Enter search terms" required />
               <input name="search" id="search" type="submit" value="Search"/>
           </form>
       </div>
       <div id="right">
-          <a id="logout" href="/logout">Log Out, {{ username }}</a>
+          <a id="logout" href="{{ url_for('auth.logout') }}">Log Out, {{ username }}</a>
       </div>
   </div>
 </nav>
